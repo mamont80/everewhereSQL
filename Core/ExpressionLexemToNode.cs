@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TableQuery
+namespace ParserCore
 {
     /* Осуществляет преобразование лексем в ноды
      * Типы выражений:

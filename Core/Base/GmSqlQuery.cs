@@ -6,7 +6,7 @@ using System.Data.Common;
 using System.Text;
 
 
-namespace TableQuery
+namespace ParserCore
 {
     public class GmSqlQuery
     {

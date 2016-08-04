@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace TableQuery
+namespace ParserCore
 {
     /* пока не получилось сделать функцию с не фиксированным числом параметров
     public class StringComparer_operation : FuncExpr

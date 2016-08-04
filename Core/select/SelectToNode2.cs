@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using LayerData;
 
-namespace TableQuery
+namespace ParserCore
 {
     public class SelectToNode2 : CustomToNode
     {

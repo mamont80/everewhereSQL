@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TableQuery
+namespace ParserCore
 {
     // Фунции работающие только для экспорта в SQL
     public class AllColumnExpr : Expression

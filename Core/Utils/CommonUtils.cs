@@ -5,7 +5,7 @@ using System.Text;
 using System.Globalization;
 using System.Data.Common;
 
-namespace TableQuery
+namespace ParserCore
 {
     public static class CommonUtils
     {

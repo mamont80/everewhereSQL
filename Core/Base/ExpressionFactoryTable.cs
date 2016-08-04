@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using TableQuery;
+using ParserCore;
 
-namespace TableQuery
+namespace ParserCore
 {
     public class ExpressionFactoryTable : BaseExpressionFactory
     {

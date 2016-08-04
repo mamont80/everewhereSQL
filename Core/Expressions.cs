@@ -34,7 +34,7 @@ ALL, ANY, BETWEEN, IN, LIKE, OR, SOME
  *   and or not     100
  *   contains 150
  */
-namespace TableQuery
+namespace ParserCore
 {
 
     public static class PriorityConst

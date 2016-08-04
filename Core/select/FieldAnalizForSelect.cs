@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using LayerData;
 
-namespace TableQuery
+namespace ParserCore
 {
     //второй проход по предразобранному SQL запросу с присвоением колонок к таблицам
     public class FieldCreator

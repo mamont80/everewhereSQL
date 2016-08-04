@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 
-namespace TableQuery
+namespace ParserCore
 {
     /// <summary>
     /// Упрощённые типы полей. Коды не менять! Можно только добавлять. Цифры используются для сортировки операций в TableQuery.Expression - SortType

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 
-namespace TableQuery
+namespace ParserCore
 {
     /*
     public class SelectLexemToExpression

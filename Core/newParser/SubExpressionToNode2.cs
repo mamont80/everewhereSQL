@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TableQuery
+namespace ParserCore
 {
     // (val1)
     public class SubExpressionToNode2 : CustomToNode

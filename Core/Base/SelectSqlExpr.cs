@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace TableQuery
+namespace ParserCore
 {
 
     public enum JoinType

@@ -1,5 +1,5 @@
 ﻿
-namespace TableQuery
+namespace ParserCore
 {
 
     public class FieldCapExpr : SubExpression
