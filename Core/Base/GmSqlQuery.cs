@@ -21,7 +21,7 @@ namespace ParserCore
         public List<GroupBy> OrderBys = new List<GroupBy>();
 
         public Expression WhereExpr;
-        public IDbDriver Driver { get; set; }
+        public IDriverDatabase Driver { get; set; }
 
         protected ExpressionFactoryTable ExprFactory;
 
@@ -405,7 +405,7 @@ namespace ParserCore
                     Distinct ? " distinct " : "");
             }
             //вместе с ограничениями
-            if (Driver.DbDriverType == DbDriverType.SqlServer)
+            if (Driver.DriverType == DriverType.SqlServer)
             {
                 if (string.IsNullOrEmpty(orderby)) orderby = "ORDER BY (SELECT null)";
 
@@ -427,7 +427,7 @@ from
                 if (LimitRecords >= 0)
                     sql += " and \"num19376194i9\" <= " + (LimitRecords + SkipRecords).ToString();
             }
-            if (Driver.DbDriverType == DbDriverType.PostgreSQL)
+            if (Driver.DriverType == DriverType.PostgreSQL)
             {
                 sql = string.Format("select {5} {0} {1} {2} {3} {4}", sqlColumns.ToString(), sqlTables.ToString(), sqlWhere, sqlGroups.ToString(), orderby, Distinct ? " distinct " : "");
                 if (SkipRecords > 0)

@@ -46,7 +46,7 @@
     <Compile Include="Base\GmSqlQuery.cs" />
     <Compile Include="Base\SelectLexemToExpression.cs" />
     <Compile Include="Base\SelectSqlExpr.cs" />
-    <Compile Include="Drivers\IDbDriver.cs" />
+    <Compile Include="Drivers\IDriverDatabase.cs" />
     <Compile Include="Drivers\MsSqlServerDriver.cs" />
     <Compile Include="ExpressionAgregat.cs" />
     <Compile Include="ExpressionFunctions.cs" />
@@ -73,7 +73,7 @@
     <Compile Include="Statments\Statment.cs" />
     <Compile Include="Statments\StatmentParser.cs" />
     <Compile Include="Statments\UpdateStatment.cs" />
-    <Compile Include="MultiDb\GeometryTable.cs" />
+    <Compile Include="MultiDb\Table.cs" />
     <Compile Include="TableGetter.cs" />
     <Compile Include="ToGeomixer.cs" />
     <Compile Include="Utils\CommonUtils.cs" />

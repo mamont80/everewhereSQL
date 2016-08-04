@@ -76,7 +76,7 @@ namespace ParserCore
     public class ExpressionSqlBuilder
     {
 
-        public IDbDriver Driver;
+        public IDriverDatabase Driver;
 
         public int InternalTableAliasCounter = 0;
         /// <summary>

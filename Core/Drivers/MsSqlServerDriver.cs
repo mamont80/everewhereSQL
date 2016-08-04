@@ -5,9 +5,9 @@ using System.Text;
 
 namespace ParserCore
 {
-    public class MsSqlServerDriver : IDbDriver
+    public class MsSqlServerDriver : IDriverDatabase
     {
-        public DbDriverType DbDriverType { get { return DbDriverType.SqlServer; } }
+        public DriverType DriverType { get { return DriverType.SqlServer; } }
 
         public virtual string ToSql(Expression exp, ExpressionSqlBuilder builder)
         {

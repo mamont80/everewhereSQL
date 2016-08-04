@@ -22,7 +22,7 @@ namespace ParserCore
         }*/
 
 
-        public static List<ColumnClause> GetAllColumnsFromTable(GeometryTable gt, string aliasForGeometry = null)
+        public static List<ColumnClause> GetAllColumnsFromTable(Table gt, string aliasForGeometry = null)
         {
             List<ColumnClause> cols = new List<ColumnClause>();
             foreach (Column ci in gt.Columns)

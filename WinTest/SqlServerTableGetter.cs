@@ -17,7 +17,7 @@ namespace WinTest
         private static DbProviderFactory ConnectionFactory;
         private static DbCommandBuilder CommandBuilder;
 
-        public IDbDriver Driver;
+        public IDriverDatabase Driver;
 
         public SqlServerTableGetter()
         {
@@ -26,7 +26,7 @@ namespace WinTest
             Driver = new MsSqlServerDriver();
         }
 
-        public IDbDriver GetDefaultDriver()
+        public IDriverDatabase GetDefaultDriver()
         {
             return Driver;
         }

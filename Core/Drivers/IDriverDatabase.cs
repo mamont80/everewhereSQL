@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ParserCore
 {
-    public enum DbDriverType
+    public enum DriverType
     {
         SqlServer,
         PostgreSQL,
@@ -14,9 +14,9 @@ namespace ParserCore
         //,MongoDB - под большим вопросом
     }
 
-    public interface IDbDriver
+    public interface IDriverDatabase
     {
-        DbDriverType DbDriverType { get; }
+        DriverType DriverType { get; }
         string ToSql(Expression exp, ExpressionSqlBuilder builder);
     }
 }

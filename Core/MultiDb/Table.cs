@@ -4,9 +4,7 @@ using System.Linq;
 
 namespace ParserCore
 {
-
-
-    public class GeometryTable
+    public class Table
     {
         public List<Column> Columns = new List<Column>();
         public Column IDColumn { get; set; }

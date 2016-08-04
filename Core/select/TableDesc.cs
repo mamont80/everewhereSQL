@@ -11,7 +11,7 @@ namespace ParserCore
         string FakeName { get; set; }
         string TableName { get; set; }
         string Schema { get; set; }
-        IDbDriver DbDriver { get; }
+        IDriverDatabase DbDriver { get; }
         List<Column> Columns { get; }
         int CoordinateSystem { get; set; }
         Column ByName(string name);
@@ -22,7 +22,7 @@ namespace ParserCore
         public string FakeName { get; set; }
         public string TableName { get; set; }
         public string Schema { get; set; }
-        public IDbDriver DbDriver { get; set; }
+        public IDriverDatabase DbDriver { get; set; }
         public List<Column> Columns { get; set; }
         public int CoordinateSystem { get; set; }
 

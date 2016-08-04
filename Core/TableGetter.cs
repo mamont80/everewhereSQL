@@ -8,6 +8,6 @@ namespace ParserCore
     public interface ITableGetter
     {
         ITableDesc GetTableByName(string[] name);
-        IDbDriver GetDefaultDriver();
+        IDriverDatabase GetDefaultDriver();
     }
 }
