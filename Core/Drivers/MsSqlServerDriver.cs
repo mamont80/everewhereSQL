@@ -9,7 +9,7 @@ namespace ParserCore
     {
         public DbDriverType DbDriverType { get { return DbDriverType.SqlServer; } }
 
-        public string ToSql(Expression exp, ExpressionSqlBuilder builder)
+        public virtual string ToSql(Expression exp, ExpressionSqlBuilder builder)
         {
             if (exp is ConstExpr)
             {
@@ -151,8 +151,8 @@ namespace ParserCore
             }*/
             else if (obj is bool)
             {
-                if ((bool)obj) return "(1=1)";
-                else return "(1<>1)";
+                if ((bool)obj) return "1";
+                else return "0";
             }
             else
                 if (obj is decimal || obj is double || obj is float)
