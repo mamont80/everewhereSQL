@@ -8,8 +8,8 @@ namespace ParserCore
 
     public class GeometryTable
     {
-        public List<ColumnInfo> Columns = new List<ColumnInfo>();
-        public ColumnInfo IDColumn { get; set; }
+        public List<Column> Columns = new List<Column>();
+        public Column IDColumn { get; set; }
         public int CoordinateSystem { get; set; }
     }
 }

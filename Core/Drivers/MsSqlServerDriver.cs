@@ -78,21 +78,21 @@ namespace ParserCore
             {
                 string op = "+";
                 if (exp is Minus_Arifmetic) op = "-";
-                ColumnSimpleTypes t1 = (exp as Plus_Arifmetic).Operand1.GetResultType();
-                ColumnSimpleTypes t2 = (exp as Plus_Arifmetic).Operand2.GetResultType();
-                if (t2 == ColumnSimpleTypes.Time && t1 == ColumnSimpleTypes.Time)
+                SimpleTypes t1 = (exp as Plus_Arifmetic).Operand1.GetResultType();
+                SimpleTypes t2 = (exp as Plus_Arifmetic).Operand2.GetResultType();
+                if (t2 == SimpleTypes.Time && t1 == SimpleTypes.Time)
                 {
                     return "CONVERT(time, CONVERT(datetime, " + (exp as Custom_Arifmetic).Operand1.ToSQL(builder) + ")" + op + "CONVERT(datetime, " + (exp as Custom_Arifmetic).Operand2.ToSQL(builder) + "))";
                 }
-                if (t1 == ColumnSimpleTypes.Date && t2 == ColumnSimpleTypes.Time)
+                if (t1 == SimpleTypes.Date && t2 == SimpleTypes.Time)
                 {
                     return "(CONVERT(datetime, " + (exp as Custom_Arifmetic).Operand1.ToSQL(builder) + ")" + op + (exp as Custom_Arifmetic).Operand2.ToSQL(builder) + ")";
                 }
-                if (t2 == ColumnSimpleTypes.Date && t1 == ColumnSimpleTypes.Time)
+                if (t2 == SimpleTypes.Date && t1 == SimpleTypes.Time)
                 {
                     return "(CONVERT(datetime, " + (exp as Custom_Arifmetic).Operand2.ToSQL(builder) + ")" + op + (exp as Custom_Arifmetic).Operand1.ToSQL(builder) + ")";
                 }
-                if (t1 == ColumnSimpleTypes.Geometry && t2 == ColumnSimpleTypes.Geometry)
+                if (t1 == SimpleTypes.Geometry && t2 == SimpleTypes.Geometry)
                 {
                     if (op == "+") return "(" + (exp as Custom_Arifmetic).Operand2.ToSQL(builder) + ".STUnion(" + (exp as Custom_Arifmetic).Operand1.ToSQL(builder) + "))";
                     if (op == "-") return "(" + (exp as Custom_Arifmetic).Operand2.ToSQL(builder) + ".STDifference(" + (exp as Custom_Arifmetic).Operand1.ToSQL(builder) + "))";

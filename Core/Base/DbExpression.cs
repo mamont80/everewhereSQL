@@ -18,14 +18,14 @@ namespace ParserCore
         public string TableAlias;
         public SelectTable Table;
 
-        public void Init(ColumnSimpleTypes tp)
+        public void Init(SimpleTypes tp)
         {
             Init(tp, 0);
         }
 
-        public virtual void Init(ColumnSimpleTypes tp, int csf)
+        public virtual void Init(SimpleTypes tp, int csf)
         {
-            if (tp == ColumnSimpleTypes.Geometry)
+            if (tp == SimpleTypes.Geometry)
             {
                 _CoordinateSystem = csf;
             }

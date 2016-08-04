@@ -31,6 +31,7 @@ namespace ParserCore
                         break;
                     case "select":
                         res = new SelectExpresion();
+                        ((SelectExpresion) res).Query.Driver = collection.TableGetter.GetDefaultDriver();
                         break;
                 }
             }

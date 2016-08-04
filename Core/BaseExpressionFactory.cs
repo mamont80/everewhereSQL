@@ -205,9 +205,9 @@ namespace ParserCore
                 ex = new ConstExpr();
                 if (lex.Lexem.Contains('.'))
                 {
-                    (ex as ConstExpr).Init(lex.Lexem.ParseDouble(), ColumnSimpleTypes.Float);
+                    (ex as ConstExpr).Init(lex.Lexem.ParseDouble(), SimpleTypes.Float);
                 }
-                else (ex as ConstExpr).Init(long.Parse(lex.Lexem), ColumnSimpleTypes.Integer);
+                else (ex as ConstExpr).Init(long.Parse(lex.Lexem), SimpleTypes.Integer);
             }
             if (lex.LexemType == LexType.Text)
             {
@@ -220,7 +220,7 @@ namespace ParserCore
                 if (lex.Lexem.StartsWith("'"))
                 {
                     ex = new ConstExpr();
-                    (ex as ConstExpr).Init(StandartDecodeEscape(lex.Lexem), ColumnSimpleTypes.String);
+                    (ex as ConstExpr).Init(StandartDecodeEscape(lex.Lexem), SimpleTypes.String);
                 }
             }
             LexExpr n1;
@@ -290,11 +290,11 @@ namespace ParserCore
                         break;
                     case "true":
                         ex = new ConstExpr();
-                        (ex as ConstExpr).Init(true, ColumnSimpleTypes.Boolean);
+                        (ex as ConstExpr).Init(true, SimpleTypes.Boolean);
                         break;
                     case "false":
                         ex = new ConstExpr();
-                        (ex as ConstExpr).Init(false, ColumnSimpleTypes.Boolean);
+                        (ex as ConstExpr).Init(false, SimpleTypes.Boolean);
                         break;
                     case "now":
                         ex = new Now();

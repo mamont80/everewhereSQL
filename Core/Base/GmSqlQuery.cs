@@ -82,7 +82,7 @@ namespace ParserCore
                         FieldExpr fe = new FieldExpr();
                         fe.FieldName = c.Name;
                         fe.Table = st;
-                        fe.Init(c.ColumnSimpleType, st.Table.CoordinateSystem);
+                        fe.Init(c.SimpleType, st.Table.CoordinateSystem);
                         cs.ColumnExpression = fe;
                         lst.Add(cs);
                     }
@@ -154,7 +154,7 @@ namespace ParserCore
             if (exp == null) return false;
             if (exp is FieldExpr)
             {
-                if (wasSpatialOperation && (exp as FieldExpr).Table == st && (exp as FieldExpr).GetResultType() == ColumnSimpleTypes.Geometry)
+                if (wasSpatialOperation && (exp as FieldExpr).Table == st && (exp as FieldExpr).GetResultType() == SimpleTypes.Geometry)
                 {
                     return true;
                 }
@@ -442,13 +442,13 @@ from
         /// <summary>
         /// Возвращает описание колонок
         /// </summary>
-        public ColumnInfo[] GetColumnInfo()
+        public Column[] GetColumnInfo()
         {
-            List<ColumnInfo> res = new List<ColumnInfo>();
+            List<Column> res = new List<Column>();
             foreach (var cs in Columns)
             {
                 string nm = GetVisibleColumnName(cs);
-                ColumnInfo ci = new ColumnInfo(nm, cs.ColumnExpression.GetResultType());
+                Column ci = new Column(nm, cs.ColumnExpression.GetResultType());
                 res.Add(ci);
             }
             return res.ToArray();

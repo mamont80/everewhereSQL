@@ -17,7 +17,7 @@ namespace ParserCore
         {
             base.BeforePrepare();
             //if (Operand.GetResultType() != ColumnSimpleTypes.String) TypesException();
-            SetResultType(ColumnSimpleTypes.String);
+            SetResultType(SimpleTypes.String);
             GetStrResultOut = GetResult;
         }
         public override int NumChilds() { return 0; }
@@ -41,7 +41,7 @@ namespace ParserCore
         {
             base.BeforePrepare();
             //if (Operand.GetResultType() != ColumnSimpleTypes.String) TypesException();
-            SetResultType(ColumnSimpleTypes.Integer);
+            SetResultType(SimpleTypes.Integer);
             GetIntResultOut = GetResult;
         }
         protected override bool CanCalcOnline() { return false; }
@@ -63,7 +63,7 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            if (Operand.GetResultType() != ColumnSimpleTypes.Float && Operand.GetResultType() != ColumnSimpleTypes.Integer && Operand.GetResultType() != ColumnSimpleTypes.Time) TypesException();
+            if (Operand.GetResultType() != SimpleTypes.Float && Operand.GetResultType() != SimpleTypes.Integer && Operand.GetResultType() != SimpleTypes.Time) TypesException();
             SetResultType(Operand.GetResultType());
             GetFloatResultOut = GetResult;
         }
@@ -86,8 +86,8 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            if (Operand.GetResultType() == ColumnSimpleTypes.Boolean ||
-                Operand.GetResultType() == ColumnSimpleTypes.Geometry) TypesException();
+            if (Operand.GetResultType() == SimpleTypes.Boolean ||
+                Operand.GetResultType() == SimpleTypes.Geometry) TypesException();
             SetResultType(Operand.GetResultType());
             GetFloatResultOut = GetResult;
         }
@@ -110,8 +110,8 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            if (Operand.GetResultType() == ColumnSimpleTypes.Boolean ||
-                Operand.GetResultType() == ColumnSimpleTypes.Geometry) TypesException();
+            if (Operand.GetResultType() == SimpleTypes.Boolean ||
+                Operand.GetResultType() == SimpleTypes.Geometry) TypesException();
             SetResultType(Operand.GetResultType());
             GetFloatResultOut = GetResult;
         }
@@ -134,11 +134,11 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            if (Operand.GetResultType() != ColumnSimpleTypes.Integer &&
-                Operand.GetResultType() != ColumnSimpleTypes.Float
+            if (Operand.GetResultType() != SimpleTypes.Integer &&
+                Operand.GetResultType() != SimpleTypes.Float
                 ) TypesException();
-            ColumnSimpleTypes st = Operand.GetResultType();
-            if (st == ColumnSimpleTypes.Integer) st = ColumnSimpleTypes.Float;
+            SimpleTypes st = Operand.GetResultType();
+            if (st == SimpleTypes.Integer) st = SimpleTypes.Float;
             SetResultType(st);
             GetFloatResultOut = GetResult;
         }

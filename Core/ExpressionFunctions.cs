@@ -61,8 +61,8 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            if (!(Operand.GetResultType() == ColumnSimpleTypes.String)) TypesException();
-            SetResultType(ColumnSimpleTypes.Integer);
+            if (!(Operand.GetResultType() == SimpleTypes.String)) TypesException();
+            SetResultType(SimpleTypes.Integer);
             GetIntResultOut = CalcRes;
         }
         private Int64 CalcRes(object data) { return Operand.GetStrResultOut(data).Length; }
@@ -80,8 +80,8 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            if (!(Operand.GetResultType() == ColumnSimpleTypes.String)) TypesException();
-            SetResultType(ColumnSimpleTypes.String);
+            if (!(Operand.GetResultType() == SimpleTypes.String)) TypesException();
+            SetResultType(SimpleTypes.String);
             GetStrResultOut = CalcRes;
         }
         private string CalcRes(object data) { return Operand.GetStrResultOut(data).ToLower(); }
@@ -99,8 +99,8 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            if (!(Operand.GetResultType() == ColumnSimpleTypes.String)) TypesException();
-            SetResultType(ColumnSimpleTypes.String);
+            if (!(Operand.GetResultType() == SimpleTypes.String)) TypesException();
+            SetResultType(SimpleTypes.String);
             GetStrResultOut = CalcRes;
         }
         private string CalcRes(object data) { return Operand.GetStrResultOut(data).ToUpper(); }
@@ -118,8 +118,8 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            if (!(Operand.GetResultType() == ColumnSimpleTypes.String)) TypesException();
-            SetResultType(ColumnSimpleTypes.String);
+            if (!(Operand.GetResultType() == SimpleTypes.String)) TypesException();
+            SetResultType(SimpleTypes.String);
             GetStrResultOut = CalcRes;
         }
         private string CalcRes(object data) { return Operand.GetStrResultOut(data).Trim(); }
@@ -143,52 +143,52 @@ namespace ParserCore
 
             if (Childs.Count < 1) throw new Exception("Нехватает операндов в выражении IN");
 
-            List<ColumnSimpleTypes> types = new List<ColumnSimpleTypes>();
+            List<SimpleTypes> types = new List<SimpleTypes>();
             for (int i = 0; i < Childs.Count; i++)
             {
                 types.Add(Childs[i].GetResultType());
             }
             types = types.Distinct().ToList();
             if (types.Count == 0 || types.Count > 2) TypesException();
-            ColumnSimpleTypes t = types[0];
+            SimpleTypes t = types[0];
             if (types.Count == 2)
             {
-                if ((types[0] == ColumnSimpleTypes.Float && types[1] == ColumnSimpleTypes.Integer) || (types[1] == ColumnSimpleTypes.Float && types[0] == ColumnSimpleTypes.Integer))
+                if ((types[0] == SimpleTypes.Float && types[1] == SimpleTypes.Integer) || (types[1] == SimpleTypes.Float && types[0] == SimpleTypes.Integer))
                 {
-                    t = ColumnSimpleTypes.Float;
+                    t = SimpleTypes.Float;
                 }
                 else TypesException();
             }
             //CompareItem
             switch (t)
             {
-                case ColumnSimpleTypes.Boolean:
-                    SetResultType(ColumnSimpleTypes.Boolean);
+                case SimpleTypes.Boolean:
+                    SetResultType(SimpleTypes.Boolean);
                     GetStrResultOut = StrRes;
                     break;
-                case ColumnSimpleTypes.Date:
-                case ColumnSimpleTypes.DateTime:
-                    SetResultType(ColumnSimpleTypes.DateTime);
+                case SimpleTypes.Date:
+                case SimpleTypes.DateTime:
+                    SetResultType(SimpleTypes.DateTime);
                     GetDateTimeResultOut = DateTimeRes;
                     break;
-                case ColumnSimpleTypes.Float:
-                    SetResultType(ColumnSimpleTypes.Float);
+                case SimpleTypes.Float:
+                    SetResultType(SimpleTypes.Float);
                     GetFloatResultOut = FloatRes;
                     break;
-                case ColumnSimpleTypes.Geometry:
-                    SetResultType(ColumnSimpleTypes.Geometry);
+                case SimpleTypes.Geometry:
+                    SetResultType(SimpleTypes.Geometry);
                     GetGeomResultOut = GeomRes;
                     break;
-                case ColumnSimpleTypes.Integer:
-                    SetResultType(ColumnSimpleTypes.Integer);
+                case SimpleTypes.Integer:
+                    SetResultType(SimpleTypes.Integer);
                     GetIntResultOut = IntRes;
                     break;
-                case ColumnSimpleTypes.String:
-                    SetResultType(ColumnSimpleTypes.String);
+                case SimpleTypes.String:
+                    SetResultType(SimpleTypes.String);
                     GetStrResultOut = StrRes;
                     break;
-                case ColumnSimpleTypes.Time:
-                    SetResultType(ColumnSimpleTypes.Time);
+                case SimpleTypes.Time:
+                    SetResultType(SimpleTypes.Time);
                     GetTimeResultOut = TimeRes;
                     break;
             }
@@ -287,8 +287,8 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            if (!(Operand1.GetResultType() == ColumnSimpleTypes.String && Operand2.GetResultType() == ColumnSimpleTypes.Integer)) TypesException();
-            SetResultType(ColumnSimpleTypes.String);
+            if (!(Operand1.GetResultType() == SimpleTypes.String && Operand2.GetResultType() == SimpleTypes.Integer)) TypesException();
+            SetResultType(SimpleTypes.String);
             GetStrResultOut = CalcAsStr;
         }
         private string CalcAsStr(object data)
@@ -310,8 +310,8 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            if (!(Operand1.GetResultType() == ColumnSimpleTypes.String && Operand2.GetResultType() == ColumnSimpleTypes.Integer)) TypesException();
-            SetResultType(ColumnSimpleTypes.String);
+            if (!(Operand1.GetResultType() == SimpleTypes.String && Operand2.GetResultType() == SimpleTypes.Integer)) TypesException();
+            SetResultType(SimpleTypes.String);
             GetStrResultOut = CalcAsStr;
         }
         private string CalcAsStr(object data) { return Operand1.GetStrResultOut(data).Substring(0, (int)Operand2.GetIntResultOut(data)); }
@@ -328,8 +328,8 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            if (Operand.GetResultType() != ColumnSimpleTypes.String) TypesException();
-            SetResultType(ColumnSimpleTypes.Time);
+            if (Operand.GetResultType() != SimpleTypes.String) TypesException();
+            SetResultType(SimpleTypes.Time);
             GetTimeResultOut = GetResult;
         }
 
@@ -354,8 +354,8 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            if (Operand.GetResultType() != ColumnSimpleTypes.String) TypesException();
-            SetResultType(ColumnSimpleTypes.DateTime);
+            if (Operand.GetResultType() != SimpleTypes.String) TypesException();
+            SetResultType(SimpleTypes.DateTime);
             GetDateTimeResultOut = GetResult;
         }
 
@@ -382,8 +382,8 @@ namespace ParserCore
         {
             base.BeforePrepare();
             var t = Operand.GetResultType();
-            if (t != ColumnSimpleTypes.DateTime && t != ColumnSimpleTypes.Date) TypesException();
-            SetResultType(ColumnSimpleTypes.Integer);
+            if (t != SimpleTypes.DateTime && t != SimpleTypes.Date) TypesException();
+            SetResultType(SimpleTypes.Integer);
             GetIntResultOut = GetResult;
         }
 
@@ -405,8 +405,8 @@ namespace ParserCore
         {
             base.BeforePrepare();
             var t = Operand.GetResultType();
-            if (t != ColumnSimpleTypes.DateTime && t != ColumnSimpleTypes.Date) TypesException();
-            SetResultType(ColumnSimpleTypes.Integer);
+            if (t != SimpleTypes.DateTime && t != SimpleTypes.Date) TypesException();
+            SetResultType(SimpleTypes.Integer);
             GetIntResultOut = GetResult;
         }
 
@@ -428,8 +428,8 @@ namespace ParserCore
         {
             base.BeforePrepare();
             var t = Operand.GetResultType();
-            if (t != ColumnSimpleTypes.DateTime && t != ColumnSimpleTypes.Date) TypesException();
-            SetResultType(ColumnSimpleTypes.Integer);
+            if (t != SimpleTypes.DateTime && t != SimpleTypes.Date) TypesException();
+            SetResultType(SimpleTypes.Integer);
             GetIntResultOut = GetResult;
         }
 
@@ -450,20 +450,20 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            ColumnSimpleTypes st = ColumnSimpleTypes.DateTime;
-            if (Operand1.GetResultType() == ColumnSimpleTypes.DateTime)
+            SimpleTypes st = SimpleTypes.DateTime;
+            if (Operand1.GetResultType() == SimpleTypes.DateTime)
             {
-                st = ColumnSimpleTypes.DateTime;
+                st = SimpleTypes.DateTime;
                 GetDateTimeResultOut = GetResultDate;
             }
-            if (Operand1.GetResultType() == ColumnSimpleTypes.Date)
+            if (Operand1.GetResultType() == SimpleTypes.Date)
             {
-                st = ColumnSimpleTypes.Date;
+                st = SimpleTypes.Date;
                 GetDateTimeResultOut = GetResultDate;
             }
-            if (Operand1.GetResultType() == ColumnSimpleTypes.Time)
+            if (Operand1.GetResultType() == SimpleTypes.Time)
             {
-                st = ColumnSimpleTypes.Time;
+                st = SimpleTypes.Time;
                 GetTimeResultOut = GetResultTime;
             }
             SetResultType(st);
@@ -528,7 +528,7 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            SetResultType(ColumnSimpleTypes.DateTime);
+            SetResultType(SimpleTypes.DateTime);
             GetDateTimeResultOut = GetResult;
         }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TableQuery;
+using ParserCore;
 using System.Data;
 using System.Data.Sql;
 using System.Data.SqlClient;
@@ -24,6 +24,11 @@ namespace WinTest
             ConnectionFactory = DbProviderFactories.GetFactory(ProviderName);
             CommandBuilder = ConnectionFactory.CreateCommandBuilder();
             Driver = new MsSqlServerDriver();
+        }
+
+        public IDbDriver GetDefaultDriver()
+        {
+            return Driver;
         }
 
         protected DbConnection GetConnection()
@@ -74,12 +79,12 @@ namespace WinTest
                 td.TableName = tn;
                 td.Schema = sh;
                 td.DbDriver = Driver;
-                td.Columns = new List<ColumnInfo>();
+                td.Columns = new List<Column>();
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        ColumnInfo ci = new ColumnInfo(
+                        Column ci = new Column(
                             reader.GetString(reader.GetOrdinal("COLUMN_NAME")), 
                             ColumnSqlTypeToSimpleType(reader.GetString(reader.GetOrdinal("DATA_TYPE"))));
                         td.Columns.Add(ci);
@@ -106,26 +111,26 @@ namespace WinTest
         public static readonly HashSet<string> FloatTypes =
             CommonUtils.CreateInvariantStringSet(new string[] { "float", "real", "decimal", "money", "numeric" });
 
-        public ColumnSimpleTypes ColumnSqlTypeToSimpleType(string type)
+        public SimpleTypes ColumnSqlTypeToSimpleType(string type)
         {
             string sqlType = type.ToLower();
-            ColumnSimpleTypes ColumnSimpleType = ColumnSimpleTypes.String;
-            if (BoolTypes.Contains(sqlType)) ColumnSimpleType = ColumnSimpleTypes.Boolean;
+            SimpleTypes SimpleType = SimpleTypes.String;
+            if (BoolTypes.Contains(sqlType)) SimpleType = SimpleTypes.Boolean;
             else
-                if (TextTypes.Contains(sqlType)) ColumnSimpleType = ColumnSimpleTypes.String;
+                if (TextTypes.Contains(sqlType)) SimpleType = SimpleTypes.String;
                 else
-                    if (IntTypes.Contains(sqlType)) ColumnSimpleType = ColumnSimpleTypes.Integer;
+                    if (IntTypes.Contains(sqlType)) SimpleType = SimpleTypes.Integer;
                     else
-                        if (FloatTypes.Contains(sqlType)) ColumnSimpleType = ColumnSimpleTypes.Float;
+                        if (FloatTypes.Contains(sqlType)) SimpleType = SimpleTypes.Float;
                         else
-                            if (DateTimeTypes.Contains(sqlType)) ColumnSimpleType = ColumnSimpleTypes.DateTime;
+                            if (DateTimeTypes.Contains(sqlType)) SimpleType = SimpleTypes.DateTime;
                             else
-                                if (sqlType == GeometryType) { ColumnSimpleType = ColumnSimpleTypes.Geometry; }
+                                if (sqlType == GeometryType) { SimpleType = SimpleTypes.Geometry; }
                                 else
-                                    if (sqlType == TimeType) ColumnSimpleType = ColumnSimpleTypes.Time;
+                                    if (sqlType == TimeType) SimpleType = SimpleTypes.Time;
                                     else
-                                        if (sqlType == DateType) ColumnSimpleType = ColumnSimpleTypes.Date;
-            return ColumnSimpleType;
+                                        if (sqlType == DateType) SimpleType = SimpleTypes.Date;
+            return SimpleType;
         }
 
     }

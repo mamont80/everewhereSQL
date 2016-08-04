@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Data.Common;
-using LayerData;
 using System.Text;
 /*
  *   Новая версия лексем с возможностью быстрого вычисления результата
@@ -92,8 +91,8 @@ namespace ParserCore
 
     public abstract class Expression:ICloneable
     {
-        private ColumnSimpleTypes SimpleType;
-        public ColumnSimpleTypes GetResultType() { return SimpleType; }
+        private SimpleTypes SimpleType;
+        public SimpleTypes GetResultType() { return SimpleType; }
 
         protected int _CoordinateSystem;
 
@@ -199,20 +198,20 @@ namespace ParserCore
         {
             switch (GetResultType())
             {
-                case ColumnSimpleTypes.Boolean: 
+                case SimpleTypes.Boolean: 
                     return GetBoolResultOut(data);
-                case ColumnSimpleTypes.Date:
-                case ColumnSimpleTypes.DateTime:
+                case SimpleTypes.Date:
+                case SimpleTypes.DateTime:
                     return GetDateTimeResultOut(data);
-                case ColumnSimpleTypes.Float:
+                case SimpleTypes.Float:
                     return GetFloatResultOut(data);
-                case ColumnSimpleTypes.Geometry:
+                case SimpleTypes.Geometry:
                     return GetGeomResultOut(data);
-                case ColumnSimpleTypes.Integer:
+                case SimpleTypes.Integer:
                     return GetIntResultOut(data);
-                case ColumnSimpleTypes.String:
+                case SimpleTypes.String:
                     return GetStrResultOut(data);
-                case ColumnSimpleTypes.Time:
+                case SimpleTypes.Time:
                     return GetTimeResultOut(data);
                 default:
                     throw new Exception("Unknow type result expression");
@@ -276,29 +275,29 @@ namespace ParserCore
                 ConstExpr ce = new ConstExpr();
                 switch (GetResultType())
                 {
-                    case ColumnSimpleTypes.Boolean:
-                        ce.Init(GetBoolResultOut(null), ColumnSimpleTypes.Boolean);
+                    case SimpleTypes.Boolean:
+                        ce.Init(GetBoolResultOut(null), SimpleTypes.Boolean);
                         break;
-                    case ColumnSimpleTypes.Date:
-                        ce.Init(GetDateTimeResultOut(null), ColumnSimpleTypes.Date);
+                    case SimpleTypes.Date:
+                        ce.Init(GetDateTimeResultOut(null), SimpleTypes.Date);
                         break;
-                    case ColumnSimpleTypes.DateTime:
-                        ce.Init(GetDateTimeResultOut(null), ColumnSimpleTypes.DateTime);
+                    case SimpleTypes.DateTime:
+                        ce.Init(GetDateTimeResultOut(null), SimpleTypes.DateTime);
                         break;
-                    case ColumnSimpleTypes.Float:
-                        ce.Init(GetFloatResultOut(null), ColumnSimpleTypes.Float);
+                    case SimpleTypes.Float:
+                        ce.Init(GetFloatResultOut(null), SimpleTypes.Float);
                         break;
-                    case ColumnSimpleTypes.String:
-                        ce.Init(GetStrResultOut(null), ColumnSimpleTypes.String);
+                    case SimpleTypes.String:
+                        ce.Init(GetStrResultOut(null), SimpleTypes.String);
                         break;
-                    case ColumnSimpleTypes.Time:
-                        ce.Init(GetTimeResultOut(null), ColumnSimpleTypes.Time);
+                    case SimpleTypes.Time:
+                        ce.Init(GetTimeResultOut(null), SimpleTypes.Time);
                         break;
-                    case ColumnSimpleTypes.Integer:
-                        ce.Init(GetIntResultOut(null), ColumnSimpleTypes.Integer);
+                    case SimpleTypes.Integer:
+                        ce.Init(GetIntResultOut(null), SimpleTypes.Integer);
                         break;
-                    case ColumnSimpleTypes.Geometry:
-                        ce.Init(GetGeomResultOut(null), ColumnSimpleTypes.Geometry, GetCoordinateSystem());
+                    case SimpleTypes.Geometry:
+                        ce.Init(GetGeomResultOut(null), SimpleTypes.Geometry, GetCoordinateSystem());
                         break;
                 }
                 changed = true;
@@ -409,19 +408,19 @@ namespace ParserCore
         }
 
         //{ Integer = 1, Float = 2, String = 3, Geometry = 4, Date = 5, DateTime = 6, Time = 7, Boolean = 8 }
-        protected void SortType(ref ColumnSimpleTypes tp1, ref ColumnSimpleTypes tp2)
+        protected void SortType(ref SimpleTypes tp1, ref SimpleTypes tp2)
         {
-            ColumnSimpleTypes tmp;
+            SimpleTypes tmp;
             if (tp1 > tp2) { tmp = tp1; tp1 = tp2; tp2 = tmp; }
         }
 
 #region Преобразования типов
-        protected void SetResultType(ColumnSimpleTypes resultType)
+        protected void SetResultType(SimpleTypes resultType)
         {
             SimpleType = resultType;
             switch (resultType)
             { 
-                case ColumnSimpleTypes.Boolean:
+                case SimpleTypes.Boolean:
                     GetIntResultOut = GetBoolAsInt;
                     GetStrResultOut = GetBoolAsStr;
                     GetFloatResultOut = GetBoolAsFloat;
@@ -429,7 +428,7 @@ namespace ParserCore
                     GetTimeResultOut = GetBoolAsTime;
                     GetGeomResultOut = GetBoolAsGeom;
                     break;
-                case ColumnSimpleTypes.String:
+                case SimpleTypes.String:
                     GetBoolResultOut = GetStrAsBool;
                     GetIntResultOut = GetStrAsInt;
                     GetFloatResultOut = GetStrAsFloat;
@@ -437,7 +436,7 @@ namespace ParserCore
                     GetTimeResultOut = GetStrAsTime;
                     GetGeomResultOut = GetStrAsGeom;
                     break;
-                case ColumnSimpleTypes.Integer:
+                case SimpleTypes.Integer:
                     GetBoolResultOut = GetIntAsBool;
                     GetStrResultOut = GetIntAsStr;
                     GetFloatResultOut = GetIntAsFloat;
@@ -445,7 +444,7 @@ namespace ParserCore
                     GetTimeResultOut = GetIntAsTime;
                     GetGeomResultOut = GetIntAsGeom;
                     break;
-                case ColumnSimpleTypes.Float:
+                case SimpleTypes.Float:
                     GetBoolResultOut = GetFloatAsBool;
                     GetStrResultOut = GetFloatAsStr;
                     GetIntResultOut = GetFloatAsInt;
@@ -453,7 +452,7 @@ namespace ParserCore
                     GetTimeResultOut = GetFloatAsTime;
                     GetGeomResultOut = GetFloatAsGeom;
                     break;
-                case ColumnSimpleTypes.Date:
+                case SimpleTypes.Date:
                     GetBoolResultOut = GetDateTimeAsBool;
                     GetStrResultOut = GetDateAsStr;
                     GetFloatResultOut = GetDateTimeAsFloat;
@@ -461,7 +460,7 @@ namespace ParserCore
                     GetTimeResultOut = GetDateTimeAsTime;
                     GetGeomResultOut = GetDateTimeAsGeom;
                     break;
-                case ColumnSimpleTypes.DateTime:
+                case SimpleTypes.DateTime:
                     GetBoolResultOut = GetDateTimeAsBool;
                     GetStrResultOut = GetDateTimeAsStr;
                     GetFloatResultOut = GetDateTimeAsFloat;
@@ -469,7 +468,7 @@ namespace ParserCore
                     GetTimeResultOut = GetDateTimeAsTime;
                     GetGeomResultOut = GetDateTimeAsGeom;
                     break;
-                case ColumnSimpleTypes.Time:
+                case SimpleTypes.Time:
                     GetBoolResultOut = GetTimeAsBool;
                     GetStrResultOut = GetTimeAsStr;
                     GetFloatResultOut = GetTimeAsFloat;
@@ -477,7 +476,7 @@ namespace ParserCore
                     GetDateTimeResultOut = GetTimeAsDateTime;
                     GetGeomResultOut = GetTimeAsGeom;
                     break;
-                case ColumnSimpleTypes.Geometry:
+                case SimpleTypes.Geometry:
                     GetBoolResultOut = GetGeomAsBool;
                     GetStrResultOut = GetGeomAsStr;
                     GetFloatResultOut = GetGeomAsFloat;
@@ -705,51 +704,51 @@ namespace ParserCore
         /// </summary>
         public override bool IsOperation() { return false; }
 
-        public void Init(object val, ColumnSimpleTypes type)
+        public void Init(object val, SimpleTypes type)
         {
             Init(val, type, 0);
         }
 
-        public void Init(object val, ColumnSimpleTypes type, int csf)
+        public void Init(object val, SimpleTypes type, int csf)
         {
             //проводим инициализацию и сразу подготовку
             #region Хитрое выставление типов
             switch (type)
             {
-                case ColumnSimpleTypes.Boolean:
+                case SimpleTypes.Boolean:
                     valueBool = CommonUtils.Convert<bool>(val);
                     GetBoolResultOut = AsBool;
-                    SetResultType(ColumnSimpleTypes.Boolean);
+                    SetResultType(SimpleTypes.Boolean);
                     break;
-                case ColumnSimpleTypes.String:
+                case SimpleTypes.String:
                     valueStr = CommonUtils.Convert<string>(val);
                     GetStrResultOut = AsStr;
-                    SetResultType(ColumnSimpleTypes.String);
+                    SetResultType(SimpleTypes.String);
                     break;
-                case ColumnSimpleTypes.Integer:
+                case SimpleTypes.Integer:
                     valueInt = CommonUtils.Convert<long>(val);
                     GetIntResultOut = AsInt;
-                    SetResultType(ColumnSimpleTypes.Integer);
+                    SetResultType(SimpleTypes.Integer);
                     break;
-                case ColumnSimpleTypes.Float:
+                case SimpleTypes.Float:
                     valueFloat = CommonUtils.Convert<double>(val);
-                    SetResultType(ColumnSimpleTypes.Float);
+                    SetResultType(SimpleTypes.Float);
                     GetFloatResultOut = AsFloat;
                     break;
-                case ColumnSimpleTypes.DateTime:
-                case ColumnSimpleTypes.Date:
+                case SimpleTypes.DateTime:
+                case SimpleTypes.Date:
                     valueDateTime = CommonUtils.Convert<DateTime>(val);
-                    SetResultType(ColumnSimpleTypes.DateTime);
+                    SetResultType(SimpleTypes.DateTime);
                     GetDateTimeResultOut = AsDateTime;
                     break;
-                case ColumnSimpleTypes.Time:
+                case SimpleTypes.Time:
                     valueTime = CommonUtils.Convert<TimeSpan>(val);
-                    SetResultType(ColumnSimpleTypes.Time);
+                    SetResultType(SimpleTypes.Time);
                     GetTimeResultOut = AsTime;
                     break;
-                case ColumnSimpleTypes.Geometry:
+                case SimpleTypes.Geometry:
                     valueGeom = val;
-                    SetResultType(ColumnSimpleTypes.Geometry);
+                    SetResultType(SimpleTypes.Geometry);
                     GetGeomResultOut = AsGeom;
                     _CoordinateSystem = csf;
                     break;
@@ -761,21 +760,21 @@ namespace ParserCore
         {
             switch (GetResultType())
             {
-                case ColumnSimpleTypes.Boolean:
+                case SimpleTypes.Boolean:
                     return GetBoolResultOut(null).ToString();
-                case ColumnSimpleTypes.String:
+                case SimpleTypes.String:
                     return BaseExpressionFactory.StandartCodeEscape(GetStrResultOut(null).ToString(), '\'', '\'');
-                case ColumnSimpleTypes.Integer:
+                case SimpleTypes.Integer:
                     return GetIntResultOut(null).ToString();
-                case ColumnSimpleTypes.Float:
+                case SimpleTypes.Float:
                     return GetFloatResultOut(null).ToStr();
-                case ColumnSimpleTypes.DateTime:
+                case SimpleTypes.DateTime:
                     return "StrToDateTime('" + GetDateTimeResultOut(null).ToString("dd.MM.yyyy HH:mm:ss") + "')";
-                case ColumnSimpleTypes.Date:
+                case SimpleTypes.Date:
                     return "StrToDateTime('" + GetDateTimeResultOut(null).ToString("dd.MM.yyyy") + "')";
-                case ColumnSimpleTypes.Time:
+                case SimpleTypes.Time:
                     return "StrToTime('" + GetTimeResultOut(null).ToString("c") + "')";
-                case ColumnSimpleTypes.Geometry:
+                case SimpleTypes.Geometry:
                     // TODO: FIXed!
                     throw new Exception("Can not convert geometry constant to string");
                     //return "_Geometry_";
@@ -788,34 +787,34 @@ namespace ParserCore
             }
         }
 
-        public void PrepareFor(ColumnSimpleTypes forType)
+        public void PrepareFor(SimpleTypes forType)
         {
             switch (forType)
             {
-                case ColumnSimpleTypes.Boolean:
+                case SimpleTypes.Boolean:
                     valueBool = GetBoolResultOut(null);
                     Init(valueBool, forType);
                     break;
-                case ColumnSimpleTypes.String:
+                case SimpleTypes.String:
                     valueStr = GetStrResultOut(null);
                     Init(valueStr, forType);
                     break;
-                case ColumnSimpleTypes.Integer:
+                case SimpleTypes.Integer:
                     valueInt = GetIntResultOut(null);
                     Init(valueInt, forType);
                     //GetIntResultOut = AsInt;
                     break;
-                case ColumnSimpleTypes.Float:
+                case SimpleTypes.Float:
                     valueFloat = GetFloatResultOut(null);
                     Init(valueFloat, forType);
                     break;
-                case ColumnSimpleTypes.DateTime:
-                case ColumnSimpleTypes.Date:
+                case SimpleTypes.DateTime:
+                case SimpleTypes.Date:
                     valueDateTime = GetDateTimeResultOut(null);
                     Init(valueDateTime, forType);
                     //GetDateTimeResultOut = AsDateTime;
                     break;
-                case ColumnSimpleTypes.Time:
+                case SimpleTypes.Time:
                     valueTime = GetTimeResultOut(null);
                     Init(valueTime, forType);
                     break;
@@ -842,7 +841,7 @@ namespace ParserCore
     {
         public NullConstExpr() : base()
         {
-            Init("", ColumnSimpleTypes.String);
+            Init("", SimpleTypes.String);
         }
 
         public override bool GetNullResultOut(object data)
@@ -873,7 +872,7 @@ namespace ParserCore
             base.BeforePrepare();
             if (!(Operand2 is NullConstExpr)) throw new Exception("allowed only the expression \"is null\"");
             GetBoolResultOut = GetResult;
-            SetResultType(ColumnSimpleTypes.Boolean);
+            SetResultType(SimpleTypes.Boolean);
         }
 
         private bool GetResult(object data)
@@ -903,7 +902,7 @@ namespace ParserCore
         {
             base.BeforePrepare();
             GetBoolResultOut = GetResult;
-            SetResultType(ColumnSimpleTypes.Boolean);
+            SetResultType(SimpleTypes.Boolean);
         }
 
         private bool GetResult(object data)
@@ -975,10 +974,10 @@ namespace ParserCore
             ((SubExpression) (Childs[1])).ForInExpression = true;
             base.BeforePrepare();
 
-            SetResultType(ColumnSimpleTypes.Boolean);
+            SetResultType(SimpleTypes.Boolean);
             if (Childs[1].ChildsCount() == 1 && Childs[1].Childs[0] is SelectExpresion) return;
 
-            List<ColumnSimpleTypes> types = new List<ColumnSimpleTypes>();
+            List<SimpleTypes> types = new List<SimpleTypes>();
             for (int i = 0; i < Childs[1].Childs.Count; i++)
             {
                 var tp = CustomEqual.GetCompareType(Childs[0], Childs[1].Childs[i]);
@@ -987,38 +986,38 @@ namespace ParserCore
             }
             types = types.Distinct().ToList();
             if (types.Count == 0 || types.Count > 2) TypesException();
-            ColumnSimpleTypes t = types[0];
+            SimpleTypes t = types[0];
             if (types.Count == 2)
             {
-                if ((types[0] == ColumnSimpleTypes.Float && types[1] == ColumnSimpleTypes.Integer) || (types[1] == ColumnSimpleTypes.Float && types[0] == ColumnSimpleTypes.Integer))
+                if ((types[0] == SimpleTypes.Float && types[1] == SimpleTypes.Integer) || (types[1] == SimpleTypes.Float && types[0] == SimpleTypes.Integer))
                 {
-                    t = ColumnSimpleTypes.Float;
+                    t = SimpleTypes.Float;
                 }else TypesException();
             }
             //CompareItem
             switch (t)
             {
-                case ColumnSimpleTypes.Boolean:
+                case SimpleTypes.Boolean:
                     CompareItem = CompareAsBool;
                     break;
-                case ColumnSimpleTypes.Date:
-                case ColumnSimpleTypes.DateTime:
+                case SimpleTypes.Date:
+                case SimpleTypes.DateTime:
                     CompareItem = CompareAsDateTime;
                     break;
-                case ColumnSimpleTypes.Float:
+                case SimpleTypes.Float:
                     CompareItem = CompareAsFloat;
                     break;
-                case ColumnSimpleTypes.Geometry:
+                case SimpleTypes.Geometry:
                     throw new Exception("Can not compare geometries");
                 //    CompareItem = CompareAsGeom;
                 //    break;
-                case ColumnSimpleTypes.Integer:
+                case SimpleTypes.Integer:
                     CompareItem = CompareAsInt;
                     break;
-                case ColumnSimpleTypes.String:
+                case SimpleTypes.String:
                     CompareItem = CompareAsStr;
                     break;
-                case ColumnSimpleTypes.Time:
+                case SimpleTypes.Time:
                     CompareItem = CompareAsTime;
                     break;
             }
@@ -1101,26 +1100,26 @@ namespace ParserCore
                 SetResultType(Childs[0].GetResultType());
                 switch (tp)
                 {
-                    case ColumnSimpleTypes.Boolean:
+                    case SimpleTypes.Boolean:
                         GetBoolResultOut = CalcAsBool;
                         break;
-                    case ColumnSimpleTypes.Date:
-                    case ColumnSimpleTypes.DateTime:
+                    case SimpleTypes.Date:
+                    case SimpleTypes.DateTime:
                         GetDateTimeResultOut = CalcDateTimeResult;
                         break;
-                    case ColumnSimpleTypes.Float:
+                    case SimpleTypes.Float:
                         GetFloatResultOut = CalcFloatResult;
                         break;
-                    case ColumnSimpleTypes.Geometry:
+                    case SimpleTypes.Geometry:
                         GetGeomResultOut = CalcGeomResult;
                         break;
-                    case ColumnSimpleTypes.Integer:
+                    case SimpleTypes.Integer:
                         GetIntResultOut = CalcIntResult;
                         break;
-                    case ColumnSimpleTypes.String:
+                    case SimpleTypes.String:
                         GetStrResultOut = CalcStrResult;
                         break;
-                    case ColumnSimpleTypes.Time:
+                    case SimpleTypes.Time:
                         GetTimeResultOut = CalcTimeResult;
                         break;
                 }
@@ -1277,9 +1276,9 @@ namespace ParserCore
         {
             base.BeforePrepare();
             if (Operand == null) OperandNotFoundException();
-            if (!(Operand is NullConstExpr) && (Operand.GetResultType() != ColumnSimpleTypes.Boolean)) this.TypesException();
+            if (!(Operand is NullConstExpr) && (Operand.GetResultType() != SimpleTypes.Boolean)) this.TypesException();
             GetBoolResultOut = DoNot;
-            SetResultType(ColumnSimpleTypes.Boolean);
+            SetResultType(SimpleTypes.Boolean);
         }
         public override bool IsRightAssociate() { return true; }
 
@@ -1295,16 +1294,16 @@ namespace ParserCore
         {
             base.BeforePrepare();
             if (Operand == null) OperandNotFoundException();
-            if (Operand.GetResultType() == ColumnSimpleTypes.Integer)
+            if (Operand.GetResultType() == SimpleTypes.Integer)
             {
                 GetIntResultOut = DoMinusInt;
-                SetResultType(ColumnSimpleTypes.Integer);
+                SetResultType(SimpleTypes.Integer);
                 return;
             }
-            if (Operand.GetResultType() == ColumnSimpleTypes.Float)
+            if (Operand.GetResultType() == SimpleTypes.Float)
             {
                 GetFloatResultOut = DoMinusFloat;
-                SetResultType(ColumnSimpleTypes.Float);
+                SetResultType(SimpleTypes.Float);
                 return;
             }/*
             if (Operand.GetResultType() == ColumnSimpleTypes.Time)
@@ -1341,65 +1340,65 @@ namespace ParserCore
     {
         protected bool DoPrepare()
         {
-            ColumnSimpleTypes t1 = Operand1.GetResultType();
-            ColumnSimpleTypes t2 = Operand2.GetResultType();
+            SimpleTypes t1 = Operand1.GetResultType();
+            SimpleTypes t2 = Operand2.GetResultType();
             //SortType(ref t1, ref t2);
-            SetResultType(ColumnSimpleTypes.Boolean);
+            SetResultType(SimpleTypes.Boolean);
             //если один операнд строка, а второй не строка. Проверка для констант
-            if ((t1 == ColumnSimpleTypes.String && t2 != ColumnSimpleTypes.String) ||
-                (t2 == ColumnSimpleTypes.String && t1 != ColumnSimpleTypes.String))
+            if ((t1 == SimpleTypes.String && t2 != SimpleTypes.String) ||
+                (t2 == SimpleTypes.String && t1 != SimpleTypes.String))
             {
                 //находим не строковый элемент
                 Expression notStrOper = Operand1;
                 Expression StrOper = Operand2;
-                if (StrOper.GetResultType() != ColumnSimpleTypes.String) { notStrOper = Operand2; StrOper = Operand1; }
-                ColumnSimpleTypes notStr = notStrOper.GetResultType();
+                if (StrOper.GetResultType() != SimpleTypes.String) { notStrOper = Operand2; StrOper = Operand1; }
+                SimpleTypes notStr = notStrOper.GetResultType();
                 if (StrOper is ConstExpr)
                 {
                     switch(notStr)
                     {
-                        case ColumnSimpleTypes.Integer:
+                        case SimpleTypes.Integer:
                             GetBoolResultOut = CompareAsInt;
-                            (StrOper as ConstExpr).PrepareFor(ColumnSimpleTypes.Integer);
+                            (StrOper as ConstExpr).PrepareFor(SimpleTypes.Integer);
                             return true;
-                        case ColumnSimpleTypes.Float:
+                        case SimpleTypes.Float:
                             GetBoolResultOut = CompareAsFloat;
-                            (StrOper as ConstExpr).PrepareFor(ColumnSimpleTypes.Float);
+                            (StrOper as ConstExpr).PrepareFor(SimpleTypes.Float);
                             return true;
-                        case ColumnSimpleTypes.Date:
-                        case ColumnSimpleTypes.DateTime:
+                        case SimpleTypes.Date:
+                        case SimpleTypes.DateTime:
                             GetBoolResultOut = CompareAsDateTime;
-                            (StrOper as ConstExpr).PrepareFor(ColumnSimpleTypes.DateTime);
+                            (StrOper as ConstExpr).PrepareFor(SimpleTypes.DateTime);
                             return true;
-                        case ColumnSimpleTypes.Time:
+                        case SimpleTypes.Time:
                             GetBoolResultOut = CompareAsTime;
-                            (StrOper as ConstExpr).PrepareFor(ColumnSimpleTypes.Time);
+                            (StrOper as ConstExpr).PrepareFor(SimpleTypes.Time);
                             return true;
                     }
                 }
             }
-            if (t1 == ColumnSimpleTypes.String && t2 == ColumnSimpleTypes.String)
+            if (t1 == SimpleTypes.String && t2 == SimpleTypes.String)
             {
                 GetBoolResultOut = CompareAsStr;
                 return true;
             }
-            if (t1 == ColumnSimpleTypes.Integer && t2 == ColumnSimpleTypes.Integer)
+            if (t1 == SimpleTypes.Integer && t2 == SimpleTypes.Integer)
             {
                 GetBoolResultOut = CompareAsInt;
                 return true;
             }
-            if ((t1 == ColumnSimpleTypes.Integer || t1 == ColumnSimpleTypes.Float)
-                && (t2 == ColumnSimpleTypes.Integer || t2 == ColumnSimpleTypes.Float))
+            if ((t1 == SimpleTypes.Integer || t1 == SimpleTypes.Float)
+                && (t2 == SimpleTypes.Integer || t2 == SimpleTypes.Float))
             {
                 GetBoolResultOut = CompareAsFloat;
                 return true;
             }
-            if ((t1 == ColumnSimpleTypes.Date || t1 == ColumnSimpleTypes.DateTime) && (t2 == ColumnSimpleTypes.Date || t2 == ColumnSimpleTypes.DateTime))
+            if ((t1 == SimpleTypes.Date || t1 == SimpleTypes.DateTime) && (t2 == SimpleTypes.Date || t2 == SimpleTypes.DateTime))
             {
                 GetBoolResultOut = CompareAsDateTime;
                 return true;
             }
-            if (t1 == ColumnSimpleTypes.Time && t2 == ColumnSimpleTypes.Time)
+            if (t1 == SimpleTypes.Time && t2 == SimpleTypes.Time)
             {
                 GetBoolResultOut = CompareAsTime;
                 return true;
@@ -1430,67 +1429,67 @@ namespace ParserCore
             if (!DoPrepare()) TypesException();
         }
 
-        public static ColumnSimpleTypes? GetCompareType(Expression Operand1, Expression Operand2)
+        public static SimpleTypes? GetCompareType(Expression Operand1, Expression Operand2)
         {
-            ColumnSimpleTypes t1 = Operand1.GetResultType();
-            ColumnSimpleTypes t2 = Operand2.GetResultType();
+            SimpleTypes t1 = Operand1.GetResultType();
+            SimpleTypes t2 = Operand2.GetResultType();
             //если один операнд строка, а второй не строка. Проверка для констант
-            if ((t1 == ColumnSimpleTypes.String && t2 != ColumnSimpleTypes.String) ||
-                (t2 == ColumnSimpleTypes.String && t1 != ColumnSimpleTypes.String))
+            if ((t1 == SimpleTypes.String && t2 != SimpleTypes.String) ||
+                (t2 == SimpleTypes.String && t1 != SimpleTypes.String))
             {
                 //находим не строковый элемент
                 Expression notStrOper = Operand1;
                 Expression StrOper = Operand2;
-                if (StrOper.GetResultType() != ColumnSimpleTypes.String) { notStrOper = Operand2; StrOper = Operand1; }
-                ColumnSimpleTypes notStr = notStrOper.GetResultType();
+                if (StrOper.GetResultType() != SimpleTypes.String) { notStrOper = Operand2; StrOper = Operand1; }
+                SimpleTypes notStr = notStrOper.GetResultType();
                 if (StrOper is ConstExpr)
                 {
                     switch (notStr)
                     {
-                        case ColumnSimpleTypes.Integer:
-                            (StrOper as ConstExpr).PrepareFor(ColumnSimpleTypes.Integer);
-                            return ColumnSimpleTypes.Integer;
-                        case ColumnSimpleTypes.Float:
-                            (StrOper as ConstExpr).PrepareFor(ColumnSimpleTypes.Float);
-                            return ColumnSimpleTypes.Float;
-                        case ColumnSimpleTypes.Boolean:
-                            (StrOper as ConstExpr).PrepareFor(ColumnSimpleTypes.Boolean);
-                            return ColumnSimpleTypes.Boolean;
-                        case ColumnSimpleTypes.Date:
-                        case ColumnSimpleTypes.DateTime:
-                            (StrOper as ConstExpr).PrepareFor(ColumnSimpleTypes.DateTime);
-                            return ColumnSimpleTypes.DateTime;
-                        case ColumnSimpleTypes.Time:
-                            (StrOper as ConstExpr).PrepareFor(ColumnSimpleTypes.Time);
-                            return ColumnSimpleTypes.Time;
+                        case SimpleTypes.Integer:
+                            (StrOper as ConstExpr).PrepareFor(SimpleTypes.Integer);
+                            return SimpleTypes.Integer;
+                        case SimpleTypes.Float:
+                            (StrOper as ConstExpr).PrepareFor(SimpleTypes.Float);
+                            return SimpleTypes.Float;
+                        case SimpleTypes.Boolean:
+                            (StrOper as ConstExpr).PrepareFor(SimpleTypes.Boolean);
+                            return SimpleTypes.Boolean;
+                        case SimpleTypes.Date:
+                        case SimpleTypes.DateTime:
+                            (StrOper as ConstExpr).PrepareFor(SimpleTypes.DateTime);
+                            return SimpleTypes.DateTime;
+                        case SimpleTypes.Time:
+                            (StrOper as ConstExpr).PrepareFor(SimpleTypes.Time);
+                            return SimpleTypes.Time;
                     }
                 }
                 else throw new Exception("Use explicit type conversion");
             }
 
-            if (t1 == ColumnSimpleTypes.Integer && t2 == ColumnSimpleTypes.Integer)
+            if (t1 == SimpleTypes.Integer && t2 == SimpleTypes.Integer)
             {
-                return ColumnSimpleTypes.Integer;
+                return SimpleTypes.Integer;
             }
-            if ((t1 == ColumnSimpleTypes.Integer || t1 == ColumnSimpleTypes.Float)
-                && (t2 == ColumnSimpleTypes.Integer || t2 == ColumnSimpleTypes.Float))
+            if ((t1 == SimpleTypes.Integer || t1 == SimpleTypes.Float)
+                && (t2 == SimpleTypes.Integer || t2 == SimpleTypes.Float))
             {
-                return ColumnSimpleTypes.Float;
+                return SimpleTypes.Float;
             }
-            if ((t1 == ColumnSimpleTypes.Date || t1 == ColumnSimpleTypes.DateTime)
-                && (t2 == ColumnSimpleTypes.Date || t2 == ColumnSimpleTypes.DateTime))
+            if ((t1 == SimpleTypes.Date || t1 == SimpleTypes.DateTime)
+                && (t2 == SimpleTypes.Date || t2 == SimpleTypes.DateTime))
             {
-                return ColumnSimpleTypes.DateTime;
+                return SimpleTypes.DateTime;
             }
-            if (t1 == ColumnSimpleTypes.Time && t2 == ColumnSimpleTypes.Time)
+            if (t1 == SimpleTypes.Time && t2 == SimpleTypes.Time)
             {
-                return ColumnSimpleTypes.Time;
+                return SimpleTypes.Time;
             }
             if (t1 == t2)
             {
-                if (t1 == ColumnSimpleTypes.Boolean) return ColumnSimpleTypes.Boolean;
-                if (t1 == ColumnSimpleTypes.String) return ColumnSimpleTypes.String;
-                if (t1 == ColumnSimpleTypes.Geometry) return ColumnSimpleTypes.Geometry;
+                if (t1 == SimpleTypes.Boolean) return SimpleTypes.Boolean;
+                if (t1 == SimpleTypes.String) return SimpleTypes.String;
+                if (t1 == SimpleTypes.Geometry) return SimpleTypes.Geometry;
             }
             return null;
         }
@@ -1498,32 +1497,32 @@ namespace ParserCore
         protected bool DoPrepare()
         {
             base.BeforePrepare();
-            SetResultType(ColumnSimpleTypes.Boolean);
-            ColumnSimpleTypes? r = GetCompareType(Operand1, Operand2);
+            SetResultType(SimpleTypes.Boolean);
+            SimpleTypes? r = GetCompareType(Operand1, Operand2);
             if (r == null) return false;
             switch (r.Value)
             {
-                case ColumnSimpleTypes.Boolean:
+                case SimpleTypes.Boolean:
                     GetBoolResultOut = CompareAsBool;
                     break;
-                case ColumnSimpleTypes.Date:
-                case ColumnSimpleTypes.DateTime:
+                case SimpleTypes.Date:
+                case SimpleTypes.DateTime:
                     GetBoolResultOut = CompareAsDateTime;
                     break;
-                case ColumnSimpleTypes.Float:
+                case SimpleTypes.Float:
                     GetBoolResultOut = CompareAsFloat;
                     break;
-                case ColumnSimpleTypes.Geometry:
+                case SimpleTypes.Geometry:
                     throw new Exception("Can not compare geometries");
                     //GetBoolResultOut = CompareAsGeom;
                     //break;
-                case ColumnSimpleTypes.Integer:
+                case SimpleTypes.Integer:
                     GetBoolResultOut = CompareAsInt;
                     break;
-                case ColumnSimpleTypes.String:
+                case SimpleTypes.String:
                     GetBoolResultOut = CompareAsStr;
                     break;
-                case ColumnSimpleTypes.Time:
+                case SimpleTypes.Time:
                     GetBoolResultOut = CompareAsTime;
                     break;
             }
@@ -1627,10 +1626,10 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            if (Operand1.GetResultType() != ColumnSimpleTypes.Boolean) this.TypesException();
-            if (Operand2.GetResultType() != ColumnSimpleTypes.Boolean) this.TypesException();
+            if (Operand1.GetResultType() != SimpleTypes.Boolean) this.TypesException();
+            if (Operand2.GetResultType() != SimpleTypes.Boolean) this.TypesException();
             GetBoolResultOut = AsBool;
-            SetResultType(ColumnSimpleTypes.Boolean);
+            SetResultType(SimpleTypes.Boolean);
         }
         protected abstract bool AsBool(object data);
     }
@@ -1663,44 +1662,44 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            ColumnSimpleTypes t1 = Operand1.GetResultType();
-            ColumnSimpleTypes t2 = Operand2.GetResultType();
+            SimpleTypes t1 = Operand1.GetResultType();
+            SimpleTypes t2 = Operand2.GetResultType();
             //public enum ColumnSimpleTypes { Integer = 1, Float = 2, String = 3, Geometry = 4, Date = 5, DateTime = 6, Time = 7, Boolean = 8 }
-            if (t1 == ColumnSimpleTypes.String && t2 == ColumnSimpleTypes.String)
+            if (t1 == SimpleTypes.String && t2 == SimpleTypes.String)
             {
                 GetStrResultOut = CalcAsStr;
-                SetResultType(ColumnSimpleTypes.String);
+                SetResultType(SimpleTypes.String);
                 return;
             }
-            if (t1 == ColumnSimpleTypes.Integer && t2 == ColumnSimpleTypes.Integer)
+            if (t1 == SimpleTypes.Integer && t2 == SimpleTypes.Integer)
             {
                 GetIntResultOut = CalcAsInt;
-                SetResultType(ColumnSimpleTypes.Integer);
+                SetResultType(SimpleTypes.Integer);
                 return;
             }
-            if ((t1 == ColumnSimpleTypes.Integer || t1 == ColumnSimpleTypes.Float)
-                && (t2 == ColumnSimpleTypes.Integer || t2 == ColumnSimpleTypes.Float))
+            if ((t1 == SimpleTypes.Integer || t1 == SimpleTypes.Float)
+                && (t2 == SimpleTypes.Integer || t2 == SimpleTypes.Float))
             {
                 GetFloatResultOut = CalcAsFloat;
-                SetResultType(ColumnSimpleTypes.Float);
+                SetResultType(SimpleTypes.Float);
                 return;
             }
-            if ((t1 == ColumnSimpleTypes.DateTime || t1 == ColumnSimpleTypes.Date) && t2 == ColumnSimpleTypes.Time)
+            if ((t1 == SimpleTypes.DateTime || t1 == SimpleTypes.Date) && t2 == SimpleTypes.Time)
             {
                 GetDateTimeResultOut = CalcAsDateTimeAndTime1;
-                SetResultType(ColumnSimpleTypes.DateTime);
+                SetResultType(SimpleTypes.DateTime);
                 return;
             }
-            if ((t2 == ColumnSimpleTypes.DateTime || t2 == ColumnSimpleTypes.Date) && t1 == ColumnSimpleTypes.Time)
+            if ((t2 == SimpleTypes.DateTime || t2 == SimpleTypes.Date) && t1 == SimpleTypes.Time)
             {
                 GetDateTimeResultOut = CalcAsDateTimeAndTime2;
-                SetResultType(ColumnSimpleTypes.DateTime);
+                SetResultType(SimpleTypes.DateTime);
                 return;
             }
-            if (t2 == ColumnSimpleTypes.Time && t1 == ColumnSimpleTypes.Time)
+            if (t2 == SimpleTypes.Time && t1 == SimpleTypes.Time)
             {
                 GetTimeResultOut = CalcAsTimeAndTime;
-                SetResultType(ColumnSimpleTypes.Time);
+                SetResultType(SimpleTypes.Time);
                 return;
             }
             /*if (t2 == ColumnSimpleTypes.Geometry && t1 == ColumnSimpleTypes.Geometry)
@@ -1735,20 +1734,20 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            ColumnSimpleTypes t1 = Operand1.GetResultType();
-            ColumnSimpleTypes t2 = Operand2.GetResultType();
+            SimpleTypes t1 = Operand1.GetResultType();
+            SimpleTypes t2 = Operand2.GetResultType();
             //public enum ColumnSimpleTypes { Integer = 1, Float = 2, String = 3, Geometry = 4, Date = 5, DateTime = 6, Time = 7, Boolean = 8 }
-            if (t1 == ColumnSimpleTypes.Integer && t2 == ColumnSimpleTypes.Integer)
+            if (t1 == SimpleTypes.Integer && t2 == SimpleTypes.Integer)
             {
                 GetIntResultOut = CalcAsInt;
-                SetResultType(ColumnSimpleTypes.Integer);
+                SetResultType(SimpleTypes.Integer);
                 return;
             }
-            if ((t1 == ColumnSimpleTypes.Integer || t1 == ColumnSimpleTypes.Float)
-                && (t2 == ColumnSimpleTypes.Integer || t2 == ColumnSimpleTypes.Float))
+            if ((t1 == SimpleTypes.Integer || t1 == SimpleTypes.Float)
+                && (t2 == SimpleTypes.Integer || t2 == SimpleTypes.Float))
             {
                 GetFloatResultOut = CalcAsFloat;
-                SetResultType(ColumnSimpleTypes.Float);
+                SetResultType(SimpleTypes.Float);
                 return;
             }
             TypesException();
@@ -1761,38 +1760,38 @@ namespace ParserCore
         protected override void BeforePrepare()
         {
             base.BeforePrepare();
-            ColumnSimpleTypes t1 = Operand1.GetResultType();
-            ColumnSimpleTypes t2 = Operand2.GetResultType();
+            SimpleTypes t1 = Operand1.GetResultType();
+            SimpleTypes t2 = Operand2.GetResultType();
             //public enum ColumnSimpleTypes { Integer = 1, Float = 2, String = 3, Geometry = 4, Date = 5, DateTime = 6, Time = 7, Boolean = 8 }
-            if (t1 == ColumnSimpleTypes.Integer && t2 == ColumnSimpleTypes.Integer)
+            if (t1 == SimpleTypes.Integer && t2 == SimpleTypes.Integer)
             {
                 GetIntResultOut = CalcAsInt;
-                SetResultType(ColumnSimpleTypes.Integer);
+                SetResultType(SimpleTypes.Integer);
                 return;
             }
-            if ((t1 == ColumnSimpleTypes.Integer || t1 == ColumnSimpleTypes.Float)
-                && (t2 == ColumnSimpleTypes.Integer || t2 == ColumnSimpleTypes.Float))
+            if ((t1 == SimpleTypes.Integer || t1 == SimpleTypes.Float)
+                && (t2 == SimpleTypes.Integer || t2 == SimpleTypes.Float))
             {
                 GetFloatResultOut = CalcAsFloat;
-                SetResultType(ColumnSimpleTypes.Float);
+                SetResultType(SimpleTypes.Float);
                 return;
             }
-            if (t1 == ColumnSimpleTypes.DateTime && t2 == ColumnSimpleTypes.Time)
+            if (t1 == SimpleTypes.DateTime && t2 == SimpleTypes.Time)
             {
                 GetDateTimeResultOut = CalcAsDateTimeAndTime1;
-                SetResultType(ColumnSimpleTypes.DateTime);
+                SetResultType(SimpleTypes.DateTime);
                 return;
             }
-            if (t2 == ColumnSimpleTypes.DateTime && t1 == ColumnSimpleTypes.Time)
+            if (t2 == SimpleTypes.DateTime && t1 == SimpleTypes.Time)
             {
                 GetDateTimeResultOut = CalcAsDateTimeAndTime2;
-                SetResultType(ColumnSimpleTypes.DateTime);
+                SetResultType(SimpleTypes.DateTime);
                 return;
             }
-            if (t2 == ColumnSimpleTypes.Time && t1 == ColumnSimpleTypes.Time)
+            if (t2 == SimpleTypes.Time && t1 == SimpleTypes.Time)
             {
                 GetTimeResultOut = CalcAsTimeAndTime;
-                SetResultType(ColumnSimpleTypes.Time);
+                SetResultType(SimpleTypes.Time);
                 return;
             }
             /*if (t2 == ColumnSimpleTypes.Geometry && t1 == ColumnSimpleTypes.Geometry)
@@ -1835,7 +1834,7 @@ namespace ParserCore
             base.BeforePrepare();
             //Всегда Float
             GetFloatResultOut = CalcAsFloat;
-            SetResultType(ColumnSimpleTypes.Float);
+            SetResultType(SimpleTypes.Float);
         }
 
         protected override long CalcAsInt(object data) { return (int)(Operand1.GetIntResultOut(data) / Operand2.GetIntResultOut(data)); }

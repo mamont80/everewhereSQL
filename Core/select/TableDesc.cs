@@ -12,9 +12,9 @@ namespace ParserCore
         string TableName { get; set; }
         string Schema { get; set; }
         IDbDriver DbDriver { get; }
-        List<ColumnInfo> Columns { get; }
+        List<Column> Columns { get; }
         int CoordinateSystem { get; set; }
-        ColumnInfo ByName(string name);
+        Column ByName(string name);
     }
 
     public class TableDesc : ITableDesc
@@ -23,10 +23,10 @@ namespace ParserCore
         public string TableName { get; set; }
         public string Schema { get; set; }
         public IDbDriver DbDriver { get; set; }
-        public List<ColumnInfo> Columns { get; set; }
+        public List<Column> Columns { get; set; }
         public int CoordinateSystem { get; set; }
 
-        public ColumnInfo ByName(string name)
+        public Column ByName(string name)
         {
             foreach (var ci in Columns)
             {
@@ -47,7 +47,7 @@ namespace ParserCore
         {
             Select = select;
             DbDriver = select.Query.Driver;
-            Columns = new List<ColumnInfo>();
+            Columns = new List<Column>();
         }
     }
 

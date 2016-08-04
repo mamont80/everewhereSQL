@@ -53,7 +53,7 @@
     <Compile Include="ExpressionLexemToNode.cs" />
     <Compile Include="Expressions.cs" />
     <Compile Include="ExpUtils.cs" />
-    <Compile Include="MultiDb\ColumnInfo.cs" />
+    <Compile Include="MultiDb\Column.cs" />
     <Compile Include="newParser\Common.cs" />
     <Compile Include="newParser\ExpressionToNode2.cs" />
     <Compile Include="newParser\FuncArgsToNode2.cs" />

@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using TableQuery;
+using ParserCore;
 
 namespace WinTest
 {
@@ -101,7 +101,9 @@ namespace WinTest
                 stmt.Prepare();
 
                 textBox2.Text = stmt.ToStr();
-                textBox3.Text = stmt.ToSql(null);
+                var builder = new ExpressionSqlBuilder();
+                builder.Driver = getter.GetDefaultDriver();
+                textBox3.Text = stmt.ToSql(builder);
             }
             catch (Exception ex)
             { textBox2.AppendText(ex.Message + "\r\n" + ex.StackTrace); }

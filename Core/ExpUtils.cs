@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LayerData;
-using ParserCore;
 
 
-namespace LayerData
+namespace ParserCore
 {
 
 
@@ -27,9 +25,9 @@ namespace LayerData
         public static List<ColumnClause> GetAllColumnsFromTable(GeometryTable gt, string aliasForGeometry = null)
         {
             List<ColumnClause> cols = new List<ColumnClause>();
-            foreach (ColumnInfo ci in gt.Columns)
+            foreach (Column ci in gt.Columns)
             {
-                if (ci.ColumnSimpleType != ColumnSimpleTypes.Geometry)
+                if (ci.SimpleType != SimpleTypes.Geometry)
                 {
                     ColumnClause cs = new ColumnClause();
                     cs.ColumnExpression = ExpUtils.ParseSubSql(BaseExpressionFactory.StandartCodeEscape(ci.Name));

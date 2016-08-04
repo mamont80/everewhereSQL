@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LayerData;
 
 namespace ParserCore
 {
@@ -91,11 +90,11 @@ namespace ParserCore
                         if (str.Contains(alias)) throw new Exception("column alias is not unique: " + alias);
                         str.Add(alias);
                         var tp = c.ColumnExpression.GetResultType();
-                        if (tp == ColumnSimpleTypes.Geometry)
+                        if (tp == SimpleTypes.Geometry)
                         {
                             sst.CoordinateSystem = c.ColumnExpression.GetCoordinateSystem();
                         }
-                        sst.Columns.Add(new ColumnInfo(alias, tp));
+                        sst.Columns.Add(new Column(alias, tp));
                     }
                     if (string.IsNullOrEmpty(sExpr.Query.Tables[i].Alias)) throw new Exception("Alias subselect not found");
                     sst.Alias = sExpr.Query.Tables[i].Alias;
@@ -240,10 +239,10 @@ namespace ParserCore
 
         public static void MakeField(SelectTable st, string fieldName, FieldExpr res)
         {
-            ColumnInfo ci = st.Table.ByName(fieldName);
+            Column ci = st.Table.ByName(fieldName);
             res.FieldName = ci.Name;//fieldName;
             res.Table = st;
-            res.Init(ci.ColumnSimpleType, st.Table.CoordinateSystem);
+            res.Init(ci.SimpleType, st.Table.CoordinateSystem);
         }
 
         
