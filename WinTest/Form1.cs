@@ -34,10 +34,10 @@ namespace WinTest
                 }
                 foreach (var kvp in coll)
                 {
-                    textBox2.AppendText("|" + kvp.Lexem + "|  " + kvp.LexemType.ToString() + "\r\n");
+                    textBox2.AppendText("|" + kvp.LexemText + "|  " + kvp.LexemType.ToString() + "\r\n");
                 }
-                coll.NodeFactory = new BaseExpressionFactory();
-                ExpressionToNode2 toNode = new ExpressionToNode2();
+                coll.NodeFactory = new BaseFactoryComplite();
+                ExpressionParser toNode = new ExpressionParser();
                 toNode.Parse(coll);
                 Expression root = toNode.Single();
                 root.Prepare();
@@ -92,17 +92,16 @@ namespace WinTest
                 var getter = new SqlServerTableGetter();
                 getter.ConnStr = "Data Source=mamont_pk\\sqlexpress; Initial Catalog=LayersDB; Integrated Security=true;Max Pool Size=100000";
                 collection.TableGetter = getter;
-                collection.NodeFactory = new ExpressionFactoryTable();
+                collection.NodeFactory = new SqlFactoryComplite();
 
                 StatmentParser sp = new StatmentParser();
                 Statment stmt = sp.Parse(collection);
-                FieldCreator fc = new FieldCreator(collection);
-                fc.MakeFields(stmt);
+                //FieldCreator fc = new FieldCreator(collection);
+                //fc.MakeFields(stmt);
                 stmt.Prepare();
 
                 textBox2.Text = stmt.ToStr();
-                var builder = new ExpressionSqlBuilder();
-                builder.Driver = getter.GetDefaultDriver();
+                var builder = new ExpressionSqlBuilder(DriverType.SqlServer);
                 textBox3.Text = stmt.ToSql(builder);
             }
             catch (Exception ex)

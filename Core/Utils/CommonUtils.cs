@@ -4,26 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Globalization;
 using System.Data.Common;
+using ParserCore.Expr.Sql;
 
 namespace ParserCore
 {
-    public static class CommonUtils
+    public static class ParserDbUtils
     {
-        public static void AddParam(this DbCommand cmd, string name, object value)
+        public static void AddParam(DbCommand cmd, string name, object value)
         {
             var p = cmd.CreateParameter();
             p.ParameterName = name;
             p.Value = value;
             cmd.Parameters.Add(p);
         }
-
         public static HashSet<string> CreateInvariantStringSet(IEnumerable<string> ienum)
         {
             HashSet<string> set = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
             if (ienum != null) foreach (string s in ienum) set.Add(s);
             return set;
         }
+    }
 
+    internal static class CommonUtils
+    {
         public static bool EqualsIgnoreCase(this string s, string val)
         {
             return StringComparer.InvariantCultureIgnoreCase.Equals(s, val);
@@ -97,6 +100,66 @@ namespace ParserCore
         public static TimeSpan ConvertFromGeomixerTime(int ts)
         {
             return new TimeSpan(0, 0, 0, ts);
+        }
+
+        public static string BytesToStr(byte[] bytes)
+        {
+            StringBuilder sb = new StringBuilder(2 * bytes.Length);
+            foreach (byte b in bytes) sb.Append(b.ToString("x2"));
+            string s = sb.ToString();
+            return s;
+        }
+
+        /// <summary>
+        /// Преобразует строку вида FFFFAA в массив байт
+        /// </summary>
+        public static byte[] StrToBytes(string hex)
+        {
+            byte[] buf = new byte[hex.Length / 2];
+            for (int i = 0, i1 = 0; i < hex.Length; i += 2, i1++)
+            {
+                buf[i1] = System.Convert.ToByte(hex.Substring(i, 2), 16);
+            }
+            return buf;
+        }
+
+        /*
+        public static SimpleTypes? DotNetTypeToSimpleTypeInteral(object value)
+        {
+            if (value == null) return null;
+            var type = value.GetType();
+            if (type.IsPrimitive)//The primitive types are Boolean, Byte, SByte, Int16, UInt16, Int32, UInt32, Int64, UInt64, IntPtr, UIntPtr, Char, Double, and Single.
+            {
+                if (type == typeof(bool)) return SimpleTypes.Boolean;
+                if (type == typeof(Char)) return SimpleTypes.String;
+                if (type == typeof(double)) return SimpleTypes.Float;
+                if (type == typeof(Single)) return SimpleTypes.Float;
+                
+                return SimpleTypes.Integer;
+            }
+            if (type == typeof(string)) return SimpleTypes.String;
+            if (type == typeof(Single)) return SimpleTypes.Float;
+            if (type == typeof(decimal)) return SimpleTypes.Float;
+            if (type == typeof(DateTime)) return SimpleTypes.DateTime;
+            if (type == typeof(TimeSpan)) return SimpleTypes.Time;
+            if (type == typeof(OSGeo.OGR.Geometry)) return SimpleTypes.Geometry;
+            return null;
+        }*/
+
+        public static ISelect FindParentSelect(this SqlToken token)
+        {
+            var p = token.ParentToken;
+            if (p == null) return null;
+            if (p is ISelect) return (ISelect)p;
+            return p.FindParentSelect();
+        }
+
+        public static ITableSource FindParentTableSource(this ISqlConvertible token)
+        {
+            var p = token.ParentToken;
+            if (p == null) return null;
+            if (p is ITableSource) return (ITableSource)p;
+            return p.FindParentTableSource();
         }
     }
 }
