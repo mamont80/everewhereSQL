@@ -10,6 +10,7 @@ namespace ParserCore
     /// </summary>
     public enum SimpleTypes
     {
+        Unknow = 0,
         Integer = 1,
         Float = 2,
         String = 3,

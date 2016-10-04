@@ -19,7 +19,7 @@ namespace ParserCore
 
     public abstract class Expression : SqlToken, ISqlConvertible
     {
-        private SimpleTypes SimpleType;
+        private SimpleTypes SimpleType = SimpleTypes.Unknow;
         public SimpleTypes GetResultType() { return SimpleType; }
 
         protected int _CoordinateSystem;
