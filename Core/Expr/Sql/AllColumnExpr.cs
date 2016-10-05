@@ -25,6 +25,9 @@ namespace ParserCore.Expr.Sql
         {
             return false;
         }
+
+        protected override bool CanCalcOnline() { return false; }
+
         public override void Prepare()
         {
             Columns.Replace(GetColumns());
@@ -64,7 +67,6 @@ namespace ParserCore.Expr.Sql
         }
 
         public override int NumChilds() { return 0; }
-        protected override bool CanCalcOnline() { return false; }
 
         private string GetResult(object data)
         {
