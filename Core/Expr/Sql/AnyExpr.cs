@@ -25,6 +25,7 @@ namespace ParserCore.Expr.Sql
         {
             throw new NotImplementedException();
         }
+        protected override bool CanCalcOnline() { return false; }
 
         public override string ToSql(ExpressionSqlBuilder builder)
         {

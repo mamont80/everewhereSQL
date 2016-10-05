@@ -134,6 +134,11 @@ namespace ParserCore
             }
         }
 
+        protected void ErrorWrongNumberParams(int mustParams)
+        {
+            if (mustParams != ChildsCount()) throw new Exception("Wrong number parameters");
+        }
+
         protected void TypesException() { throw new Exception("incompatible types"); }
         protected string ToSqlException()
         {
@@ -159,19 +164,15 @@ namespace ParserCore
         /// <summary>
         /// Замена подвыражений на константы там где это возможно
         /// </summary>
-        protected Expression Optimize()
+        public Expression Optimize()
         {
             bool ch = true;
             Expression exp = this;
-            while (ch)
-            {
-                exp = exp.DoOptimize(out ch);
-                if (ch) exp.Prepare();
-            }
+            exp = exp.DoOptimize(out ch);
             return exp;
         }
 
-        protected virtual Expression DoOptimize(out bool changed)
+        protected Expression DoOptimize(out bool changed)
         {
             changed = false;
             if (Childs != null)
@@ -185,7 +186,7 @@ namespace ParserCore
             }
             if (OnlyOnline() && !(this is ConstExpr))
             {
-                ConstExpr ce = new ConstExpr();
+                ConstExpr ce = CreateConst();
                 switch (GetResultType())
                 {
                     case SimpleTypes.Boolean:
@@ -222,6 +223,10 @@ namespace ParserCore
             return this;
         }
 
+        protected virtual ConstExpr CreateConst()
+        {
+            return new ConstExpr();
+        }
 
         /// <summary>
         /// Возвращает все выражения в дереве

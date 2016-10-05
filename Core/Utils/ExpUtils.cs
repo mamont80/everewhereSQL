@@ -75,5 +75,18 @@ namespace ParserCore
                     return exp;
                 });
         }
+
+        public static void OptimizeChilds(this ISqlConvertible expr)
+        {
+            expr.Expolore(e =>
+                {
+                    if (e != null && e is Expression)
+                    {
+                        Expression e2 = (Expression) e;
+                        return e2.Optimize();
+                    }
+                    return e;
+                });
+        }
     }
 }
