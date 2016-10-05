@@ -211,10 +211,10 @@ namespace ParserCore.Expr.Sql
                     else okTable = true;
                     if (okTable)
                     {
-                        if (ok) throw new Exception("Невозможно определить однозначно колонку");
                         var c = st.Table.ByName(fieldAlias);
                         if (c != null)
                         {
+                            if (ok) throw new Exception("Невозможно определить однозначно колонку");
                             f.Bind(st, fieldAlias);
                             ok = true;
                         }
