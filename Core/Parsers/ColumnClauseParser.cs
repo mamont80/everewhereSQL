@@ -15,8 +15,8 @@ namespace ParserCore
             while (true)
             {
                 var idx = collection.IndexLexem;
-                ExpressionParser tonode = new ExpressionParser();
-                tonode.Parse(collection);
+                ExpressionParser tonode = new ExpressionParser(collection);
+                tonode.Parse();
                 if (tonode.Results.Count != 1) collection.Error("не верное число параметров", collection.Get(idx));
                 ColumnClause r = new ColumnClause();
                 r.ColumnExpression = tonode.Single();

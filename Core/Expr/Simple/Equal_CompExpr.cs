@@ -18,7 +18,7 @@ namespace ParserCore.Expr.Simple
         //protected override bool CompareAsGeom(object data) { return (Operand1.GetGeomResultOut(data).Equal(Operand2.GetGeomResultOut(data))); }
         protected override bool CompareAsStr(object data) { return (Operand1.GetStrResultOut(data) == Operand2.GetStrResultOut(data)); }
 
-        public override string ToStr() { return "(" + Operand1.ToStr() + " = " + Operand2.ToStr() + ")"; }
+        public override string ToStr() { return Operand1.ToStr() + " = " + Operand2.ToStr(); }
         public override string ToSql(ExpressionSqlBuilder builder) { return "(" + Operand1.ToSql(builder) + " = " + Operand2.ToSql(builder) + ")"; }
     }
 }

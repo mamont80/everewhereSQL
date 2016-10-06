@@ -306,8 +306,8 @@ namespace ParserCore
             if (le.LexemType != LexType.Command || le.LexemText.ToLower() != "when")
             {
                 int idx = collection.IndexLexem;
-                ExpressionParser tonode = new ExpressionParser();
-                tonode.Parse(collection);
+                ExpressionParser tonode = new ExpressionParser(collection);
+                tonode.Parse();
                 if (tonode.Results.Count != 1) collection.Error("не верное число параметров", collection.Get(idx));
                 CaseArg = tonode.Single();
                 le = collection.CurrentLexem();
@@ -322,8 +322,8 @@ namespace ParserCore
                 WhenThen wt = new WhenThen();
                 collection.GotoNextMust();
                 int idx = collection.IndexLexem;
-                ExpressionParser tonode = new ExpressionParser();
-                tonode.Parse(collection);
+                ExpressionParser tonode = new ExpressionParser(collection);
+                tonode.Parse();
                 if (tonode.Results.Count != 1) collection.Error("не верное число параметров", collection.Get(idx));
                 wt.When = tonode.Single();
                 le = collection.CurrentLexem();
@@ -331,8 +331,8 @@ namespace ParserCore
                     collection.Error("ожидалось THEN", collection.CurrentOrLast());
                 le = collection.GotoNextMust();
                 idx = collection.IndexLexem;
-                tonode = new ExpressionParser();
-                tonode.Parse(collection);
+                tonode = new ExpressionParser(collection);
+                tonode.Parse();
                 if (tonode.Results.Count != 1) collection.Error("не верное число параметров", collection.Get(idx));
                 wt.Then = tonode.Single();
                 ListWhenThen.Add(wt);
@@ -344,8 +344,8 @@ namespace ParserCore
                 {
                     le = collection.GotoNextMust();
                     idx = collection.IndexLexem;
-                    tonode = new ExpressionParser();
-                    tonode.Parse(collection);
+                    tonode = new ExpressionParser(collection);
+                    tonode.Parse();
                     if (tonode.Results.Count != 1) collection.Error("не верное число параметров", collection.Get(idx));
                     Else = tonode.Single();
                     le = collection.CurrentLexem();

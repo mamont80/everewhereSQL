@@ -7,9 +7,14 @@ namespace ParserCore
 {
     public abstract class CustomParser
     {
-        public LexemCollection Collection { get; protected set; }
+        public LexemCollection Collection { get; private set; }
 
         public List<Expression> Results = new List<Expression>();
+
+        public CustomParser(LexemCollection collection)
+        {
+            Collection = collection;
+        }
 
         public Expression Single()
         {
@@ -17,9 +22,6 @@ namespace ParserCore
             return Results[0];
         }
 
-        public virtual void Parse(LexemCollection collection)
-        {
-            Collection = collection;
-        }
+        public abstract void Parse();
     }
 }

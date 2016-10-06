@@ -12,17 +12,21 @@ namespace ParserCore
         public Stack<Lexem> OperStack = new Stack<Lexem>();
         public List<Lexem> OutExp = new List<Lexem>();
         public bool waitValue = true;//ожидаем значение
+        public HashSet<string> StopCommandLower = new HashSet<string>();
+
+        public ExpressionParser(LexemCollection collection) : base(collection)
+        {
+        }
 
         public static Expression ParseCollection(LexemCollection collection)
         {
-            ExpressionParser p = new ExpressionParser();
-            p.Parse(collection);
+            ExpressionParser p = new ExpressionParser(collection);
+            p.Parse();
             return p.Single();
         }
 
-        public override void Parse(LexemCollection collection)
+        public override void Parse()
         {
-            base.Parse(collection);
             while (!Collection.IsEnd())
             {
                 //bool needNext = true;
@@ -46,8 +50,8 @@ namespace ParserCore
                                 Finish();
                                 return;
                             }
-                            SubExpressionParser tt = new SubExpressionParser();
-                            tt.Parse(Collection);
+                            SubExpressionParser tt = new SubExpressionParser(Collection);
+                            tt.Parse();
                             le.Expr = tt.Results[0];
                             le.Prior = 1;
                             OutExp.Add(le);
@@ -56,14 +60,17 @@ namespace ParserCore
                             Collection.GotoNext();
                         }
                         else
-                        //if (le.LexemType == LexType.Arfimetic || le.LexemType == LexType.Command || le.LexemType == LexType.Number || le.LexemType == LexType.Text)
                         {
+                            if (le.LexemType == LexType.Command && StopCommandLower.Contains(le.LexemText.ToLower()))
+                            {
+                                Finish();
+                                return;
+                            }
                             le.Expr = Collection.NodeFactory.GetNode(this);
                             if (le.Expr == null)
                             {
                                 Finish();
                                 return;
-                                //collection.Error("Unknow lexem", collection.CurrentLexem());
                             }
                             le.Prior = le.Expr.Priority();
 
@@ -79,9 +86,10 @@ namespace ParserCore
                             }
                             else
                             {//операция
-                                if (!le.Expr.IsRightAssociate() && waitValue) {
-                                    collection.Error("Two operation in expression", collection.CurrentLexem());
-                                    }
+                                if (!le.Expr.IsLeftOperand() && waitValue) 
+                                {
+                                    Collection.Error("Two operation in expression", Collection.CurrentLexem());
+                                }
                                 while (GetTopStack(OperStack) != null)
                                 {
                                     if (le.Prior < GetTopStack(OperStack).Prior)
@@ -99,48 +107,10 @@ namespace ParserCore
                             }
                             else
                             {
-                                if (!le.Expr.IsRightAssociate()) waitValue = true;
+                                if (!le.Expr.IsLeftOperand()) waitValue = true;
                             }
                             le.Expr.ParseInside(this);
-                            /*
-                            if (le.Expr is InExpr)
-                            {
-                                var q = Collection.GotoNext();
-                                if (q == null || !q.IsSkobraOpen())
-                                    Collection.Error("Function arguments not found", Collection.GetPrev());
-                                FuncArgsParser tt = new FuncArgsParser();
-                                tt.Parse(Collection);
-                                SubExpression sub = new SubExpression();
-                                tt.Results.ForEach(a => sub.AddChild(a));
-                                q.Expr = sub;
-                                OutExp.Add(q);
-                                waitValue = false;
-                                dopuskUniar = true;
-                            }
-                            else if (le.Expr is CaseExpr)//ok
-                            {
-                                CaseParser cp = new CaseParser();
-                                cp.Case = (CaseExpr) le.Expr;
-                                cp.Parse(collection);
-                            }
-                            else if (le.Expr is SelectExpresion)
-                            {
-                                SelectParser selectParser = new SelectParser();
-                                selectParser.SelectExpresion = le.Expr as SelectExpresion;
-                                selectParser.Parse(collection);
-                                needNext = false;
-                            }
-                            else if (le.Expr.IsFunction())//ok
-                            {
-                                var q = Collection.GotoNext();
-                                if (q == null || !q.IsSkobraOpen())
-                                    Collection.Error("Function arguments not found", Collection.GetPrev());
-                                FuncArgsParser tt = new FuncArgsParser();
-                                tt.Parse(Collection);
-                                tt.Results.ForEach(a => le.Expr.AddChild(a));
-                            }*/
                         }
-                //if (needNext) Collection.GotoNext();
             }
             Finish();
         }

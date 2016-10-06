@@ -12,7 +12,7 @@ namespace ParserCore.Expr.Simple
             return PriorityConst.Is;
         }
         
-        public override bool IsRightAssociate() { return true; }
+        public override bool IsLeftOperand() { return true; }
 
         public override void Prepare()
         {

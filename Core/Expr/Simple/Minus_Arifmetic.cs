@@ -60,7 +60,7 @@ namespace ParserCore.Expr.Simple
         protected TimeSpan CalcAsTimeAndTime(object data) { return Operand1.GetTimeResultOut(data).Add(-Operand2.GetTimeResultOut(data)); }
         //protected Geometry CalcAsGeom(object data) { return Operand1.GetGeomResultOut(data).Difference(Operand2.GetGeomResultOut(data)); }
 
-        public override string ToStr() { return "(" + Operand1.ToStr() + " - " + Operand2.ToStr() + ")"; }
+        public override string ToStr() { return Operand1.ToStr() + " - " + Operand2.ToStr(); }
 
         public override string ToSql(ExpressionSqlBuilder builder)
         {

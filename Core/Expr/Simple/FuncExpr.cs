@@ -44,8 +44,8 @@ namespace ParserCore.Expr.Simple
             while (true)
             {
                 if (le.IsSkobraClose()) return;
-                ExpressionParser tonode = new ExpressionParser();
-                tonode.Parse(collection);
+                ExpressionParser tonode = new ExpressionParser(collection);
+                tonode.Parse();
                 if (collection.CurrentLexem() == null) collection.Error("нет закрывающейся скобки", collection.GetLast());
                 if (tonode.Results.Count == 0) collection.Error("нет значений", collection.Get(idx));
                 if (tonode.Results.Count > 1) collection.Error("несколько значений", collection.Get(idx));

@@ -55,7 +55,16 @@
     <Compile Include="Expr\CMD\DropTable.cs" />
     <Compile Include="Expr\CMD\TableName.cs" />
     <Compile Include="Expr\Extend\Cast.cs" />
+    <Compile Include="Expr\Extend\Contains.cs" />
+    <Compile Include="Expr\Extend\ContainsIgnoreCase.cs" />
+    <Compile Include="Expr\Extend\EndsWith.cs" />
+    <Compile Include="Expr\Extend\LTrim.cs" />
+    <Compile Include="Expr\Extend\Position.cs" />
+    <Compile Include="Expr\Extend\RTrim.cs" />
+    <Compile Include="Expr\Extend\StartsWith.cs" />
+    <Compile Include="Expr\Extend\SubString.cs" />
     <Compile Include="Expr\HiddenExpr.cs" />
+    <Compile Include="Expr\Simple\Abs.cs" />
     <Compile Include="Expr\Sql\AllColumnExpr.cs" />
     <Compile Include="Expr\Aggregate\AvgExpr.cs" />
     <Compile Include="Expr\Aggregate\CountExpr.cs" />
@@ -65,6 +74,7 @@
     <Compile Include="Expr\Aggregate\UnionAggregateExpr.cs" />
     <Compile Include="Expr\CaseExpr.cs" />
     <Compile Include="Expr\Expression.cs" />
+    <Compile Include="Expr\Sql\Between.cs" />
     <Compile Include="Utils\ExpressionSqlBuilder.cs" />
     <Compile Include="Expr\Extend\AddDays.cs" />
     <Compile Include="Expr\Extend\AddHours.cs" />
@@ -81,7 +91,7 @@
     <Compile Include="Expr\Extend\StrToDateTime.cs" />
     <Compile Include="Expr\Extend\StrToTime.cs" />
     <Compile Include="Expr\Extend\ToString.cs" />
-    <Compile Include="Expr\Extend\TrimFuncExpr.cs" />
+    <Compile Include="Expr\Extend\Trim.cs" />
     <Compile Include="Expr\Extend\Upper.cs" />
     <Compile Include="Expr\Extend\Year.cs" />
     <Compile Include="Expr\Sql\FieldExpr.cs" />

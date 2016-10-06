@@ -117,8 +117,8 @@ namespace ParserCore
                 lex = collection.GotoNextMust();
                 if (lex.LexemText != "=") collection.Error("Operator '=' is not found", collection.CurrentLexem());
                 lex = collection.GotoNextMust();
-                ExpressionParser e = new ExpressionParser();
-                e.Parse(collection);
+                ExpressionParser e = new ExpressionParser(parser.Collection);
+                e.Parse();
                 sc.Value = e.Single();
                 Set.Add(sc);
                 lex = collection.CurrentLexem();
@@ -131,8 +131,8 @@ namespace ParserCore
             if (lex.LexemText.ToLower() == "where")
             {
                 collection.GotoNextMust();
-                ExpressionParser e = new ExpressionParser();
-                e.Parse(collection);
+                ExpressionParser e = new ExpressionParser(parser.Collection);
+                e.Parse();
                 Where = e.Single();
             }
             ParseReturining(parser);

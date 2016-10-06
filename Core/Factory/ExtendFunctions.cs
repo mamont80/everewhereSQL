@@ -96,8 +96,23 @@ namespace ParserCore
                     case "in":
                         ex = new InExpr();
                         break;
+                    case "abs":
+                        ex = new Abs();
+                        break;
+                    case "substring":
+                        ex = new SubString();
+                        break;
+                    case "position":
+                        ex = new Position();
+                        break;
+                    case "ltrim":
+                        ex = new LTrim();
+                        break;
+                    case "rtrim":
+                        ex = new RTrim();
+                        break;
                     case "trim":
-                        ex = new TrimFuncExpr();
+                        ex = new Trim();
                         break;
                     case "length":
                         ex = new Length();
@@ -150,6 +165,22 @@ namespace ParserCore
                     case "case":
                         ex = new CaseExpr();
                         break;
+                    case "contains":
+                        ex = new Contains();
+                        break;
+                    case "containsic"://ic = ignore case
+                    case "containscase":
+                        ex = new ContainsIgnoreCase();
+                        break;
+                    case "startwith":
+                    case "startswith":
+                        ex = new StartsWith();
+                        break;
+                    case "endwith":
+                    case "endswith":
+                        ex = new EndsWith();
+                        break;
+
                 }
             }
             return ex;

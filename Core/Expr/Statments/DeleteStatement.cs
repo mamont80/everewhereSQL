@@ -68,8 +68,8 @@ namespace ParserCore
             if (lex.LexemText.ToLower() == "where")
             {
                 collection.GotoNextMust();
-                ExpressionParser e = new ExpressionParser();
-                e.Parse(collection);
+                ExpressionParser e = new ExpressionParser(collection);
+                e.Parse();
                 Where = e.Single();
             }
             ParseReturining(parser);

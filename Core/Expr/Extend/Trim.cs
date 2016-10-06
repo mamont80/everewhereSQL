@@ -7,7 +7,7 @@ using ParserCore.Expr.Simple;
 
 namespace ParserCore.Expr.Extend
 {
-    public class TrimFuncExpr : FuncExpr_OneOperand
+    public class Trim : FuncExpr_OneOperand
     {
 
         public override void Prepare()

@@ -45,6 +45,9 @@ namespace ParserCore
                 {
                     switch (lowerLexem)
                     {
+                        case "between"://не функция
+                            res = new Between();
+                            break;
                         case "count":
                             res = new CountExpr();
                             break;

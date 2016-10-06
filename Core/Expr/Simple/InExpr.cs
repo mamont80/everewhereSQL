@@ -115,8 +115,8 @@ namespace ParserCore.Expr.Simple
             var q = collection.GotoNext();
             if (q == null || !q.IsSkobraOpen())
                 collection.Error("Function arguments not found", collection.GetPrev());
-            FuncArgsParser tt = new FuncArgsParser();
-            tt.Parse(collection);
+            FuncArgsParser tt = new FuncArgsParser(collection);
+            tt.Parse();
             SubExpression sub = new SubExpression();
             tt.Results.ForEach(a => sub.AddChild(a));
             q.Expr = sub;

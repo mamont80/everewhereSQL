@@ -9,15 +9,18 @@ namespace ParserCore
     // (val1)
     internal class SubExpressionParser : CustomParser
     {
-        public override void Parse(LexemCollection collection)
+        public SubExpressionParser(LexemCollection collection)
+            : base(collection)
         {
-            base.Parse(collection);
+        }
+        public override void Parse()
+        {
             var idx = Collection.IndexLexem;
             var le = Collection.GotoNext();
             if (le == null) Collection.Error("неожиданный конец", Collection.GetPrev());
             if (le.IsSkobraClose()) Collection.Error("пустое выражение", Collection.CurrentLexem());
-            ExpressionParser tonode = new ExpressionParser();
-            tonode.Parse(Collection);
+            ExpressionParser tonode = new ExpressionParser(Collection);
+            tonode.Parse();
             if (Collection.CurrentLexem() == null) Collection.Error("нет закрывающейся скобки", Collection.GetLast());
             if (tonode.Results.Count == 0) Collection.Error("нет значений", Collection.Get(idx));
             if (tonode.Results.Count > 1) Collection.Error("несколько значений", Collection.Get(idx));

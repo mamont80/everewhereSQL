@@ -63,6 +63,7 @@ namespace ParserCore.Expr.Simple
         public const int Not = 400;
         public const int And = 300;
         public const int Or = 110;
+        public const int Between = 550;
         /// <summary>
         /// = (присваивание)
         /// </summary>

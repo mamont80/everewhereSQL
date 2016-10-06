@@ -40,12 +40,23 @@ namespace ParserCore
         /// Право ассоциированный оператор: унарный минус, NOT. Обычные операторы чередуются с выражениями. Типа: exp1 op1 exp2 op1 exp3
         /// Эта хрень означает что этот принцип не действует и может быть: op1 op2 op3 exp1
         /// </summary>
-        public virtual bool IsRightAssociate() { return false; }
+        public virtual bool IsLeftOperand() { return false; }
 
         //приоритет
         public virtual int Priority()
         {
             return PriorityConst.Default;
+        }
+        public override string ToString()
+        {
+            try
+            {
+                return GetType().Name + " "+ToStr();
+            }
+            catch 
+            {
+                return GetType().Name;
+            }
         }
         /// <summary>
         /// Преобразует в SQL строку для использвания в РСУБД

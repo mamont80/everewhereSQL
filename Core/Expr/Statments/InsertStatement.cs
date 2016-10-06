@@ -219,8 +219,8 @@ namespace ParserCore
                     lex = collection.GotoNextMust(); //пропускаем SET или ','
                     //lex = collection.CurrentLexem();
 
-                    ExpressionParser e = new ExpressionParser();
-                    e.Parse(collection);
+                    ExpressionParser e = new ExpressionParser(collection);
+                    e.Parse();
                     Values.Add(e.Single());
                     lex = collection.CurrentLexem();
                     if (lex == null) break;
@@ -233,8 +233,8 @@ namespace ParserCore
             else
                 if (lex.LexemText.ToLower() == "select" || lex.IsSkobraOpen())
                 {
-                    ExpressionParser e = new ExpressionParser();
-                    e.Parse(collection);
+                    ExpressionParser e = new ExpressionParser(collection);
+                    e.Parse();
                     var expr = e.Single();
                     var sel = ParserUtils.FindSelect(expr);
                     if (sel == null) throw new Exception("Values in INSERT not found");

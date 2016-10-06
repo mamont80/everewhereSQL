@@ -10,9 +10,12 @@ namespace ParserCore
     {
         public SelectExpresion SelectExpresion;
 
-        public override void Parse(LexemCollection collection)
+        public SelectParser(LexemCollection collection)
+            : base(collection)
         {
-            base.Parse(collection);
+        }
+        public override void Parse()
+        {
             //текщая лексема SELECT
             var le = Collection.GotoNext();
             if (le == null) Collection.Error("неожиданный конец", Collection.GetPrev());
@@ -25,114 +28,114 @@ namespace ParserCore
             {
                 le = Collection.GotoNextMust();
             }
-            var idx = collection.IndexLexem;
+            var idx = Collection.IndexLexem;
             ColumnClauseParser colsParser = new ColumnClauseParser();
-            colsParser.Parse(collection);
-            if (colsParser.Columns.Count == 0) collection.Error("Columnn not found", collection.Get(idx));
+            colsParser.Parse(Collection);
+            if (colsParser.Columns.Count == 0) Collection.Error("Columnn not found", Collection.Get(idx));
             Results.Add(SelectExpresion);
             SelectExpresion.Columns.Replace(colsParser.Columns);
-            var lex = collection.CurrentLexem();
+            var lex = Collection.CurrentLexem();
             if (lex == null) return;
             if (lex.LexemText.ToLower() != "from") return;
 
-            lex = collection.GotoNext();
+            lex = Collection.GotoNext();
             FromParser fc = new FromParser();
-            fc.Parse(collection);
+            fc.Parse(Collection);
             SelectExpresion.Tables.Replace(fc.Tables);
-            lex = collection.CurrentLexem();
+            lex = Collection.CurrentLexem();
             if (lex == null) return;
             if (lex.LexemText.ToLower() == "where")
             {
-                lex = collection.GotoNext();
-                if (lex == null) collection.Error("Where clause not found", collection.GetPrev());
-                idx = collection.IndexLexem;
-                ExpressionParser tonode = new ExpressionParser();
-                tonode.Parse(collection);
-                if (tonode.Results.Count != 1) collection.Error("не верное число параметров", collection.Get(idx));
+                lex = Collection.GotoNext();
+                if (lex == null) Collection.Error("Where clause not found", Collection.GetPrev());
+                idx = Collection.IndexLexem;
+                ExpressionParser tonode = new ExpressionParser(Collection);
+                tonode.Parse();
+                if (tonode.Results.Count != 1) Collection.Error("не верное число параметров", Collection.Get(idx));
                 SelectExpresion.WhereExpr = tonode.Single();
             }
-            lex = collection.CurrentLexem();
+            lex = Collection.CurrentLexem();
             if (lex == null) return;
             if (lex.LexemText.ToLower() == "having")
             {
-                lex = collection.GotoNext();
-                if (lex == null) collection.Error("Having clause not found", collection.GetPrev());
-                idx = collection.IndexLexem;
-                ExpressionParser tonode = new ExpressionParser();
-                tonode.Parse(collection);
-                if (tonode.Results.Count != 1) collection.Error("не верное число параметров", collection.Get(idx));
+                lex = Collection.GotoNext();
+                if (lex == null) Collection.Error("Having clause not found", Collection.GetPrev());
+                idx = Collection.IndexLexem;
+                ExpressionParser tonode = new ExpressionParser(Collection);
+                tonode.Parse();
+                if (tonode.Results.Count != 1) Collection.Error("не верное число параметров", Collection.Get(idx));
                 SelectExpresion.Having = tonode.Single();
             }
-            lex = collection.CurrentLexem();
+            lex = Collection.CurrentLexem();
             if (lex == null) return;
             if (lex.LexemText.ToLower() == "group")
             {
-                lex = collection.GotoNext();
-                if (lex == null) collection.Error("Group by clause error", collection.GetPrev());
-                if (lex.LexemText.ToLower() != "by") collection.Error("Group by clause error", collection.GetPrev());
-                lex = collection.GotoNext();
+                lex = Collection.GotoNext();
+                if (lex == null) Collection.Error("Group by clause error", Collection.GetPrev());
+                if (lex.LexemText.ToLower() != "by") Collection.Error("Group by clause error", Collection.GetPrev());
+                lex = Collection.GotoNext();
                 OrderByParser gb = new OrderByParser();
-                gb.Parse(collection, false);
+                gb.Parse(Collection, false);
                 SelectExpresion.GroupBys.Replace(gb.Columns);
-                if (SelectExpresion.GroupBys.Count == 0) collection.Error("\"Group by\" columns not found", collection.Get(idx));
-                lex = collection.CurrentLexem();
+                if (SelectExpresion.GroupBys.Count == 0) Collection.Error("\"Group by\" columns not found", Collection.Get(idx));
+                lex = Collection.CurrentLexem();
             }
-            lex = collection.CurrentLexem();
+            lex = Collection.CurrentLexem();
             if (lex == null) return;
             if (lex.LexemText.ToLower() == "order")
             {
-                lex = collection.GotoNext();
-                if (lex == null) collection.Error("Order by clause error", collection.GetPrev());
-                if (lex.LexemText.ToLower() != "by") collection.Error("Order by clause error", collection.GetPrev());
-                lex = collection.GotoNext();
+                lex = Collection.GotoNext();
+                if (lex == null) Collection.Error("Order by clause error", Collection.GetPrev());
+                if (lex.LexemText.ToLower() != "by") Collection.Error("Order by clause error", Collection.GetPrev());
+                lex = Collection.GotoNext();
                 OrderByParser gb = new OrderByParser();
-                gb.Parse(collection, true);
+                gb.Parse(Collection, true);
                 SelectExpresion.OrderBys.Replace(gb.Columns.Select(a => (OrderByClause)a).ToList());
-                if (SelectExpresion.OrderBys.Count == 0) collection.Error("\"Order by\" columns not found", collection.Get(idx));
-                lex = collection.CurrentLexem();
+                if (SelectExpresion.OrderBys.Count == 0) Collection.Error("\"Order by\" columns not found", Collection.Get(idx));
+                lex = Collection.CurrentLexem();
             }
-            lex = collection.CurrentLexem();
+            lex = Collection.CurrentLexem();
             if (lex == null) return;
             if (lex.LexemText.ToLower() == "limit")
             {
-                lex = collection.GotoNext();
-                if (lex == null) collection.Error("Limit clause not found", collection.GetPrev());
-                ExpressionParser tonode = new ExpressionParser();
-                tonode.Parse(collection);
+                lex = Collection.GotoNext();
+                if (lex == null) Collection.Error("Limit clause not found", Collection.GetPrev());
+                ExpressionParser tonode = new ExpressionParser(Collection);
+                tonode.Parse();
                 SelectExpresion.LimitRecords = tonode.Single().GetIntResultOut(null);
             }
-            lex = collection.CurrentLexem();
+            lex = Collection.CurrentLexem();
             if (lex == null) return;
             if (lex.LexemText.ToLower() == "offset")
             {
-                lex = collection.GotoNext();
-                if (lex == null) collection.Error("Offset clause not found", collection.GetPrev());
-                ExpressionParser tonode = new ExpressionParser();
-                tonode.Parse(collection);
+                lex = Collection.GotoNext();
+                if (lex == null) Collection.Error("Offset clause not found", Collection.GetPrev());
+                ExpressionParser tonode = new ExpressionParser(Collection);
+                tonode.Parse();
                 SelectExpresion.SkipRecords = tonode.Single().GetIntResultOut(null);
             }
             while (true)
             {
-                lex = collection.CurrentLexem();
+                lex = Collection.CurrentLexem();
                 if (lex == null) return;
                 string s = lex.LexemText.ToLower();
                 if (s == "union" || s == "intersect" || s == "except")
                 {
-                    lex = collection.GotoNextMust();
+                    lex = Collection.GotoNextMust();
                     ExtSelectClause extS = new ExtSelectClause();
                     extS.Select = new SelectExpresion();
                     if (s == "union" && lex.LexemText.ToLower() == "all")
                     {
                         extS.Operation = SelectOperation.UnionAll;
-                        lex = collection.GotoNextMust();
+                        lex = Collection.GotoNextMust();
                     }
                     else if (s == "union") extS.Operation = SelectOperation.Union;
                     if (s == "intersect") extS.Operation = SelectOperation.Intersect;
                     if (s == "except") extS.Operation = SelectOperation.Except;
                     if (lex.LexemText.ToLower() != "select") Collection.Error("\"SELECT\" clouse is not found", lex);
-                    SelectParser sp = new SelectParser();
+                    SelectParser sp = new SelectParser(Collection);
                     sp.SelectExpresion = extS.Select;
-                    sp.Parse(collection);
+                    sp.Parse();
                     SelectExpresion.ExtSelects.Add(extS);
                 }
                 else break;

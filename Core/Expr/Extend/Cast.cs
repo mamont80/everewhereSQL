@@ -66,8 +66,8 @@ namespace ParserCore.Expr.Extend
             collection.GotoNextMust();
             var lex = collection.GotoNextMust();
 
-            ExpressionParser tonode = new ExpressionParser();
-            tonode.Parse(collection);
+            ExpressionParser tonode = new ExpressionParser(collection);
+            tonode.Parse();
             AddChild(tonode.Single());
             lex = collection.CurrentLexem();
             if (lex.LexemType != LexType.Command || lex.LexemText.ToLower() != "as") collection.ErrorWaitKeyWord("AS", collection.CurrentOrLast());

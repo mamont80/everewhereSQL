@@ -16,7 +16,7 @@ namespace ParserCore.Expr.Extend
         {
             base.Prepare();
 
-            if (Childs.Count < 1) throw new Exception("Нехватает операндов в выражении IN");
+            if (ChildsCount() < 1) throw new Exception("Arguments is not found");
 
             List<SimpleTypes> types = new List<SimpleTypes>();
             for (int i = 0; i < Childs.Count; i++)

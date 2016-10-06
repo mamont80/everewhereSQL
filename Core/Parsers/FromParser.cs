@@ -110,8 +110,8 @@ namespace ParserCore
                 if (lex == null) collection.Error("Expression is not found", collection.GetLast());
                 //подзапрос
                 var idx = collection.IndexLexem;
-                ExpressionParser tonode = new ExpressionParser();
-                tonode.Parse(collection);
+                ExpressionParser tonode = new ExpressionParser(collection);
+                tonode.Parse();
                 if (tonode.Results.Count != 1) collection.Error("не верное число параметров", collection.Get(idx));
                 lex = collection.CurrentLexem();
                 if (lex == null || !lex.IsSkobraClose()) collection.Error("Expression is not closed", collection.CurrentLexem());
@@ -158,8 +158,8 @@ namespace ParserCore
             {
                 lex = collection.GotoNext();
                 var idx = collection.IndexLexem;
-                ExpressionParser tonode = new ExpressionParser();
-                tonode.Parse(collection);
+                ExpressionParser tonode = new ExpressionParser(collection);
+                tonode.Parse();
                 if (tonode.Results.Count != 1) collection.Error("не верное число параметров", collection.Get(idx));
                 st.OnExpression = tonode.Single();
             }

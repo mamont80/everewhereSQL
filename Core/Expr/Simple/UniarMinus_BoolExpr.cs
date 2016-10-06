@@ -36,7 +36,7 @@ namespace ParserCore.Expr.Simple
         protected virtual double DoMinusFloat(object data) { return -Operand.GetFloatResultOut(data); }
         //private TimeSpan DoMinusTime() { return -Operand.GetTimeResultOut(); }
 
-        public override bool IsRightAssociate() { return true; }
+        public override bool IsLeftOperand() { return true; }
         public override int Priority() { return PriorityConst.UnarMinus; }
         public override string ToStr() { return "-" + Operand.ToStr(); }
         public override string ToSql(ExpressionSqlBuilder builder) { return " -(" + Operand.ToSql(builder) + ")"; }

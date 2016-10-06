@@ -505,9 +505,9 @@ select {0} from
 
         public override void ParseInside(ExpressionParser parser)
         {
-            SelectParser selectParser = new SelectParser();
+            SelectParser selectParser = new SelectParser(parser.Collection);
             selectParser.SelectExpresion = this;
-            selectParser.Parse(parser.Collection);
+            selectParser.Parse();
         }
 
         /// <summary>

@@ -30,8 +30,8 @@ namespace ParserCore
         {
             var collection = ParserLexem.Parse(text);
             collection.NodeFactory = factory;
-            ExpressionParser expToNode = new ExpressionParser();
-            expToNode.Parse(collection);
+            ExpressionParser expToNode = new ExpressionParser(collection);
+            expToNode.Parse();
             var res = expToNode.Single();
             res = res.PrepareAndOptimize();
             return res;
