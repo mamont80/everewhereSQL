@@ -519,25 +519,11 @@ select {0} from
             var cols = GetAllColumns();
             foreach (var cs in cols)
             {
-                string nm = GetVisibleColumnName(cs);
+                string nm = ExpUtils.GetVisibleColumnName(cs);
                 Column ci = new Column(nm, cs.ColumnExpression.GetResultType());
                 res.Add(ci);
             }
             return res.ToArray();
-        }
-
-        protected string GetVisibleColumnName(ColumnClause cs)
-        {
-            string nm = cs.Alias;
-            if (string.IsNullOrEmpty(nm))
-            {
-                if (cs.ColumnExpression is FieldExpr)
-                {
-                    nm = ((FieldExpr)cs.ColumnExpression).FieldName;
-                }
-                else nm = cs.ColumnExpression.ToStr();
-            }
-            return nm;
         }
 
     }
