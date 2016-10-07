@@ -51,6 +51,10 @@ namespace ParserCore
             string nm = cs.Alias;
             if (string.IsNullOrEmpty(nm))
             {
+                if (cs.ColumnExpression is ReplacedFieldExpr)
+                {
+                    nm = ((ReplacedFieldExpr) cs.ColumnExpression).Field.FieldName;
+                }else
                 if (cs.ColumnExpression is FieldExpr)
                 {
                     nm = ((FieldExpr)cs.ColumnExpression).FieldName;
