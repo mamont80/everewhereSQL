@@ -167,6 +167,7 @@ namespace ParserCore.Expr.Sql
         public void Bind(TableClause tableClause, string fieldName)
         {
             Column ci = tableClause.Table.ByName(fieldName);
+            if (ci == null) throw new Exception("Column " + fieldName + " is not found");
             FieldName = fieldName;
             PhysicalColumn = ci;
             TableClause = tableClause;
@@ -177,6 +178,7 @@ namespace ParserCore.Expr.Sql
         public void Bind(SelectExpresion select, string fieldName)
         {
             Column ci = select.ByName(fieldName);
+            if (ci == null) throw new Exception("Column " + fieldName + " is not found");
             FieldName = fieldName;
             PhysicalColumn = ci;
             IsLocalColumn = true;
