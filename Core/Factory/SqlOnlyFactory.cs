@@ -43,37 +43,41 @@ namespace ParserCore
                 }
                 if (res == null)
                 {
+                    if (parser.Collection.GetNext() != null && parser.Collection.GetNext().IsSkobraOpen())
+                    {
+                        switch (lowerLexem)
+                        {
+                            case "count":
+                                res = new CountExpr();
+                                break;
+                            case "sum":
+                                res = new SumExpr();
+                                break;
+                            case "min":
+                                res = new MinExpr();
+                                break;
+                            case "max":
+                                res = new MaxExpr();
+                                break;
+                            case "avg":
+                                res = new AvgExpr();
+                                break;
+                            case "lastinsertrowid":
+                                res = new LastInsertRowidExpr();
+                                break;
+                            case "exists":
+                                res = new ExistsExpr();
+                                break;
+                            case "any":
+                                res = new AnyExpr();
+                                break;
+                        }
+                    }
+
                     switch (lowerLexem)
                     {
                         case "between"://не функция
                             res = new Between();
-                            break;
-                        case "count":
-                            res = new CountExpr();
-                            break;
-                        case "unionaggregate":
-                            res = new UnionAggregateExpr();
-                            break;
-                        case "sum":
-                            res = new SumExpr();
-                            break;
-                        case "min":
-                            res = new MinExpr();
-                            break;
-                        case "max":
-                            res = new MaxExpr();
-                            break;
-                        case "avg":
-                            res = new AvgExpr();
-                            break;
-                        case "lastinsertrowid":
-                            res = new LastInsertRowidExpr();
-                            break;
-                        case "exists":
-                            res = new ExistsExpr();
-                            break;
-                        case "any":
-                            res = new AnyExpr();
                             break;
                         case "select":
                             res = new SelectExpresion();

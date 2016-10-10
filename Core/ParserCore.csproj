@@ -71,7 +71,6 @@
     <Compile Include="Expr\Aggregate\MaxExpr.cs" />
     <Compile Include="Expr\Aggregate\MinExpr.cs" />
     <Compile Include="Expr\Aggregate\SumExpr.cs" />
-    <Compile Include="Expr\Aggregate\UnionAggregateExpr.cs" />
     <Compile Include="Expr\CaseExpr.cs" />
     <Compile Include="Expr\Expression.cs" />
     <Compile Include="Expr\Sql\Between.cs" />

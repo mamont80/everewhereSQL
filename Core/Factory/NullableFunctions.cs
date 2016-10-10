@@ -16,8 +16,17 @@ namespace ParserCore
             Lexem n1;
             if (lex.LexemType == LexType.Command)
             {
+                if (parser.Collection.GetNext() != null && parser.Collection.GetNext().IsSkobraOpen())
+                {
+                    switch (lex.LexemText.ToLower())
+                    {
+                        case "coalesce":
+                            ex = new Coalesce_FuncExpr();
+                            break;
+                    }
+                }
                 switch (lex.LexemText.ToLower())
-                { 
+                {
                     case "null":
                         ex = new NullConstExpr();
                         break;
@@ -37,9 +46,6 @@ namespace ParserCore
                     case "notnull":
                     case "isnotnull":
                         ex = new IsNotNullExpr();
-                        break;
-                    case "coalesce":
-                        ex = new Coalesce_FuncExpr();
                         break;
                 }
             }

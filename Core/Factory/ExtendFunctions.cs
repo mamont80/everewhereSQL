@@ -90,85 +90,13 @@ namespace ParserCore
                         }
                         ex = new Not_BoolExpr();
                         break;
-                    case "cast":
-                        ex = new Cast();
-                        break;
-                    case "in":
-                        ex = new InExpr();
-                        break;
-                    case "abs":
-                        ex = new Abs();
-                        break;
-                    case "substring":
-                        ex = new SubString();
-                        break;
-                    case "position":
-                        ex = new Position();
-                        break;
-                    case "ltrim":
-                        ex = new LTrim();
-                        break;
-                    case "rtrim":
-                        ex = new RTrim();
-                        break;
-                    case "trim":
-                        ex = new Trim();
-                        break;
-                    case "length":
-                        ex = new Length();
-                        break;
-                    case "upper":
-                        ex = new Upper_operation();
-                        break;
-                    case "lower":
-                        ex = new Lower_operation();
-                        break;
-                    case "left":
-                        ex = new Left();
-                        break;
-                    case "right":
-                        ex = new Right();
-                        break;
-                    case "now":
-                        ex = new Now();
-                        break;
-                    case "tostr":
-                        ex = new ToString();
-                        break;
-                    case "strtotime":
-                        ex = new StrToTime();
-                        break;
-                    case "strtodatetime":
-                        ex = new StrToDateTime();
-                        break;
-                    case "addseconds":
-                        ex = new AddSeconds();
-                        break;
-                    case "addminutes":
-                        ex = new AddMinutes();
-                        break;
-                    case "addhours":
-                        ex = new AddHours();
-                        break;
-                    case "adddays":
-                        ex = new AddDays();
-                        break;
-                    case "day":
-                        ex = new Day();
-                        break;
-                    case "month":
-                        ex = new Month();
-                        break;
-                    case "year":
-                        ex = new Year();
-                        break;
                     case "case":
                         ex = new CaseExpr();
                         break;
                     case "contains":
                         ex = new Contains();
                         break;
-                    case "containsic"://ic = ignore case
+                    case "containsic": //ic = ignore case
                     case "containscase":
                         ex = new ContainsIgnoreCase();
                         break;
@@ -180,7 +108,84 @@ namespace ParserCore
                     case "endswith":
                         ex = new EndsWith();
                         break;
-
+                }
+                if (parser.Collection.GetNext() != null && parser.Collection.GetNext().IsSkobraOpen())
+                {
+                    switch (lex.LexemText.ToLower())
+                    {
+                        case "cast":
+                            ex = new Cast();
+                            break;
+                        case "in":
+                            ex = new InExpr();
+                            break;
+                        case "abs":
+                            ex = new Abs();
+                            break;
+                        case "substring":
+                            ex = new SubString();
+                            break;
+                        case "position":
+                            ex = new Position();
+                            break;
+                        case "ltrim":
+                            ex = new LTrim();
+                            break;
+                        case "rtrim":
+                            ex = new RTrim();
+                            break;
+                        case "trim":
+                            ex = new Trim();
+                            break;
+                        case "length":
+                            ex = new Length();
+                            break;
+                        case "upper":
+                            ex = new Upper_operation();
+                            break;
+                        case "lower":
+                            ex = new Lower_operation();
+                            break;
+                        case "left":
+                            ex = new Left();
+                            break;
+                        case "right":
+                            ex = new Right();
+                            break;
+                        case "now":
+                            ex = new Now();
+                            break;
+                        case "tostr":
+                            ex = new ToString();
+                            break;
+                        case "strtotime":
+                            ex = new StrToTime();
+                            break;
+                        case "strtodatetime":
+                            ex = new StrToDateTime();
+                            break;
+                        case "addseconds":
+                            ex = new AddSeconds();
+                            break;
+                        case "addminutes":
+                            ex = new AddMinutes();
+                            break;
+                        case "addhours":
+                            ex = new AddHours();
+                            break;
+                        case "adddays":
+                            ex = new AddDays();
+                            break;
+                        case "day":
+                            ex = new Day();
+                            break;
+                        case "month":
+                            ex = new Month();
+                            break;
+                        case "year":
+                            ex = new Year();
+                            break;
+                    }
                 }
             }
             return ex;
