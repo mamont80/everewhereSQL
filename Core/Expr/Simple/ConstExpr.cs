@@ -170,8 +170,8 @@ namespace ParserCore.Expr.Simple
             }
             else if (obj is bool)
             {
-                if ((bool)obj) return "1";
-                else return "0";
+                if ((bool)obj) return "(1=1)";
+                else return "(1=0)";
             }
             else
                 if (obj is decimal || obj is double || obj is float)
