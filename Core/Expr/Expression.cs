@@ -29,12 +29,14 @@ namespace ParserCore
                 int cs = -1;
                 foreach (var exp in Childs)
                 {
-                    var cs1 = exp.GetCoordinateSystem();
-                    if (cs == -1) cs = cs1;
-                    else
-                    if (cs >= 0)
+                    if (exp.GetResultType() == SimpleTypes.Geometry)
                     {
-                        if (cs != cs1) cs = -2;//разные
+                        var cs1 = exp.GetCoordinateSystem();
+                        if (cs == -1) cs = cs1;
+                        else if (cs >= 0)
+                        {
+                            if (cs != cs1) cs = -2; //разные
+                        }
                     }
                 }
                 return cs;
