@@ -14,6 +14,23 @@ namespace ParserCore.Expr.Simple
         //Функции идут как значения
         public override bool IsOperation() { return false; }
         public override bool IsFunction() { return true; }
+        /*
+        public override int GetCoordinateSystem()
+        {
+            if (ChildsCount() > 0)
+            {
+                int cs = -1;
+                for (int i = 0; i < Childs.Count; i++)
+                {
+                    var c = Childs[i];
+                    if (c.GetResultType() == SimpleTypes.Geometry)
+                    {
+                        if (cs >= 0)
+                        c.GetCoordinateSystem();
+                    }
+                }
+            }
+        }*/
 
         public override string ToStr()
         {

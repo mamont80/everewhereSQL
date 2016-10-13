@@ -16,6 +16,12 @@ namespace ParserCore.Expr.Sql
         public Lexem Lexem;
         public bool IsBinded = false;
 
+        protected int _CoordinateSystem = -1;
+        public override int GetCoordinateSystem()
+        {
+            return _CoordinateSystem;
+        }
+
         public void Init(SimpleTypes tp)
         {
             Init(tp, 0);

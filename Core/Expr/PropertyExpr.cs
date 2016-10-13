@@ -15,6 +15,12 @@ namespace ParserCore
             Init(tp, 0);
         }
 
+        protected int _CoordinateSystem = -1;
+        public override int GetCoordinateSystem()
+        {
+            return _CoordinateSystem;
+        }
+
         public virtual void Init(SimpleTypes tp, int csf)
         {
             if (tp == SimpleTypes.Geometry)
