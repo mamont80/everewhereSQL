@@ -22,7 +22,6 @@ namespace ParserCore
         {
             ExpressionParser p = new ExpressionParser(collection);
             p.Parse();
-            if (!collection.IsEnd()) collection.ErrorUnexpected(collection.CurrentOrLast());
             return p.Single();
         }
 
