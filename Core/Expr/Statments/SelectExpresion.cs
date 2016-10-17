@@ -112,7 +112,11 @@ namespace ParserCore.Expr.Sql
             }
         }
 
-        internal List<ColumnClause> GetAllColumns()
+        /// <summary>
+        /// All columns, with extract '*' clause
+        /// </summary>
+        /// <returns></returns>
+        public List<ColumnClause> GetAllColumns()
         {
             List<ColumnClause> ColumnsLocal = new List<ColumnClause>();
             foreach (var cc in Columns)
@@ -508,22 +512,6 @@ select {0} from
             SelectParser selectParser = new SelectParser(parser.Collection);
             selectParser.SelectExpresion = this;
             selectParser.Parse();
-        }
-
-        /// <summary>
-        /// Возвращает описание колонок
-        /// </summary>
-        public Column[] GetColumnInfo()
-        {
-            List<Column> res = new List<Column>();
-            var cols = GetAllColumns();
-            foreach (var cs in cols)
-            {
-                string nm = ExpUtils.GetVisibleColumnName(cs);
-                Column ci = new Column(nm, cs.ColumnExpression.GetResultType());
-                res.Add(ci);
-            }
-            return res.ToArray();
         }
 
     }
