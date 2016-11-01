@@ -25,7 +25,7 @@ namespace ParserCore.Expr.Simple
             Init(val, type, 0);
         }
 
-        public void Init(object val, SimpleTypes type, int csf)
+        public virtual void Init(object val, SimpleTypes type, int csf)
         {
             //проводим инициализацию и сразу подготовку
             #region Хитрое выставление типов
@@ -70,7 +70,7 @@ namespace ParserCore.Expr.Simple
                     valueGeom = val;
                     SetResultType(SimpleTypes.Geometry);
                     GetGeomResultOut = AsGeom;
-                    _CoordinateSystem = csf;
+                    //_CoordinateSystem = csf;
                     break;
             }
             #endregion

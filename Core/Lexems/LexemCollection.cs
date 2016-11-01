@@ -7,8 +7,9 @@ namespace ParserCore
 {
     public class LexemCollection : List<Lexem>
     {
-        public LexemCollection()
+        internal LexemCollection(string originalText)
         {
+            OriginalExpressionString = originalText;
         }
 
         public int IndexLexem = 0;
@@ -86,7 +87,41 @@ namespace ParserCore
         {
             if (lex == null) throw new Exception(message);
             else
-                throw new Exception(message + " " + lex.LexemText + " Position row: " + lex.RowNum.ToString() + ", col: " + lex.ColNum.ToString());
+                throw new Exception(message + " " + lex.LexemText + " Position row: " + lex.RowNum.ToString() + ", col: " + lex.ColNum.ToString()+"\r\n" + GetErrorPosition(lex));
+        }
+
+        private string GetErrorPosition(Lexem lex)
+        {
+            if (lex == null) return "";
+            var idx = IndexOf(lex);
+            int col = 0;
+            int row = 0;
+            int i = 0;
+            while (i < OriginalExpressionString.Length)
+            {
+                char c = OriginalExpressionString[i];
+                if (c == '\n')
+                {
+                    row++;
+                    col = 0;
+                }
+                else col++;
+                if (row > lex.RowNum) break;
+                if (row == lex.RowNum && col >= lex.ColNum) break;
+                i++;
+            }
+            int start = i - 50;
+            if (start < 0) start = 0;
+            int end = i + 10;
+
+            if (end > OriginalExpressionString.Length) end = OriginalExpressionString.Length;
+
+            string s = OriginalExpressionString.Substring(start, i - start + 1);
+            s = s + "< error >";
+            s = s + OriginalExpressionString.Substring(i+1, end - i - 1);
+            if (start != 0) s = "..." + s;
+            if (end >= (OriginalExpressionString.Length)) s = s + "...";
+            return s;
         }
 
         public void ErrorUnexpected(Lexem lex)

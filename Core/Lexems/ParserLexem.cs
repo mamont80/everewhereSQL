@@ -18,6 +18,7 @@ namespace ParserCore
         public static LexemCollection Parse(string text)
         {
             ParserLexemClass p = new ParserLexemClass();
+            p.res = new LexemCollection(text);
             p.LexemParse(text);
             return p.res;
         }
@@ -37,7 +38,9 @@ namespace ParserCore
         private StringBuilder cur = new StringBuilder();
         private int curRowNum;
         private int curColNum;
-        public LexemCollection res = new LexemCollection();
+
+        public LexemCollection res;
+    
         private LexType status = LexType.None;
         private char TextQuote = ' ';
         private bool DotWas = false;
@@ -75,14 +78,15 @@ namespace ParserCore
                 c = s[i];
                 char? nextC = null;
                 if (i < s.Length - 1) nextC = s[i + 1];
-                rowNum++;
+                colNum++;
 
                 if (status != LexType.Text && (c == '-' && nextC.HasValue && nextC.Value == '-'))
                 {
                     PushString();
                     while (c != '\n' && i < s.Length-1)
                     {
-                        i++;
+                        i++; 
+                        colNum++;
                         c = s[i];
                     }
                     continue;
@@ -93,6 +97,7 @@ namespace ParserCore
                     while (c != '\n' && i < s.Length-1)
                     {
                         i++;
+                        colNum++;
                         c = s[i];
                     }
                     continue;
@@ -107,11 +112,11 @@ namespace ParserCore
                         c = s[i];
                         if (i < s.Length - 1) nextC = s[i + 1];
                         else nextC = null;
-                        rowNum++;
+                        colNum++;
                         if (c == '\n')
                         {
-                            colNum++;
-                            rowNum = 0;
+                            rowNum++;
+                            colNum = 0;
                         }
                         if (c == '*' && nextC.HasValue && nextC.Value == '/') break;
                     }
@@ -171,8 +176,8 @@ namespace ParserCore
                     case '\n':
                         if (c == '\n')
                         {
-                            colNum++;
-                            rowNum = 0;
+                            rowNum++;
+                            colNum = 0;
                         }
                         if (status == LexType.Text) cur.Append(c);
                         else PushString();
@@ -195,7 +200,7 @@ namespace ParserCore
                                 if (NextChar() == c)
                                 {
                                     cur.Append(c);
-                                    i++;
+                                    i++; colNum++;
                                     continue;
                                 }
                                 else { cur.Append(c); PushString(); }
@@ -233,6 +238,7 @@ namespace ParserCore
                                 {
                                     cur.Append(c);
                                     i++;
+                                    colNum++;
                                     continue;
                                 }
                                 else

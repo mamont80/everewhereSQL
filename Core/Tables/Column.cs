@@ -25,6 +25,7 @@ namespace ParserCore
             }
         }
 
+        /*
         private DbColumnType _DbType = DbColumnType.Unknow;
         /// <summary>
         /// Exact column type
@@ -47,7 +48,7 @@ namespace ParserCore
             get { return _AutoIncriment; }
             set { _AutoIncriment = value; }
         } 
-        
+        */
         public Column()
         {
         }

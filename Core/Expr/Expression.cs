@@ -22,11 +22,26 @@ namespace ParserCore
         private SimpleTypes SimpleType = SimpleTypes.Unknow;
         public SimpleTypes GetResultType() { return SimpleType; }
 
-        protected int _CoordinateSystem;
-
         public virtual int GetCoordinateSystem()
         {
-            return _CoordinateSystem;
+            if (ChildsCount() > 0)
+            {
+                int cs = -1;
+                foreach (var exp in Childs)
+                {
+                    if (exp.GetResultType() == SimpleTypes.Geometry)
+                    {
+                        var cs1 = exp.GetCoordinateSystem();
+                        if (cs == -1) cs = cs1;
+                        else if (cs >= 0)
+                        {
+                            if (cs != cs1) cs = -2; //разные
+                        }
+                    }
+                }
+                return cs;
+            }
+            return -1;
         }
 
         public TokenList<Expression> Childs { get; protected set; }
@@ -72,6 +87,12 @@ namespace ParserCore
         /// количество аргументов у операций. Для функций не обязательно его указывать. Можут быть 1 или 2
         /// </summary>
         public virtual int NumChilds() { return 0; }
+
+        public void ClearChilds()
+        {
+            if (Childs == null) return;
+            Childs.Clear();
+        }
 
         public void AddChild(Expression child)
         {
