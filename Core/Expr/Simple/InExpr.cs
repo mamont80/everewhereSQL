@@ -25,7 +25,7 @@ namespace ParserCore.Expr.Simple
         {
             if (Childs.Count != 2) throw new Exception("invalid IN operation");
             if (!(Childs[1] is SubExpression)) throw new Exception("After IN operation wait '()'");
-            ((SubExpression)(Childs[1])).ForInExpression = true;
+            ((SubExpression)(Childs[1])).MultiValues = true;
             base.Prepare();
 
             SetResultType(SimpleTypes.Boolean);

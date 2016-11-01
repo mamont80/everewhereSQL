@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ParserCore.Expr.Sql;
+using ParserCore.Expr.Simple;
 
 namespace ParserCore
 {
     public class InsertStatement : OneTableStatement
     {
         public TokenList<Expression> ColumnOfValues { get; private set; }
-        public TokenList<Expression> Values { get; private set; }
+        public TokenList<SubExpression> Values { get; private set; }
 
         private SelectExpresion _Select;
         public SelectExpresion Select
@@ -27,7 +28,7 @@ namespace ParserCore
         public InsertStatement():base()
         {
             ColumnOfValues = new TokenList<Expression>(this);
-            Values = new TokenList<Expression>(this);
+            Values = new TokenList<SubExpression>(this);
         }
 
         public override IExplore Expolore(DelegateExpessionExplorer del)
@@ -44,10 +45,10 @@ namespace ParserCore
             }
             if (Values != null)
             {
-                List<Expression> Values2 = new List<Expression>();
+                List<SubExpression> Values2 = new List<SubExpression>();
                 Values.ForEach(a =>
                 {
-                    Expression e2 = (Expression)a.Expolore(del);
+                    SubExpression e2 = (SubExpression)a.Expolore(del);
                     if (e2 != null) Values2.Add(e2);
                 });
                 Values.Replace(Values2);
@@ -79,14 +80,15 @@ namespace ParserCore
                 }
                 if (Values != null && Values.Count > 0)
                 {
-                    sb.Append(" values(");
+                    sb.Append(" values");
                     for (int i = 0; i < Values.Count; i++)
                     {
                         var sc = Values[i];
+                        //sb.Append("(");
                         if (i > 0) sb.Append(", ");
                         sb.Append(sc.ToStr());
+                        //sb.Append(")");
                     }
-                    sb.Append(")");
                 }
                 else
                 {
@@ -125,14 +127,13 @@ namespace ParserCore
                 AddReturningToSql1(builder, sb);
                 if (Values != null && Values.Count > 0)
                 {
-                    sb.Append(" values(");
+                    sb.Append(" values");
                     for (int i = 0; i < Values.Count; i++)
                     {
                         var sc = Values[i];
                         if (i > 0) sb.Append(", ");
                         sb.Append(sc.ToSql(builder));
                     }
-                    sb.Append(")");
                 }
                 else
                 {
@@ -213,22 +214,34 @@ namespace ParserCore
             {
                 lex = collection.GotoNextMust();
                 if (!lex.IsSkobraOpen()) collection.Error("'(' not found", lex);
-
                 while (true)
                 {
-                    lex = collection.GotoNextMust(); //пропускаем SET или ','
-                    //lex = collection.CurrentLexem();
+                    SubExpression sub = new SubExpression();
+                    sub.MultiValues = true;
+                    while (true)
+                    {
+                        lex = collection.GotoNextMust(); //пропускаем SET или ','
+                        //lex = collection.CurrentLexem();
 
-                    ExpressionParser e = new ExpressionParser(collection);
-                    e.Parse();
-                    Values.Add(e.Single());
-                    lex = collection.CurrentLexem();
-                    if (lex == null) break;
-                    if (lex.LexemType == LexType.Zpt) continue;
-                    if (lex.IsSkobraClose()) break;
-                    collection.Error("Unknow lexem", collection.CurrentLexem());
+                        ExpressionParser e = new ExpressionParser(collection);
+                        e.Parse();
+                        sub.AddChild(e.Single());
+                        lex = collection.CurrentLexem();
+                        if (lex == null) break;
+                        if (lex.LexemType == LexType.Zpt) continue;
+                        if (lex.IsSkobraClose()) break;
+                        collection.Error("Unknow lexem", collection.CurrentLexem());
+                    }
+                    Values.Add(sub);
+                    lex = collection.GotoNext();
+                    if (lex != null && lex.LexemType == LexType.Zpt)
+                    {
+                        lex = collection.GotoNextMust();
+                        if (!lex.IsSkobraOpen()) collection.ErrorWaitKeyWord("(", lex);
+                        continue;
+                    }
+                    else break;
                 }
-                lex = collection.GotoNext();
             }
             else
                 if (lex.LexemText.ToLower() == "select" || lex.IsSkobraOpen())

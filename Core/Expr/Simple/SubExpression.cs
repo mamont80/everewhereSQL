@@ -11,20 +11,21 @@ namespace ParserCore.Expr.Simple
         public override bool IsFunction() { return false; }
         /// <summary>
         /// Эти скобки для операции: arg in (arg1, arg2, ...)
+        /// или для insert values (a,b,c),(a,b,c)
         /// </summary>
-        public bool ForInExpression = false;
+        public bool MultiValues = false;
 
         protected override bool CanCalcOnline() //запрещаем оптимизировать если это для операции IN (1,2)
         {
-            if (ForInExpression) return false;
+            if (MultiValues) return false;
             return true;
         }
 
         public override void Prepare()
         {
             base.Prepare();
-            if (Childs.Count == 0 && !ForInExpression) throw new Exception("Empty subexpression");
-            if (Childs.Count > 1 && !ForInExpression) throw new Exception("Invalid subexpression");
+            if (Childs.Count == 0 && !MultiValues) throw new Exception("Empty subexpression");
+            if (Childs.Count > 1 && !MultiValues) throw new Exception("Invalid subexpression");
             if (Childs.Count == 1)
             {
                 var tp = Childs[0].GetResultType();

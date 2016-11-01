@@ -62,7 +62,7 @@ namespace ParserCore
             // TODO: fixed! ok
             TableClause = TableClause.CreateByTable(tablename, collection.TableGetter.GetTableByName(tablename));
 
-            lex = collection.GotoNextMust();
+            lex = collection.GotoNext();
 
             if (lex == null) return;
             if (lex.LexemText.ToLower() == "where")
