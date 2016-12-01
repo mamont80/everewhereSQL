@@ -110,6 +110,12 @@ namespace ParserCore.Expr.Sql
                     e.Prepare();
                 }
             }
+            var lst = GetAllColumns();
+            if (lst.Count == 1)
+            {
+                var tp = lst[0].ColumnExpression.GetResultType();
+                SetResultType(tp);
+            }
         }
 
         /// <summary>

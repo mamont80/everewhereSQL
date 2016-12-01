@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ParserCore;
+using ParserCore.Expr.Simple;
 
 namespace ParserCore.Expr.Extend
 {
-    public class Coalesce_FuncExpr : Expression
+    public class Coalesce_FuncExpr : FuncExpr
     {
         public override bool IsOperation() { return false; }
         public override bool IsFunction() { return true; }

@@ -86,7 +86,7 @@ namespace ParserCore
             {
                 lex = Collection.GotoNext();
                 if (lex == null) Collection.Error("Order by clause error", Collection.GetPrev());
-                if (lex.LexemText.ToLower() != "by") Collection.Error("Order by clause error", Collection.GetPrev());
+                if (lex.LexemText.ToLower() != "by") Collection.ErrorWaitKeyWord("BY", Collection.GetPrev());
                 lex = Collection.GotoNext();
                 OrderByParser gb = new OrderByParser();
                 gb.Parse(Collection, true);
