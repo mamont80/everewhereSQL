@@ -25,6 +25,11 @@ namespace ParserCore
 
         public TokenList<ColumnClause> ReturningColumns { get; private set; }
 
+        public override List<ColumnClause> GetAllColumns()
+        {
+            return ReturningColumns.ToList();
+        }
+
         public OneTableStatement() : base()
         {
             ReturningColumns = new TokenList<ColumnClause>(this);

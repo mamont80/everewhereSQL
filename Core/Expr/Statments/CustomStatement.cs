@@ -34,5 +34,9 @@ namespace ParserCore
         public override bool IsOperation() { return false; }
         protected override bool CanCalcOnline() { return false; }
 
+        public int Timeout = 0;
+
+        public abstract List<ColumnClause> GetAllColumns();
+
     }
 }

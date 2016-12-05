@@ -11,8 +11,6 @@ namespace ParserCore.Expr.Sql
 
         public long SkipRecords = 0;
 
-        public int Timeout = 0;
-
         public bool Distinct = false;
 
         public TokenList<TableClause> Tables { get; private set; }
@@ -122,7 +120,7 @@ namespace ParserCore.Expr.Sql
         /// All columns, with extract '*' clause
         /// </summary>
         /// <returns></returns>
-        public List<ColumnClause> GetAllColumns()
+        public override List<ColumnClause> GetAllColumns()
         {
             List<ColumnClause> ColumnsLocal = new List<ColumnClause>();
             foreach (var cc in Columns)

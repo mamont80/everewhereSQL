@@ -21,27 +21,16 @@ namespace ParserCore
             return res.ToArray();
         }
 
-        public static Column[] GetColumnInfo(SelectExpresion select)
+        public static Column[] GetColumnInfo(CustomStatement select)
         {
             List<Column> res = new List<Column>();
-            foreach (var cs in select.Columns)
+            var ccList = select.GetAllColumns();
+
+            foreach (var cs in ccList)
             {
-                if (cs.ColumnExpression is AllColumnExpr)
-                {
-                    AllColumnExpr all = cs.ColumnExpression as AllColumnExpr;
-                    foreach (var column in all.Columns)
-                    {
-                        string nm2 = GetVisibleColumnName(column);
-                        Column ci2 = new Column(nm2, column.ColumnExpression.GetResultType());
-                        res.Add(ci2);
-                    }
-                }
-                else
-                {
-                    string nm = GetVisibleColumnName(cs);
-                    Column ci = new Column(nm, cs.ColumnExpression.GetResultType());
-                    res.Add(ci);
-                }
+                string nm = GetVisibleColumnName(cs);
+                Column ci = new Column(nm, cs.ColumnExpression.GetResultType());
+                res.Add(ci);
             }
             return res.ToArray();
         }
