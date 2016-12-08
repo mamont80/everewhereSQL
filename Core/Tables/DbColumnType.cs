@@ -142,7 +142,8 @@ namespace ParserCore
                 case DbColumnType.Real:
                     return "real";
                 case DbColumnType.Double:
-                    return "double";
+                    if (builder.DbType == DriverType.PostgreSQL) return "double precision";
+                    return "float";
                 case DbColumnType.Money:
                     return "money";
                 case DbColumnType.Blob:
