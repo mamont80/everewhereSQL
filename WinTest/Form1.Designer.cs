@@ -58,10 +58,10 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(13, 217);
+            this.textBox2.Location = new System.Drawing.Point(13, 238);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(438, 241);
+            this.textBox2.Size = new System.Drawing.Size(438, 220);
             this.textBox2.TabIndex = 2;
             // 
             // checkBox1
@@ -86,10 +86,10 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(458, 217);
+            this.textBox3.Location = new System.Drawing.Point(458, 238);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(480, 241);
+            this.textBox3.Size = new System.Drawing.Size(480, 220);
             this.textBox3.TabIndex = 5;
             // 
             // Form1

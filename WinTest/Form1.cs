@@ -37,8 +37,8 @@ namespace WinTest
                     textBox2.AppendText("|" + kvp.LexemText + "|  " + kvp.LexemType.ToString() + "\r\n");
                 }
                 coll.NodeFactory = new BaseFactoryComplite();
-                ExpressionParser toNode = new ExpressionParser();
-                toNode.Parse(coll);
+                ExpressionParser toNode = new ExpressionParser(coll);
+                toNode.Parse();
                 Expression root = toNode.Single();
                 root.Prepare();
                 StringBuilder sb = new StringBuilder();
@@ -94,8 +94,8 @@ namespace WinTest
                 collection.TableGetter = getter;
                 collection.NodeFactory = new SqlFactoryComplite();
 
-                StatmentParser sp = new StatmentParser();
-                Statment stmt = sp.Parse(collection);
+                Expression stmt = ExpressionParser.ParseCollection(collection);
+                
                 //FieldCreator fc = new FieldCreator(collection);
                 //fc.MakeFields(stmt);
                 stmt.Prepare();

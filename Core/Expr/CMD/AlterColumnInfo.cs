@@ -46,7 +46,7 @@ namespace ParserCore.Expr.CMD
         public override string ToSql(ExpressionSqlBuilder builder)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(ParserUtils.TableToStrEscape(Name));
+            sb.Append(builder.EncodeTable(Name));
             sb.Append(" ");
             if (builder.DbType == DriverType.PostgreSQL && AutoIncrement)
             {
