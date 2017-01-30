@@ -24,6 +24,7 @@ namespace ParserCore.Expr.Simple
         public void Bind(object value)
         {
             _Value = value;
+            _binded = true;
         }
 
         /// <summary>
@@ -36,7 +37,7 @@ namespace ParserCore.Expr.Simple
             base.Prepare();
             if (!_binded) throw new Exception("Variable "+VariableName+" is not binded");
             ConstExpr c = new ConstExpr();
-            c.Init(null, SimpleTypes.Integer);
+            c.Init(null, SimpleTypes.String);
         }
 
         protected override bool CanCalcOnline()

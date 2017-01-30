@@ -74,6 +74,7 @@
     <Compile Include="Expr\CaseExpr.cs" />
     <Compile Include="Expr\Expression.cs" />
     <Compile Include="Expr\Sql\Between.cs" />
+    <Compile Include="Getters\CustomTableGetter.cs" />
     <Compile Include="Utils\ExpressionSqlBuilder.cs" />
     <Compile Include="Expr\Extend\AddDays.cs" />
     <Compile Include="Expr\Extend\AddHours.cs" />

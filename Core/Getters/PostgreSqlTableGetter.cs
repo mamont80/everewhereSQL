@@ -10,7 +10,7 @@ using System.Data.Common;
 
 namespace ParserCore
 {
-    public class PostgreSqlTableGetter : ITableGetter
+    public class PostgreSqlTableGetter : CustomTableGetter, ITableGetter
     {
         public string ConnStr { get; set; }
 
@@ -38,6 +38,8 @@ namespace ParserCore
 
         public ITableDesc GetTableByName(string[] names)
         {
+            var t = Get(names);
+            if (t != null) return t;
             string tn;
             string sh;
             if (names.Length == 2)
@@ -95,6 +97,7 @@ namespace ParserCore
                         td.TableColumns.Add(ci);
                     }
                 }
+                Set(names, td);
                 return td;
             }
         }

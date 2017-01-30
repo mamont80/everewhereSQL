@@ -172,6 +172,7 @@ namespace ParserCore
                         }
                         break;
                     case ' ':
+                    case '\t':
                     case '\r':
                     case '\n':
                         if (c == '\n')
