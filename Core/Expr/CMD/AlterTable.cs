@@ -157,11 +157,11 @@ namespace ParserCore.Expr.CMD
                     {
                         var ac = AlterColumns[i];
                         if (i > 0) sb.Append(", ");
-                        sb.Append(ac.ToSql(builder));
                         if (ac.AlterColumn == AlterColumnType.AddColumn)
-                            sb.Append(" ADD");
+                            sb.Append(" ADD ");
                         if (ac.AlterColumn == AlterColumnType.DropColumn)
-                            sb.Append(" DROP");
+                            sb.Append(" DROP ");
+                        sb.Append(ac.ToSql(builder));
                     }
                     sb.Append(";");
                 }
