@@ -34,12 +34,15 @@ namespace ParserCore.Expr.CMD
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(ParserUtils.TableToStrEscape(Name));
-            sb.Append(" ");
-            sb.Append(Type.ToStr());
-            if (Nullable) sb.Append(" NULL");
-            else sb.Append(" NOT NULL");
-            if (AutoIncrement) sb.Append(" AUTO_INCRENENT");
-            if (PrimaryKey) sb.Append(" PRIMARY KEY");
+            if (AlterColumn == AlterColumnType.AddColumn || AlterColumn == AlterColumnType.AlterColumn)
+            {
+                sb.Append(" ");
+                sb.Append(Type.ToStr());
+                if (Nullable) sb.Append(" NULL");
+                else sb.Append(" NOT NULL");
+                if (AutoIncrement) sb.Append(" AUTO_INCRENENT");
+                if (PrimaryKey) sb.Append(" PRIMARY KEY");
+            }
             return sb.ToString();
         }
 
@@ -47,19 +50,22 @@ namespace ParserCore.Expr.CMD
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(builder.EncodeTable(Name));
-            sb.Append(" ");
-            if (builder.DbType == DriverType.PostgreSQL && AutoIncrement)
+            if (AlterColumn == AlterColumnType.AddColumn || AlterColumn == AlterColumnType.AlterColumn)
             {
-                if (Type.Type == DbColumnType.BigInt) sb.Append("bigserial");
-                else sb.Append("serial");
+                sb.Append(" ");
+                if (builder.DbType == DriverType.PostgreSQL && AutoIncrement)
+                {
+                    if (Type.Type == DbColumnType.BigInt) sb.Append("bigserial");
+                    else sb.Append("serial");
+                }
+                else
+                    sb.Append(Type.ToSql(builder));
+                if (AutoIncrement && builder.DbType == DriverType.SqlServer) sb.Append(" IDENTITY(1,1)");
+                if (Nullable) sb.Append(" NULL");
+                else sb.Append(" NOT NULL");
+                if (PrimaryKey) sb.Append(" PRIMARY KEY");
             }
-            else
-                sb.Append(Type.ToSql(builder));
-            if (AutoIncrement && builder.DbType == DriverType.SqlServer) sb.Append(" IDENTITY(1,1)");
-            if (Nullable) sb.Append(" NULL");
-            else sb.Append(" NOT NULL");
-            if (PrimaryKey) sb.Append(" PRIMARY KEY");
-            
+
             return sb.ToString();
         }
     }

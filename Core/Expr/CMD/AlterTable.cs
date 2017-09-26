@@ -160,7 +160,9 @@ namespace ParserCore.Expr.CMD
                         if (ac.AlterColumn == AlterColumnType.AddColumn)
                             sb.Append(" ADD ");
                         if (ac.AlterColumn == AlterColumnType.DropColumn)
-                            sb.Append(" DROP ");
+                            sb.Append(" DROP COLUMN ");
+                        if (ac.AlterColumn == AlterColumnType.AlterColumn)
+                            sb.Append(" ALTER COLUMN ");
                         sb.Append(ac.ToSql(builder));
                     }
                     sb.Append(";");
@@ -275,7 +277,6 @@ namespace ParserCore.Expr.CMD
                         cd.Name = CommonParserFunc.ReadColumnNameOnly(collection);
                         cd.AlterColumn = AlterColumnType.DropColumn;
                         AlterColumns.Add(cd);
-                        collection.GotoNextMust();
                     }
                     else if (ParserUtils.ParseCommandPhrase(collection, "alter column", true, false) || ParserUtils.ParseCommandPhrase(collection, "alter", true, false))
                     {
