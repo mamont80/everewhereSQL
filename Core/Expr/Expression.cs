@@ -182,6 +182,11 @@ namespace ParserCore
 
         protected void OperandNotFoundException() { throw new Exception("operand not found"); }
 
+        protected void ThrowException(string message)
+        {
+            throw new Exception(message);
+        }
+
         public virtual void ParseInside(ExpressionParser parser)
         {
             parser.Collection.GotoNext();

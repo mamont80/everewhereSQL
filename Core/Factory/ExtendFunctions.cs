@@ -185,6 +185,9 @@ namespace ParserCore
                         case "year":
                             ex = new Year();
                             break;
+                        case "round":
+                            ex = new ParserCore.Expr.Extend.Math.Round();
+                            break;
                     }
                 }
             }

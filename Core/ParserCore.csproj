@@ -59,6 +59,7 @@
     <Compile Include="Expr\Extend\ContainsIgnoreCase.cs" />
     <Compile Include="Expr\Extend\EndsWith.cs" />
     <Compile Include="Expr\Extend\LTrim.cs" />
+    <Compile Include="Expr\Extend\Math\Round.cs" />
     <Compile Include="Expr\Extend\Position.cs" />
     <Compile Include="Expr\Extend\RTrim.cs" />
     <Compile Include="Expr\Extend\StartsWith.cs" />

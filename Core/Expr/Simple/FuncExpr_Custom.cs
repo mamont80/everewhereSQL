@@ -5,6 +5,18 @@ using System.Text;
 
 namespace ParserCore.Expr.Simple
 {
+    //функция с переменным числом параметров
+    public abstract class Func_VariousOperand : FuncExpr
+    {
+        /*
+        public override void Prepare()
+        {
+            base.Prepare();
+            if (Childs == null || Childs.Count != 1) throw new Exception("Wrong number operands");
+        }*/
+        public override int NumChilds() { return -1; }
+    }
+
     public abstract class FuncExpr_WithoutOperand : FuncExpr
     {
         public override int NumChilds() { return 0; }
@@ -87,4 +99,5 @@ namespace ParserCore.Expr.Simple
         }
         public override int NumChilds() { return 1; }
     }
+
 }
