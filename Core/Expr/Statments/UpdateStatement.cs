@@ -97,11 +97,20 @@ namespace ParserCore
             var lex = collection.CurrentLexem();
             if (lex.LexemText.ToLower() != "update") throw new Exception("Not UPDATE statment");
             lex = collection.GotoNextMust();
-            string[] tablename = CommonParserFunc.ReadTableName(collection);
-            // TODO: fixed! ok
-            TableClause = TableClause.CreateByTable(tablename, collection.TableGetter.GetTableByName(tablename));
 
-            lex = collection.GotoNextMust();
+            FromParser fc = new FromParser();
+            fc.Parse(collection);
+            if (fc.Tables.Count > 1) collection.Error("Multi tables in update", collection.CurrentLexem());
+            if (fc.Tables.Count == 0) collection.Error("Not table clause", collection.CurrentLexem());
+            TableClause = fc.Tables[0];
+
+
+            //string[] tablename = CommonParserFunc.ReadTableName(collection);
+            // TODO: fixed! ok
+            //TableClause = TableClause.CreateByTable(tablename, collection.TableGetter.GetTableByName(tablename));
+            //lex = collection.GotoNextMust();
+            lex = collection.CurrentLexem();
+
             if (lex.LexemText.ToLower() != "set")
             {
                 collection.Error("SET keyword is not found", collection.CurrentLexem());

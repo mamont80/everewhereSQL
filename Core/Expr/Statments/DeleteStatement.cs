@@ -58,11 +58,18 @@ namespace ParserCore
             lex = collection.GotoNextMust();
             if (lex.LexemText.ToLower() != "from") throw new Exception("Keyword 'FROM' is not found");
             lex = collection.GotoNextMust();
-            string[] tablename = CommonParserFunc.ReadTableName(collection);
-            // TODO: fixed! ok
-            TableClause = TableClause.CreateByTable(tablename, collection.TableGetter.GetTableByName(tablename));
 
-            lex = collection.GotoNext();
+            FromParser fc = new FromParser();
+            fc.Parse(collection);
+            if (fc.Tables.Count > 1) collection.Error("Multi tables in update", collection.CurrentLexem());
+            if (fc.Tables.Count == 0) collection.Error("Not table clause", collection.CurrentLexem());
+            TableClause = fc.Tables[0];
+
+            //string[] tablename = CommonParserFunc.ReadTableName(collection);
+            // TODO: fixed! ok
+            //TableClause = TableClause.CreateByTable(tablename, collection.TableGetter.GetTableByName(tablename));
+
+            lex = collection.CurrentLexem();
 
             if (lex == null) return;
             if (lex.LexemText.ToLower() == "where")
