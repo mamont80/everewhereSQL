@@ -63,7 +63,35 @@ namespace ParserCore
         public override string ToSql(ExpressionSqlBuilder builder)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("update ").Append(TableClause.ToSql(builder));
+            sb.Append("update ");
+            if (builder.DbType == DriverType.PostgreSQL)
+            {
+                sb.Append(TableClause.ToSql(builder));
+                writeSET(sb, builder);
+            }
+            if (builder.DbType == DriverType.SqlServer)
+            {
+                if (string.IsNullOrEmpty(TableClause.Alias))
+                {
+                    sb.Append(TableClause.ToSql(builder));
+                    writeSET(sb, builder);
+                }
+                else
+                {
+                    sb.Append(builder.EncodeTable(TableClause.Alias)+" ");
+                    writeSET(sb, builder);
+                    sb.Append(" from ").Append(TableClause.ToSql(builder)).Append(" ");
+                }
+            }
+
+            AddReturningToSql1(builder, sb);
+            if (Where != null) sb.Append(" where ").Append(Where.ToSql(builder));
+            AddReturningToSql2(builder, sb);
+            return sb.ToString();
+        }
+
+        private void writeSET(StringBuilder sb, ExpressionSqlBuilder builder)
+        {
             if (Set.Count > 0)
             {
                 sb.Append(" SET ");
@@ -74,10 +102,6 @@ namespace ParserCore
                     sb.Append(sc.ToSql(builder));
                 }
             }
-            AddReturningToSql1(builder, sb);
-            if (Where != null) sb.Append(" where ").Append(Where.ToSql(builder));
-            AddReturningToSql2(builder, sb);
-            return sb.ToString();
         }
 
 

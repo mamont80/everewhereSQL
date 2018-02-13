@@ -37,7 +37,13 @@ namespace ParserCore
         public override string ToSql(ExpressionSqlBuilder builder)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("delete from ").Append(TableClause.ToSql(builder));
+            sb.Append("delete ");
+            if (builder.DbType == DriverType.SqlServer)
+            {
+                if (!string.IsNullOrEmpty(TableClause.Alias)) sb.Append(builder.EncodeTable(TableClause.Alias)).Append(" ");
+            }
+            sb.Append("from ");
+            sb.Append(TableClause.ToSql(builder)).Append(" ");
             AddReturningToSql1(builder, sb);
             if (Where != null) sb.Append(" where ").Append(Where.ToSql(builder));
             AddReturningToSql2(builder, sb);

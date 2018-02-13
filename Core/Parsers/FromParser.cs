@@ -12,7 +12,7 @@ namespace ParserCore
         public List<TableClause> Tables = new List<TableClause>();
 
         private HashSet<string> joinStrings = new HashSet<string>() { "inner", "join", "left", "right", "full", "cross" };
-        private HashSet<string> nextStrings = new HashSet<string>() { "where", "group", "having", "order", "limit", "offset", "union", "except", "intersect" };
+        private HashSet<string> nextStrings = new HashSet<string>() { "where", "group", "having", "order", "limit", "offset", "union", "except", "intersect", "set" };
         
         public void Parse(LexemCollection collection)
         {
