@@ -170,7 +170,7 @@ $$;", schemaP, tableP, indexP, create);
                 if (lex.IsSkobraClose()) break;
                 collection.ErrorUnexpected(collection.CurrentOrLast());
             }
-            lex = collection.CurrentLexem();            
+            collection.GotoNext();    
         }
     }
 }

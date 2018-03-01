@@ -292,6 +292,7 @@ namespace ParserCore.Expr.CMD
                     }
                     break;
                 }
+                collection.GotoNext();
             }
         }
     }
