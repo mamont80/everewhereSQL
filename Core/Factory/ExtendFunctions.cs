@@ -188,6 +188,15 @@ namespace ParserCore
                         case "round":
                             ex = new ParserCore.Expr.Extend.Math.Round();
                             break;
+                        case "pi":
+                            ex = new ParserCore.Expr.Extend.Math.Pi();
+                            break;
+                        case "tan":
+                            ex = new ParserCore.Expr.Extend.Math.Tan();
+                            break;
+                        case "log":
+                            ex = new ParserCore.Expr.Extend.Math.Log();
+                            break;
                     }
                 }
             }
