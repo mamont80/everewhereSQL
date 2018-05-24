@@ -59,6 +59,8 @@
     <Compile Include="Expr\Extend\ContainsIgnoreCase.cs" />
     <Compile Include="Expr\Extend\EndsWith.cs" />
     <Compile Include="Expr\Extend\LTrim.cs" />
+    <Compile Include="Expr\Extend\Math\Ceiling.cs" />
+    <Compile Include="Expr\Extend\Math\Floor.cs" />
     <Compile Include="Expr\Extend\Math\Log.cs" />
     <Compile Include="Expr\Extend\Math\Pi.cs" />
     <Compile Include="Expr\Extend\Math\Round.cs" />

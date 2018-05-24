@@ -188,6 +188,12 @@ namespace ParserCore
                         case "round":
                             ex = new ParserCore.Expr.Extend.Math.Round();
                             break;
+                        case "ceiling":
+                            ex = new ParserCore.Expr.Extend.Math.Ceiling();
+                            break;
+                        case "floor":
+                            ex = new ParserCore.Expr.Extend.Math.Floor();
+                            break;
                         case "pi":
                             ex = new ParserCore.Expr.Extend.Math.Pi();
                             break;
