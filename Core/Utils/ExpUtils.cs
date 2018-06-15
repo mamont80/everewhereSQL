@@ -53,22 +53,6 @@ namespace ParserCore
             return nm;
         }
 
-        public static void BindVariables(this ISqlConvertible token, IDictionary<string, object> variables)
-        {
-            token.Expolore(exp =>
-                {
-                    if (exp != null && exp is VariableExpr)
-                    {
-                        VariableExpr ve = (VariableExpr) exp;
-                        if (variables.ContainsKey(ve.VariableName))
-                        {
-                            ve.Bind(variables[ve.VariableName]);
-                        }
-                    }
-                    return exp;
-                });
-        }
-
         public static void OptimizeChilds(this ISqlConvertible expr)
         {
             expr.Expolore(e =>

@@ -7,26 +7,34 @@ using System.Text;
 
 namespace ParserCore.Getters.NativeGetter
 {
-    public class NativeTableGetterMsSql : CustomTableGetter, ITableGetter
+    public class NativeTableGetterMsSql : NativeTableGetterCustom
     {
         public string ConnStr { get; set; }
 
         public static string ProviderName = "System.Data.SqlClient";
 
-        public string DefaultSchema()
+        public override ExpressionSqlBuilder GetSqlBuilder()
+        {
+            return new ExpressionSqlBuilder(DriverType.SqlServer);
+        }
+
+        public override string DefaultSchema()
         {
             return "dbo";
         }
 
-        protected DbConnection GetConnection()
+        public override DbConnection GetConnection()
         {
             return new SqlConnection(ConnStr);
         }
 
-        public ITableDesc GetTableByName(string[] names)
+        public override ITableDesc GetTableByName(string[] names, bool useCache)
         {
-            var t = Get(names);
-            if (t != null) return t;
+            if (useCache)
+            {
+                var t = Get(names);
+                if (t != null) return t;
+            }
             string tn;
             string sh;
             if (names.Length == 2)

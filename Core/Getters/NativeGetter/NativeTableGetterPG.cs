@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ParserCore.Getters.NativeGetter
 {
-    public class NativeTableGetterPG : CustomTableGetter, ITableGetter
+    public class NativeTableGetterPG : NativeTableGetterCustom, ITableGetter
     {
         public string ConnStr { get; set; }
 
@@ -20,22 +20,30 @@ namespace ParserCore.Getters.NativeGetter
             CommandBuilder = ConnectionFactory.CreateCommandBuilder();
         }
 
-        public string DefaultSchema()
+        public override ExpressionSqlBuilder GetSqlBuilder()
+        {
+            return new ExpressionSqlBuilder(DriverType.PostgreSQL);
+        }
+
+        public override string DefaultSchema()
         {
             return "public";
         }
 
-        protected DbConnection GetConnection()
+        public override DbConnection GetConnection()
         {
             var c = ConnectionFactory.CreateConnection();
             c.ConnectionString = ConnStr;
             return c;
         }
 
-        public ITableDesc GetTableByName(string[] names)
+        public override ITableDesc GetTableByName(string[] names, bool useCache)
         {
-            var t = Get(names);
-            if (t != null) return t;
+            if (useCache)
+            {
+                var t = Get(names);
+                if (t != null) return t;
+            }
             string tn;
             string sh;
             if (names.Length == 2)

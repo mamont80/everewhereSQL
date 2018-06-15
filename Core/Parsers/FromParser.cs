@@ -100,7 +100,7 @@ namespace ParserCore
             {
                 string[] tableName = CommonParserFunc.ReadTableName(collection);
                 // TODO: fixed! ok
-                var v = collection.TableGetter.GetTableByName(tableName);
+                var v = collection.TableGetter.GetTableByName(tableName, collection.TableGetterUseCache);
                 st = TableClause.CreateByTable(tableName, v);
                 lex = collection.GotoNext();
             }

@@ -16,13 +16,16 @@ namespace ParserCore.Expr.Simple
         public string VariableName;
 
         private bool _binded = false;
+        private SimpleTypes _BindedType;
+
         private object _Value;
         public object Value {
             get { return _Value; }
         }
 
-        public void Bind(object value)
+        public void Bind(object value, SimpleTypes type)
         {
+            _BindedType = type;
             _Value = value;
             _binded = true;
         }
@@ -36,13 +39,12 @@ namespace ParserCore.Expr.Simple
         {
             base.Prepare();
             if (!_binded) throw new Exception("Variable "+VariableName+" is not binded");
-            ConstExpr c = new ConstExpr();
-            c.Init(null, SimpleTypes.String);
+            SetResultType(_BindedType);
         }
 
         protected override bool CanCalcOnline()
         {
-            return true;
+            return false;
         }
 
         public override string ToStr()
@@ -52,7 +54,7 @@ namespace ParserCore.Expr.Simple
         
         public override string ToSql(ExpressionSqlBuilder builder)
         {
-            if (builder.DbType == DriverType.SqlServer) return VariableName;
+            if (builder.DbType == DriverType.SqlServer) return "@" + VariableName.Substring(1);
             if (builder.DbType == DriverType.PostgreSQL)
             {
                 return ":" + VariableName.Substring(1);

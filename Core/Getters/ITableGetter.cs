@@ -7,7 +7,7 @@ namespace ParserCore
 {
     public interface ITableGetter
     {
-        ITableDesc GetTableByName(string[] names);
+        ITableDesc GetTableByName(string[] names, bool useCache);
         string DefaultSchema();
     }
 }

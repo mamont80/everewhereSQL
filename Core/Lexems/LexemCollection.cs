@@ -17,6 +17,8 @@ namespace ParserCore
         public IDictionary<string, object> Variables;
         public string OriginalExpressionString;
         public ITableGetter TableGetter;
+        public bool TableGetterUseCache = true;
+        public List<ParamDeclaration> ParamDeclarations = new List<ParamDeclaration>();
 
         public Lexem GotoNext()
         {
@@ -137,6 +139,28 @@ namespace ParserCore
         public void UnexceptEndError()
         {
             Error("Unexcepted end statment", GetLast());
+        }
+
+        public virtual SimpleTypes? DotNetTypeToSimpleType(object value)
+        {
+            if (value == null) return null;
+            var type = value.GetType();
+            if (type.IsPrimitive)//The primitive types are Boolean, Byte, SByte, Int16, UInt16, Int32, UInt32, Int64, UInt64, IntPtr, UIntPtr, Char, Double, and Single.
+            {
+                if (type == typeof(bool)) return SimpleTypes.Boolean;
+                if (type == typeof(Char)) return SimpleTypes.String;
+                if (type == typeof(double)) return SimpleTypes.Float;
+                if (type == typeof(Single)) return SimpleTypes.Float;
+
+                return SimpleTypes.Integer;
+            }
+            if (type == typeof(string)) return SimpleTypes.String;
+            if (type == typeof(Single)) return SimpleTypes.Float;
+            if (type == typeof(decimal)) return SimpleTypes.Float;
+            if (type == typeof(DateTime)) return SimpleTypes.DateTime;
+            if (type == typeof(TimeSpan)) return SimpleTypes.Time;
+            //if (type == typeof(OSGeo.OGR.Geometry)) return SimpleTypes.Geometry;
+            return null;
         }
     }
 }

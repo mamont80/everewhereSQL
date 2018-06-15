@@ -81,8 +81,10 @@
     <Compile Include="Expr\Expression.cs" />
     <Compile Include="Expr\Sql\Between.cs" />
     <Compile Include="Getters\CustomTableGetter.cs" />
+    <Compile Include="Getters\NativeGetter\NativeTableGetterCustom.cs" />
     <Compile Include="Getters\NativeGetter\NativeTableGetterMsSql.cs" />
     <Compile Include="Getters\NativeGetter\NativeTableGetterPG.cs" />
+    <Compile Include="Lexems\ParamDeclaration.cs" />
     <Compile Include="Utils\ExpressionSqlBuilder.cs" />
     <Compile Include="Expr\Extend\AddDays.cs" />
     <Compile Include="Expr\Extend\AddHours.cs" />
@@ -146,10 +148,8 @@
     <Compile Include="Factory\NullableFunctions.cs" />
     <Compile Include="Factory\SimpleExpressionFactory.cs" />
     <Compile Include="Expr\Statments\SelectExpresion.cs" />
-    <Compile Include="Getters\PostgreSqlTableGetter.cs" />
     <Compile Include="Tables\SimpleTypes.cs" />
     <Compile Include="Token\DriverType.cs" />
-    <Compile Include="Getters\SqlServerTableGetter.cs" />
     <Compile Include="Factory\IExpressionFactory.cs" />
     <Compile Include="FactoryComplite\CustomMultiFactory.cs" />
     <Compile Include="Factory\SqlOnlyFactory.cs" />
