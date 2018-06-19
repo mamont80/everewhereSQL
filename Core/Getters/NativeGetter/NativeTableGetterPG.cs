@@ -81,26 +81,26 @@ namespace ParserCore.Getters.NativeGetter
             using (var con = GetConnection())
             {
                 con.Open();
-                string sql = @"SELECT attrelid::regclass AS tbl
-     , attname            AS col
-     , atttypid::regtype  AS datatype
+                string sql = @"SELECT 
+      attname            AS column_name
+     , atttypid::regtype  AS data_type
        -- more attributes?
 FROM   pg_attribute 
 WHERE  attrelid = @schemaTable::regclass  -- table name, optionally schema-qualified
 AND    attnum > 0
 AND    NOT attisdropped
-ORDER  BY attnum;";
+ORDER  BY attnum";
                 DbCommand cmd = con.CreateCommand();
                 cmd.CommandText = sql;
                 string st = "";
-                if (string.IsNullOrEmpty(sh)) st += "\"" + sh + "\"";
-                if (string.IsNullOrEmpty(tn))
+                if (!string.IsNullOrEmpty(sh)) st += "\"" + sh + "\"";
+                if (!string.IsNullOrEmpty(tn))
                 {
                     if (st != "") st += ".";
                     st += "\"" + tn + "\"";
                 }
 
-                ParserDbUtils.AddParam(cmd, "@schemaTable", sh);
+                ParserDbUtils.AddParam(cmd, "@schemaTable", st);
                 TableDesc td = new TableDesc();
 
                 td.PhysicalTableName = tn;
@@ -115,7 +115,7 @@ ORDER  BY attnum;";
                     {
                         Column ci = new Column(
                             reader.GetString(reader.GetOrdinal("column_name")),
-                            ColumnSqlTypeToSimpleType(reader.GetString(reader.GetOrdinal("data_type")), reader.GetString(reader.GetOrdinal("udt_name")))
+                            ColumnSqlTypeToSimpleType(reader.GetString(reader.GetOrdinal("data_type")))
                             );
                         td.TableColumns.Add(ci);
                     }
@@ -150,7 +150,7 @@ ORDER  BY attnum;";
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public SimpleTypes ColumnSqlTypeToSimpleType(string type, string udt_name)
+        public SimpleTypes ColumnSqlTypeToSimpleType(string type)
         {
             string sqlType = type.ToLower();
             SimpleTypes ColumnSimpleType = SimpleTypes.String;
@@ -164,7 +164,7 @@ ORDER  BY attnum;";
                         else
                             if (DateTimeTypes.Contains(sqlType)) ColumnSimpleType = SimpleTypes.DateTime;
                             else
-                                if (GeometryTypes.Contains(sqlType) && udt_name == "geometry") { ColumnSimpleType = SimpleTypes.Geometry; }
+                                if (GeometryTypes.Contains(sqlType)) { ColumnSimpleType = SimpleTypes.Geometry; }
                                 else
                                     if (TimeTypes.Contains(sqlType)) ColumnSimpleType = SimpleTypes.Time;
                                     else
