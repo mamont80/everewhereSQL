@@ -152,6 +152,9 @@ namespace ParserCore
                         case "right":
                             ex = new Right();
                             break;
+                        case "replace":
+                            ex = new Replace();
+                            break;
                         case "now":
                             ex = new Now();
                             break;

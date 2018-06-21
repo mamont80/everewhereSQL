@@ -12,17 +12,21 @@ namespace ParserCore.Expr.Extend
         public override void Prepare()
         {
             base.Prepare();
-             ErrorWrongNumberParams(3);
+            if (Childs == null || Childs.Count < 2 || Childs.Count > 3) throw new Exception("Wrong number operands");
             if (!(Childs[0].GetResultType() == SimpleTypes.String)) TypesException();//substring
             if (!(Childs[1].GetResultType() == SimpleTypes.Integer)) TypesException();//start
-            if (!(Childs[2].GetResultType() == SimpleTypes.Integer)) TypesException();//count
+            if ((Childs.Count == 3) && !(Childs[2].GetResultType() == SimpleTypes.Integer)) TypesException();//count
+
             SetResultType(SimpleTypes.String);
             GetStrResultOut = CalcRes;
         }
 
         private string CalcRes(object data)
         {
-            var s = Childs[0].GetStrResultOut(data).Substring((int)Childs[1].GetIntResultOut(data) + 1, (int)Childs[2].GetIntResultOut(data));
+            string s;
+            if (Childs.Count == 3)
+                s = Childs[0].GetStrResultOut(data).Substring((int)Childs[1].GetIntResultOut(data) + 1, (int)Childs[2].GetIntResultOut(data));
+            else s = Childs[0].GetStrResultOut(data).Substring((int)Childs[1].GetIntResultOut(data) + 1);
             return s;
         }
 
@@ -32,11 +36,15 @@ namespace ParserCore.Expr.Extend
         {
             if (builder.DbType == DriverType.SqlServer)
             {
-                return "SUBSTRING(" + Childs[0].ToSql(builder) + ", " + Childs[1].ToSql(builder) + ", " + Childs[2].ToSql(builder) + ")";
+                if (Childs.Count == 3)
+                    return "SUBSTRING(" + Childs[0].ToSql(builder) + ", " + Childs[1].ToSql(builder) + ", " + Childs[2].ToSql(builder) + ")";
+                else return "SUBSTRING(" + Childs[0].ToSql(builder) + ", " + Childs[1].ToSql(builder) + ", len(" + Childs[0].ToSql(builder) + ")-" + Childs[1].ToSql(builder) + "+1)";
             }
             else if (builder.DbType == DriverType.PostgreSQL)
             {
-                return "substr(" + Childs[0].ToSql(builder) + ", " + Childs[1].ToSql(builder) + ", " + Childs[2].ToSql(builder) + ")";
+                if (Childs.Count == 3)
+                    return "substr(" + Childs[0].ToSql(builder) + ", " + Childs[1].ToSql(builder) + ", " + Childs[2].ToSql(builder) + ")";
+                else return "substr(" + Childs[0].ToSql(builder) + ", " + Childs[1].ToSql(builder) + ")";
             }
             else return ToSqlException();
         }
