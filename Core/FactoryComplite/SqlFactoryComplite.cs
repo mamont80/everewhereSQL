@@ -9,6 +9,7 @@ namespace ParserCore
     {
         public SqlFactoryComplite() : base()
         {
+            Factories.Add(new VariableFactory());
             Factories.Add(new SqlOnlyFactory());//
             Factories.Add(new ExtendFunctions());
             Factories.Add(new NullableFunctions());//

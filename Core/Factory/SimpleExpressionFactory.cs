@@ -77,22 +77,6 @@ namespace ParserCore
             }
             if (lex.LexemType == LexType.Command)
             {
-                if (lex.LexemText.StartsWith("@"))
-                {
-                    var varName = lex.LexemText;
-                    for (int i = 0; i < collection.ParamDeclarations.Count; i++)
-                    {
-                        var pd = collection.ParamDeclarations[i];
-                        if (pd.Name == varName)
-                        {
-                            var tp = collection.DotNetTypeToSimpleType(pd.Value);
-                            if (tp == null) collection.Error("Unknow variable type ("+pd.Name+")", lex);
-                            res = new VariableExpr();
-                            ((VariableExpr)res).VariableName = lex.LexemText;
-                            ((VariableExpr)res).Bind(pd.Value, tp.Value);
-                        }
-                    }
-                }
                 switch (lex.LexemText.ToLower())
                 { 
                     case "not":

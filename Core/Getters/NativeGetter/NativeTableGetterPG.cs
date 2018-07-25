@@ -173,6 +173,10 @@ ORDER  BY attnum";
             return ColumnSimpleType;
         }
 
+        protected override string PrepareParamName(string paramName)
+        {
+            return paramName.Replace('@', ':');
+        }
 
     }
 }
