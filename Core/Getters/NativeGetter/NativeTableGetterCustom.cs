@@ -14,19 +14,29 @@ namespace ParserCore.Getters.NativeGetter
         public abstract string DefaultSchema();
         public abstract DbConnection GetConnection();
 
-        public DbCommand GetCommand(string sql, params object[] nameAndValues)
+        public DbCommand GetCommand(QueryParams queryParams)
         {
             var conn = GetConnection();
             var com = conn.CreateCommand();
             com.Connection = conn;
-            com.CommandText = sql;
-            AddParams(com, nameAndValues);
+            com.CommandText = queryParams.Sql;
+            AddParams(com, queryParams.NameAndValues);
             return com;
+        }
+        public DbCommand GetCommand(string sql, params object[] nameAndValues)
+        {
+            QueryParams qp = QueryParams.Create(sql, nameAndValues);
+            return GetCommand(qp);
         }
 
         public object ExecuteScalar(string sql, params object[] nameAndValues)
         {
-            DbCommand com = GetCommand(sql, nameAndValues);
+            QueryParams qp = QueryParams.Create(sql, nameAndValues);
+            return ExecuteScalar(qp);
+        }
+        public object ExecuteScalar(QueryParams queryParams)
+        {
+            DbCommand com = GetCommand(queryParams);
             com.Connection.Open();
             try
             {
@@ -42,7 +52,14 @@ namespace ParserCore.Getters.NativeGetter
         //DbReader обязательно Dispose, connection будет освобождён автоматом
         public DbDataReader ExecuteReader(string sql, params object[] nameAndValues)
         {
-            DbCommand com = GetCommand(sql, nameAndValues);
+            QueryParams qp = QueryParams.Create(sql, nameAndValues);
+            return ExecuteReader(qp);
+        }
+
+        //DbReader обязательно Dispose, connection будет освобождён автоматом
+        public DbDataReader ExecuteReader(QueryParams queryParams)
+        {
+            DbCommand com = GetCommand(queryParams);
             com.Connection.Open();
             return com.ExecuteReader(CommandBehavior.CloseConnection);
         }

@@ -86,6 +86,7 @@
     <Compile Include="Getters\NativeGetter\NativeTableGetterCustom.cs" />
     <Compile Include="Getters\NativeGetter\NativeTableGetterMsSql.cs" />
     <Compile Include="Getters\NativeGetter\NativeTableGetterPG.cs" />
+    <Compile Include="Getters\NativeGetter\QueryParams.cs" />
     <Compile Include="Lexems\ParamDeclaration.cs" />
     <Compile Include="Utils\ExecuteUtils.cs" />
     <Compile Include="Utils\ExpressionSqlBuilder.cs" />
