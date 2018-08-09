@@ -67,6 +67,7 @@ namespace ParserCore.Getters.NativeGetter
 
         private void AddParams(DbCommand com, params object[] nameAndValues)
         {
+            if (nameAndValues == null) return;
             for (int i = 0; i < nameAndValues.Length; i = i + 2)
             {
                 DbParameter p = com.CreateParameter();
