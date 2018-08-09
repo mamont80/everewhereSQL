@@ -20,6 +20,8 @@ namespace ParserCore.Getters.NativeGetter
             var com = conn.CreateCommand();
             com.Connection = conn;
             com.CommandText = queryParams.Sql;
+            if (queryParams.CommandTimeout > 0) com.CommandTimeout = queryParams.CommandTimeout;
+            
             AddParams(com, queryParams.NameAndValues);
             return com;
         }
