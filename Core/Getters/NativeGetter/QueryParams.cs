@@ -12,6 +12,7 @@ namespace ParserCore.Getters.NativeGetter
         public object[] NameAndValues;
         public int OpenConnectionTime = 0;
         public int ExecuteTime = 0;
+        public int CoordSystemTables { get; set; }
 
         public QueryParams Clone()
         {
