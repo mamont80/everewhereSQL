@@ -27,15 +27,11 @@ namespace ParserCore
                 {
                     if (lex.LexemText.ToLower() == "desc")
                     {
-                        collection.GotoNext();
-                        if (lex == null) return;
                         ((OrderByClause)r).Sort = SortType.DESC;
                         lex = collection.GotoNext();
                     }
                     else if (lex.LexemText.ToLower() == "asc")
                     {
-                        collection.GotoNext();
-                        if (lex == null) return;
                         ((OrderByClause)r).Sort = SortType.ASC;
                         lex = collection.GotoNext();
                     }
