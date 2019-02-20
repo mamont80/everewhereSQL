@@ -37,12 +37,15 @@ namespace ParserCore
             return res;
         }
 
-
         public static string ConstToStrEscape(string s)
         {
             return "'" + s.Replace("'", "''") + "'";
         }
 
+        public static string ColumnToStrEscape(string s)
+        {
+            return TableToStrEscape(s);
+        }
         public static string TableToStrEscape(string s)
         {
             return "[" + s.Replace("]", "]]") + "]";
