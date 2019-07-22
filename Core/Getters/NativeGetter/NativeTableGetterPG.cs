@@ -16,7 +16,7 @@ namespace ParserCore.Getters.NativeGetter
 
         public NativeTableGetterPG()
         {
-            ConnectionFactory = DbProviderFactories.GetFactory(ProviderName);
+            ConnectionFactory = Npgsql.NpgsqlFactory.Instance;
             CommandBuilder = ConnectionFactory.CreateCommandBuilder();
         }
 

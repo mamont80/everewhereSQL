@@ -29,12 +29,12 @@ namespace ParserCore
             Parameters = new List<DbParameter>();
             if (DbType == DriverType.PostgreSQL)
             {
-                ConnectionFactory = DbProviderFactories.GetFactory("Npgsql");
+                ConnectionFactory = Npgsql.NpgsqlFactory.Instance;
                 VariablePrefix = ":v";
             }
             if (DbType == DriverType.SqlServer)
             {
-                ConnectionFactory = DbProviderFactories.GetFactory("System.Data.SqlClient");
+                ConnectionFactory = System.Data.SqlClient.SqlClientFactory.Instance;
                 VariablePrefix = "@v";
             }
             CommandBuilder = ConnectionFactory.CreateCommandBuilder();
