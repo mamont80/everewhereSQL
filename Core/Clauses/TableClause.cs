@@ -94,7 +94,6 @@ namespace ParserCore
 
         public static TableClause CreateBySelect(ITableDesc select)
         {
-            ///TODO: select fix
             TableClause st = new TableClause();
             st.Table = select;
             return st;

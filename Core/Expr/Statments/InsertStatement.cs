@@ -174,7 +174,6 @@ namespace ParserCore
             if (lex.LexemText.ToLower() != "into") throw new Exception("INTO keyword is not found");
             lex = collection.GotoNextMust();
             string[] tablename = CommonParserFunc.ReadTableName(collection);
-            // TODO: Fixed! ok
             TableClause = TableClause.CreateByTable(tablename, collection.TableGetter.GetTableByName(tablename, collection.TableGetterUseCache));
             lex = collection.GotoNextMust();
             if (lex.IsSkobraOpen())

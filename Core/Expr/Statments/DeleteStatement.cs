@@ -72,7 +72,6 @@ namespace ParserCore
             TableClause = fc.Tables[0];
 
             //string[] tablename = CommonParserFunc.ReadTableName(collection);
-            // TODO: fixed! ok
             //TableClause = TableClause.CreateByTable(tablename, collection.TableGetter.GetTableByName(tablename));
 
             lex = collection.CurrentLexem();
