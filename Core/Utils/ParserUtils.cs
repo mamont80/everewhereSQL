@@ -9,6 +9,7 @@ namespace ParserCore
 {
     public static class ParserUtils
     {
+
         public static bool IsNumber(this SimpleTypes st)
         {
             return (st == SimpleTypes.Float || st == SimpleTypes.Integer);

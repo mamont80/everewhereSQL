@@ -223,7 +223,12 @@ namespace ParserCore.Expr.Sql
                     if (arr.Length == 0) throw new Exception(string.Format("Column {0} not found in groupby expression"));
                 }*/
             }
-            if (WhereExpr != null) WhereExpr.Prepare();
+
+            if (WhereExpr != null)
+            {
+                WhereExpr.Prepare();
+                ExpUtils.CheckWhere(WhereExpr);
+            }
             if (Having != null) Having.Prepare();
             if (OrderBys != null && OrderBys.Count > 0)
             {

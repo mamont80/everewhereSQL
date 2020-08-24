@@ -53,7 +53,11 @@ namespace ParserCore
         public override void Prepare()
         {
             base.Prepare();
-            if (Where != null) Where.Prepare();
+            if (Where != null)
+            {
+                Where.Prepare();
+                ExpUtils.CheckWhere(Where);
+            }
         }
 
         public override void ParseInside(ExpressionParser parser)

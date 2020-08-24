@@ -10,6 +10,11 @@ namespace ParserCore
     //утилиты с привязкой к геомиксеру
     public static class ExpUtils
     {
+        public static void CheckWhere(Expression WhereExpr)
+        {
+            if (WhereExpr.GetResultType() != SimpleTypes.Boolean) throw new Exception(String.Format("argument of WHERE must be type boolean, not type " + WhereExpr.GetResultType().ToString()));
+        }
+
         public static ITableDesc[] ExtractTables(ISqlConvertible token)
         {
             List<ITableDesc> res = new List<ITableDesc>();
@@ -24,7 +29,7 @@ namespace ParserCore
         public static Column[] GetColumnInfo(CustomStatement select)
         {
             List<Column> res = new List<Column>();
-            var ccList = select.GetAllColumns();
+            var ccList = @select.GetAllColumns();
 
             foreach (var cs in ccList)
             {
@@ -38,7 +43,7 @@ namespace ParserCore
         public static string GetVisibleColumnName(ColumnClause cs)
         {
             string nm = cs.Alias;
-            if (string.IsNullOrEmpty(nm))
+            if (String.IsNullOrEmpty(nm))
             {
                 if (cs.ColumnExpression is ReplacedFieldExpr)
                 {
