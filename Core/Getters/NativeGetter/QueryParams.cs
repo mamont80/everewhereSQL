@@ -11,6 +11,9 @@ namespace ParserCore.Getters.NativeGetter
         public string Sql;
         public object[] NameAndValues;
         public int OpenConnectionTime = 0;
+        /// <summary>
+        /// Фактическое время выполнения запроса
+        /// </summary>
         public int ExecuteTime = 0;
         public int CoordSystemTables { get; set; }
 

@@ -95,7 +95,6 @@ namespace ParserCore.Expr.Simple
                 case SimpleTypes.Time:
                     return "time '" + GetTimeResultOut(null).ToString("c") + "'";
                 case SimpleTypes.Geometry:
-                    // TODO: FIXed! ok
                     throw new Exception("Can not convert geometry constant to string");
                 //return "_Geometry_";
                 /*Geometry g = GetGeomResultOut(null);
