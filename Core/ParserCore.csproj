@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C3CC5B65-76E2-48EF-A694-E44F97C39013}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ParserCore</RootNamespace>
+    <AssemblyName>ParserCore</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Npgsql">
+      <HintPath>..\..\..\Utils\UtilsExe\gdal\csharp\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Clauses\ColumnClause.cs" />
+    <Compile Include="Clauses\ExtSelectClause.cs" />
+    <Compile Include="Clauses\GroupByClause.cs" />
+    <Compile Include="Clauses\OrderByClause.cs" />
+    <Compile Include="Clauses\TableClause.cs" />
+    <Compile Include="Expr\CMD\AlterColumnInfo.cs" />
+    <Compile Include="Expr\CMD\AlterTable.cs" />
+    <Compile Include="Expr\CMD\CreateIndex.cs" />
+    <Compile Include="Expr\CMD\CreateTable.cs" />
+    <Compile Include="Expr\CMD\CreateView.cs" />
+    <Compile Include="Expr\CMD\CustomCmd.cs" />
+    <Compile Include="Expr\CMD\DropIndex.cs" />
+    <Compile Include="Expr\CMD\DropTable.cs" />
+    <Compile Include="Expr\CMD\TableName.cs" />
+    <Compile Include="Expr\Extend\Cast.cs" />
+    <Compile Include="Expr\Extend\Contains.cs" />
+    <Compile Include="Expr\Extend\ContainsIgnoreCase.cs" />
+    <Compile Include="Expr\Extend\EndsWith.cs" />
+    <Compile Include="Expr\Extend\LTrim.cs" />
+    <Compile Include="Expr\Extend\Math\Ceiling.cs" />
+    <Compile Include="Expr\Extend\Math\Floor.cs" />
+    <Compile Include="Expr\Extend\Math\Log.cs" />
+    <Compile Include="Expr\Extend\Math\Pi.cs" />
+    <Compile Include="Expr\Extend\Math\Round.cs" />
+    <Compile Include="Expr\Extend\Math\Tan.cs" />
+    <Compile Include="Expr\Extend\Position.cs" />
+    <Compile Include="Expr\Extend\Replace.cs" />
+    <Compile Include="Expr\Extend\RTrim.cs" />
+    <Compile Include="Expr\Extend\StartsWith.cs" />
+    <Compile Include="Expr\Extend\SubString.cs" />
+    <Compile Include="Expr\HiddenExpr.cs" />
+    <Compile Include="Expr\Simple\Abs.cs" />
+    <Compile Include="Expr\Sql\AllColumnExpr.cs" />
+    <Compile Include="Expr\Aggregate\AvgExpr.cs" />
+    <Compile Include="Expr\Aggregate\CountExpr.cs" />
+    <Compile Include="Expr\Aggregate\MaxExpr.cs" />
+    <Compile Include="Expr\Aggregate\MinExpr.cs" />
+    <Compile Include="Expr\Aggregate\SumExpr.cs" />
+    <Compile Include="Expr\CaseExpr.cs" />
+    <Compile Include="Expr\Expression.cs" />
+    <Compile Include="Expr\Sql\Between.cs" />
+    <Compile Include="Factory\VariableFactory.cs" />
+    <Compile Include="Getters\CustomTableGetter.cs" />
+    <Compile Include="Getters\NativeGetter\NativeTableGetterCustom.cs" />
+    <Compile Include="Getters\NativeGetter\NativeTableGetterMsSql.cs" />
+    <Compile Include="Getters\NativeGetter\NativeTableGetterPG.cs" />
+    <Compile Include="Getters\NativeGetter\QueryParams.cs" />
+    <Compile Include="Lexems\ParamDeclaration.cs" />
+    <Compile Include="Utils\ExecuteUtils.cs" />
+    <Compile Include="Utils\ExpressionSqlBuilder.cs" />
+    <Compile Include="Expr\Extend\AddDays.cs" />
+    <Compile Include="Expr\Extend\AddHours.cs" />
+    <Compile Include="Expr\Extend\AddMinutes.cs" />
+    <Compile Include="Expr\Extend\AddSeconds.cs" />
+    <Compile Include="Expr\Extend\Coalesce_FuncExpr.cs" />
+    <Compile Include="Expr\Extend\Day.cs" />
+    <Compile Include="Expr\Extend\Left.cs" />
+    <Compile Include="Expr\Extend\Length.cs" />
+    <Compile Include="Expr\Extend\Lower.cs" />
+    <Compile Include="Expr\Extend\Month.cs" />
+    <Compile Include="Expr\Extend\Now.cs" />
+    <Compile Include="Expr\Extend\Right.cs" />
+    <Compile Include="Expr\Extend\StrToDateTime.cs" />
+    <Compile Include="Expr\Extend\StrToTime.cs" />
+    <Compile Include="Expr\Extend\ToString.cs" />
+    <Compile Include="Expr\Extend\Trim.cs" />
+    <Compile Include="Expr\Extend\Upper.cs" />
+    <Compile Include="Expr\Extend\Year.cs" />
+    <Compile Include="Expr\Sql\FieldExpr.cs" />
+    <Compile Include="Expr\Simple\PriorityConst.cs" />
+    <Compile Include="Expr\PropertyExpr.cs" />
+    <Compile Include="Expr\Simple\And_BoolExpr.cs" />
+    <Compile Include="Expr\Simple\ConstExpr.cs" />
+    <Compile Include="Expr\Simple\CustomEqual.cs" />
+    <Compile Include="Expr\Simple\Custom_BoolExpr.cs" />
+    <Compile Include="Expr\Simple\Custom_CompareExpr.cs" />
+    <Compile Include="Expr\Simple\Div_Arifmetic.cs" />
+    <Compile Include="Expr\Simple\Equal_CompExpr.cs" />
+    <Compile Include="Expr\Simple\FuncExpr.cs" />
+    <Compile Include="Expr\Simple\FuncExpr_Custom.cs" />
+    <Compile Include="Expr\Simple\GreatOrEqual_CompExpr.cs" />
+    <Compile Include="Expr\Simple\Great_CompExpr.cs" />
+    <Compile Include="Expr\Simple\InExpr.cs" />
+    <Compile Include="Expr\Simple\IsExpr.cs" />
+    <Compile Include="Expr\Simple\IsNotNullExpr.cs" />
+    <Compile Include="Expr\Simple\IsNullExpr.cs" />
+    <Compile Include="Expr\Simple\LessOrEqual_CompExpr.cs" />
+    <Compile Include="Expr\Simple\Less_CompExpr.cs" />
+    <Compile Include="Expr\Simple\Minus_Arifmetic.cs" />
+    <Compile Include="Expr\Simple\Multi_Arifmetic.cs" />
+    <Compile Include="Expr\Simple\NotEqual_CompExpr.cs" />
+    <Compile Include="Expr\Simple\NotInExpr.cs" />
+    <Compile Include="Expr\Simple\Not_BoolExpr.cs" />
+    <Compile Include="Expr\Simple\NullConstExpr.cs" />
+    <Compile Include="Expr\Simple\Or_BoolExpr.cs" />
+    <Compile Include="Expr\Simple\Plus_Arifmetic.cs" />
+    <Compile Include="Expr\Simple\SubExpression.cs" />
+    <Compile Include="Expr\Simple\UniarMinus_BoolExpr.cs" />
+    <Compile Include="Expr\Simple\UniarPlus_BoolExpr.cs" />
+    <Compile Include="Expr\Simple\VariableExpr.cs" />
+    <Compile Include="Expr\Sql\AnyExpr.cs" />
+    <Compile Include="Expr\Sql\ExistsExpr.cs" />
+    <Compile Include="Expr\Sql\LastInsertRowidExpr.cs" />
+    <Compile Include="Expr\Statments\CustomStatement.cs" />
+    <Compile Include="Expr\Statments\OneTableStatement.cs" />
+    <Compile Include="FactoryComplite\BaseFactoryComplite.cs" />
+    <Compile Include="FactoryComplite\SqlFactoryComplite.cs" />
+    <Compile Include="Factory\CommandAsColumn.cs" />
+    <Compile Include="Factory\ExtendFunctions.cs" />
+    <Compile Include="Factory\NullableFunctions.cs" />
+    <Compile Include="Factory\SimpleExpressionFactory.cs" />
+    <Compile Include="Expr\Statments\SelectExpresion.cs" />
+    <Compile Include="Tables\SimpleTypes.cs" />
+    <Compile Include="Token\DriverType.cs" />
+    <Compile Include="Factory\IExpressionFactory.cs" />
+    <Compile Include="FactoryComplite\CustomMultiFactory.cs" />
+    <Compile Include="Factory\SqlOnlyFactory.cs" />
+    <Compile Include="Lexems\Lexem.cs" />
+    <Compile Include="Lexems\LexemCollection.cs" />
+    <Compile Include="Parsers\CommonParserFunc.cs" />
+    <Compile Include="Parsers\CustomParser.cs" />
+    <Compile Include="Token\ISelect.cs" />
+    <Compile Include="Token\ITablesSource.cs" />
+    <Compile Include="Token\TokenList.cs" />
+    <Compile Include="Tables\DbColumnType.cs" />
+    <Compile Include="Utils\ExpUtils.cs" />
+    <Compile Include="Tables\Column.cs" />
+    <Compile Include="Parsers\ExpressionParser.cs" />
+    <Compile Include="Parsers\FuncArgsParser.cs" />
+    <Compile Include="Parsers\SubExpressionParser.cs" />
+    <Compile Include="Lexems\ParserLexem.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Parsers\ColumnClauseParser.cs" />
+    <Compile Include="Parsers\FromParser.cs" />
+    <Compile Include="Parsers\OrderByParser.cs" />
+    <Compile Include="Parsers\SelectParser.cs" />
+    <Compile Include="Tables\ColumnSubSelect.cs" />
+    <Compile Include="Tables\ITableDesc.cs" />
+    <Compile Include="Tables\TableDesc.cs" />
+    <Compile Include="Expr\Statments\DeleteStatement.cs" />
+    <Compile Include="Expr\Statments\InsertStatement.cs" />
+    <Compile Include="Clauses\SetClause.cs" />
+    <Compile Include="Expr\Statments\UpdateStatement.cs" />
+    <Compile Include="Getters\ITableGetter.cs" />
+    <Compile Include="Token\SqlToken.cs" />
+    <Compile Include="Utils\CommonUtils.cs" />
+    <Compile Include="Utils\DateTimeParser.cs" />
+    <Compile Include="Utils\ParserUtils.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
