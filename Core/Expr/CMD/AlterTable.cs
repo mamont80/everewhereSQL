@@ -153,18 +153,40 @@ namespace ParserCore.Expr.CMD
                 if (AlterColumns.Count > 0)
                 {
                     sb.Append("ALTER TABLE ").Append(Table.ToSql(builder)).Append(" ");
-                    for (int i = 0; i < AlterColumns.Count; i++)
+                    var addCols = AlterColumns.Where(a => a.AlterColumn == AlterColumnType.AddColumn).ToList();
+                    if (addCols.Count > 0)
                     {
-                        var ac = AlterColumns[i];
-                        if (i > 0) sb.Append(", ");
-                        if (ac.AlterColumn == AlterColumnType.AddColumn)
-                            sb.Append(" ADD ");
-                        if (ac.AlterColumn == AlterColumnType.DropColumn)
-                            sb.Append(" DROP COLUMN ");
-                        if (ac.AlterColumn == AlterColumnType.AlterColumn)
-                            sb.Append(" ALTER COLUMN ");
-                        sb.Append(ac.ToSql(builder));
+                        sb.Append(" ADD ");
+                        for (int i = 0; i < addCols.Count; i++)
+                        {
+                            var ac = addCols[i];
+                            if (i > 0) sb.Append(", ");
+                            sb.Append(ac.ToSql(builder));
+                        }
                     }
+                    var dropCols = AlterColumns.Where(a => a.AlterColumn == AlterColumnType.DropColumn).ToList();
+                    if (dropCols.Count > 0)
+                    {
+                        sb.Append(" DROP ");
+                        for (int i = 0; i < dropCols.Count; i++)
+                        {
+                            var ac = dropCols[i];
+                            if (i > 0) sb.Append(", ");
+                            sb.Append(ac.ToSql(builder));
+                        }
+                    }
+                    var alterCols = AlterColumns.Where(a => a.AlterColumn == AlterColumnType.AlterColumn).ToList();
+                    if (alterCols.Count > 0)
+                    {
+                        sb.Append(" ALTER COLUMN ");
+                        for (int i = 0; i < alterCols.Count; i++)
+                        {
+                            var ac = alterCols[i];
+                            if (i > 0) sb.Append(", ");
+                            sb.Append(ac.ToSql(builder));
+                        }
+                    }
+
                     sb.Append(";");
                 }
             }
